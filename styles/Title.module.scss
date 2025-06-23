@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+.title {
+  text-align: center;
+
+  position: relative;
+  display: inline-block;
+  text-transform: uppercase;
+  padding-top: 20px;
+  font-size: 1.6em;
+
+  &::after {
+    content: "";
+    width: 95%;
+    height: 10px;
+    bottom: 0;
+    left: 5px;
+    transform: skew(-35deg);
+    position: absolute;
+    background-color: rgba(167, 167, 167, 0.432);
+    z-index: -1;
+  }
+}
+.darkmode {
+  background-color: var(--dark-background);
+  color: var(--white-letter);
+}

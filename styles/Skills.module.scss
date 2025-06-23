@@ -1,0 +1,59 @@
+.skills {
+  width: 80vw;
+  display: grid;
+  grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+  justify-content: space-between;
+  transition: 1s ease-in-out;
+
+  @media screen and (min-width: 701px) and (max-width: 900px) {
+    grid-template-columns: 20% 20% 20% 20% 20%;
+  }
+  @media screen and (max-width: 700px) {
+    grid-template-columns: 25% 25% 25% 25%;
+    row-gap: 25px;
+  }
+  @media screen and (max-width: 450px) {
+    grid-template-columns: 33.3% 33.3% 33.3%;
+  }
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+
+  svg {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.down {
+  &:hover {
+    transform: translateY(5px) scale(1.2);
+    transition: 0.2s;
+  }
+  svg {
+    transform: rotate(-90deg);
+    transition: 0.5s linear;
+  }
+}
+
+.up {
+  &:hover {
+    transform: translateY(-5px) scale(1.2);
+    transition: 0.2s;
+  }
+  svg {
+    transform: rotate(90deg);
+    transition: 0.5s;
+    max-height: 800px;
+  }
+}
+
+.buttonDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

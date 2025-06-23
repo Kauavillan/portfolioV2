@@ -1,0 +1,69 @@
+.lang {
+  padding: 3px;
+  border-radius: 1px;
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    border-radius: 2px;
+    cursor: pointer;
+
+    &:hover {
+      /* background-color: rgb(235, 235, 235); */
+      transition: 0.5s;
+      background-color: var(--dark-background);
+      color: white;
+
+      svg {
+        color: white;
+      }
+    }
+
+    &:not(:first-child) {
+      margin-top: 5px;
+    }
+  }
+
+  img {
+    width: 40px;
+    height: auto;
+    margin-left: 5px;
+  }
+
+  &:hover .secondLang,
+  .show {
+    display: flex;
+    opacity: 1;
+    max-height: 100px;
+  }
+
+  a:active div {
+    background-color: var(--darker-background);
+  }
+
+  a:active,
+  a:visited,
+  a:link {
+    color: black;
+  }
+}
+
+.secondLang {
+  position: absolute;
+  overflow: hidden;
+  transition: max-height 0.5s;
+  background-color: white;
+}
+
+.hide {
+  max-height: 0px;
+  opacity: 0;
+}
+
+.active,
+.lang:hover svg {
+  transform: rotate(-180deg);
+  transition: 0.5s;
+}

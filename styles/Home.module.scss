@@ -1,0 +1,124 @@
+@keyframes colors {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes appearFromLeft {
+  0% {
+    transform: translateX(-20%);
+    opacity: 0;
+  }
+  70% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0%);
+    transition: transform 0.5s ease-in-out;
+  }
+}
+.typing {
+  margin-top: 20vh;
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  margin-bottom: 20px;
+  font-family: "Roboto Mono", monospace !important;
+  font-size: 65px;
+
+  @media screen and (max-width: 700px) and (min-width: 401px) {
+    font-size: 40px;
+  }
+  @media screen and (max-width: 400px) and (min-width: 350px) {
+    font-size: 33px;
+  }
+  @media screen and (max-width: 349px) {
+    font-size: 28px;
+  }
+}
+.presentation {
+  opacity: 0;
+  animation: fadeIn 2s ease-in-out forwards 2s;
+  display: flex;
+  align-self: center;
+}
+.name {
+  position: relative;
+  margin-left: 10px;
+  background-size: 200% 200%;
+  animation: colors 4s ease-in-out infinite;
+  background-image: linear-gradient(
+    90deg,
+    #f1ab5f 0,
+    #f7a25f 6.25%,
+    #fc9861 12.5%,
+    #ff8d63 18.75%,
+    #ff8065 25%,
+    #ff7269 31.25%,
+    #fe626d 37.5%,
+    #f95172 43.75%,
+    #f23c78 50%,
+    #e9247f 56.25%,
+    #de0388 62.5%,
+    #d10093 68.75%,
+    #c1009f 75%,
+    #ae00ab 81.25%,
+    #9715b8 87.5%,
+    #7b28c4 93.75%,
+    #5335cf 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--white-letter);
+}
+
+.welcome {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: var(--white-letter);
+  background-color: var(--dark-background);
+  background-size: 200% 200%;
+  animation: colors 10s ease-in-out infinite;
+
+  h1 {
+    display: flex;
+    flex-direction: column;
+    font-size: 50px;
+    margin-bottom: 15px;
+
+    @media screen and (max-width: 700px) and (min-width: 401px) {
+      font-size: 30px;
+    }
+    @media screen and (max-width: 400px) and (min-width: 350px) {
+      font-size: 25px;
+    }
+    @media screen and (max-width: 349px) {
+      font-size: 20px;
+    }
+  }
+
+  h2 {
+    margin-bottom: 12dvh;
+    opacity: 0;
+    animation: appearFromLeft 0.8s ease-in-out forwards 3s;
+    @media screen and (max-width: 400px) and (min-width: 350px) {
+      font-size: 20px !important;
+    }
+  }
+}

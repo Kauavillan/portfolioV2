@@ -1,0 +1,37 @@
+$white-letter: #fff;
+$dark-letter: #000;
+$dark-background: #222;
+$darker-background: #141414;
+
+@import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap");
+
+* {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Libre Franklin", "Arial", sans-serif;
+}
+
+:root {
+  --white-letter: #fff;
+  --dark-letter: #000;
+  --dark-background: #222;
+  --darker-background: #141414;
+}
+
+section {
+  padding: 25px 10%;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: var(--dark-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(194, 194, 194);
+}

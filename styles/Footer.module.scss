@@ -1,0 +1,13 @@
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  background-color: var(--dark-background);
+  color: var(--white-letter);
+
+  p {
+    text-align: center;
+    margin: 0 5vw 0 5vw;
+  }
+}

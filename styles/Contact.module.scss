@@ -1,0 +1,44 @@
+.contact {
+  background-color: var(--dark-background);
+  color: var(--white-letter);
+  text-align: center;
+  font-size: 1.2em;
+  background-image: url("../public/images/short-wave-haikei3.svg");
+  aspect-ratio: 960/300;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-color: var(--darker-background);
+  p {
+    margin-top: 20px;
+    img {
+      width: 25px;
+      height: auto;
+      transform: translateY(5px);
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+  button {
+    margin: 0;
+    min-width: 200px;
+  }
+}
+
+@media screen and (min-width: 851px) {
+  .buttons a:not(:last-child) {
+    margin-right: 8%;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .buttons {
+    flex-wrap: wrap;
+  }
+  .buttons a {
+    margin: 20px 0 0 0;
+  }
+}
