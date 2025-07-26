@@ -1,10 +1,12 @@
+@import "./globals.scss";
+
 .container {
   display: flex;
   justify-content: center;
 }
+
 .title {
   text-align: center;
-
   position: relative;
   display: inline-block;
   text-transform: uppercase;
@@ -19,11 +21,11 @@
     left: 5px;
     transform: skew(-35deg);
     position: absolute;
-    background-color: rgba(167, 167, 167, 0.432);
+    background-color: $overlay-gray;
     z-index: -1;
   }
 }
 .darkmode {
-  background-color: var(--dark-background);
-  color: var(--white-letter);
+  background-color: $dark-background;
+  color: $white-letter;
 }

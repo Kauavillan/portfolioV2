@@ -1,10 +1,12 @@
+@import "./globals.scss";
+
 .button {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: transparent;
   cursor: pointer;
-  color: var(--white-letter);
+  color: $white-letter;
   padding: 25px 20px;
   text-decoration: none;
   margin-right: 10px;
@@ -13,7 +15,7 @@
   font-size: 1.2em;
   text-transform: uppercase;
   letter-spacing: 1.2px;
-  outline: 2px solid #ffff;
+  outline: 2px solid $white-letter;
   border: none;
   position: relative;
   overflow: hidden;
@@ -25,7 +27,7 @@
   }
 
   &:hover {
-    color: #3a3a3a;
+    color: $gray-darkest;
   }
 
   &::before {
@@ -35,7 +37,7 @@
     left: -40px;
     width: 0;
     height: 105%;
-    background-color: #fff;
+    background-color: $white-letter;
     transform: skewX(35deg);
     z-index: -10;
     transition: width 0.8s;
@@ -51,15 +53,15 @@
 }
 
 .light {
-  color: var(--darker-background);
-  outline: 2px solid #141414;
-  background-color: rgb(255, 255, 255);
+  color: $darker-background;
+  outline: 2px solid $darker-background;
+  background-color: $white-letter;
 
   &:hover {
-    color: white;
+    color: $white-letter;
   }
 
   &::before {
-    background-color: #141414;
+    background-color: $darker-background;
   }
 }

@@ -1,3 +1,5 @@
+@import "./globals.scss";
+
 .project {
   img {
     width: 100%;
@@ -12,7 +14,7 @@
   border-radius: 20px;
   transition: all 0.5s ease;
   font-size: 1.1rem;
-  background-color: var(--dark-background);
+  background-color: $dark-background;
 
   p {
     letter-spacing: 2px;
@@ -57,10 +59,10 @@
     width: 30px;
     height: auto;
     margin: 20px 20px 10px 0;
-    color: rgb(204, 204, 204);
+    color: $gray-medium;
 
     &:hover {
-      color: rgb(255, 255, 255);
+      color: $white-letter;
     }
   }
 

@@ -1,13 +1,15 @@
+@import "./globals.scss";
+
 .contact {
-  background-color: var(--dark-background);
-  color: var(--white-letter);
+  background-color: $dark-background;
+  color: $white-letter;
   text-align: center;
   font-size: 1.2em;
   background-image: url("../public/images/short-wave-haikei3.svg");
   aspect-ratio: 960/300;
   background-repeat: no-repeat;
   background-size: 100%;
-  background-color: var(--darker-background);
+  background-color: $darker-background;
   p {
     margin-top: 20px;
     img {

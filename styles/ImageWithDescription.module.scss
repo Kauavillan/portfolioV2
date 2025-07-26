@@ -1,8 +1,10 @@
+@import "./globals.scss";
+
 .desc {
   margin: 5px 0 10px 0;
   visibility: hidden;
-  background-color: white;
-  border: solid 1px black;
+  background-color: $white-letter;
+  border: solid 1px $dark-letter;
   padding: 8px;
   border-radius: 4px;
 }

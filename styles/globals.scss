@@ -1,7 +1,70 @@
+// Color Variables
 $white-letter: #fff;
 $dark-letter: #000;
 $dark-background: #222;
 $darker-background: #141414;
+
+// Gray Shades
+$gray-light: rgb(243, 243, 243);
+$gray-medium: rgb(204, 204, 204);
+$gray-medium-dark: rgb(194, 194, 194);
+$gray-dark: rgb(78, 78, 78);
+$gray-darker: rgb(66, 66, 66);
+$gray-darkest: #3a3a3a;
+
+// Accent Colors
+$blue-accent: rgb(76, 111, 158);
+$overlay-gray: rgba(167, 167, 167, 0.432);
+
+// Gradient Colors List
+$gradient-colors: (
+  #f1ab5f,
+  #f7a25f,
+  #fc9861,
+  #ff8d63,
+  #ff8065,
+  #ff7269,
+  #fe626d,
+  #f95172,
+  #f23c78,
+  #e9247f,
+  #de0388,
+  #d10093,
+  #c1009f,
+  #ae00ab,
+  #9715b8,
+  #7b28c4,
+  #5335cf
+);
+
+// Function to generate gradient stops
+@function generate-gradient-stops($colors, $direction: 90deg) {
+  $stops: ();
+  $total: length($colors);
+
+  @for $i from 1 through $total {
+    $color: nth($colors, $i);
+    $percentage: percentage(($i - 1) / ($total - 1));
+
+    @if $i == 1 {
+      $stops: append($stops, #{$color} 0, comma);
+    } @else if $i == $total {
+      $stops: append($stops, #{$color} 100%, comma);
+    } @else {
+      $stops: append($stops, #{$color} #{$percentage}, comma);
+    }
+  }
+
+  @return $stops;
+}
+
+// Mixin for the rainbow gradient
+@mixin rainbow-gradient($direction: 90deg) {
+  background-image: linear-gradient(
+    $direction,
+    generate-gradient-stops($gradient-colors, $direction)
+  );
+}
 
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap");
 
@@ -9,13 +72,6 @@ $darker-background: #141414;
   padding: 0px;
   margin: 0px;
   font-family: "Libre Franklin", "Arial", sans-serif;
-}
-
-:root {
-  --white-letter: #fff;
-  --dark-letter: #000;
-  --dark-background: #222;
-  --darker-background: #141414;
 }
 
 section {
@@ -29,9 +85,9 @@ body {
 
 ::-webkit-scrollbar {
   width: 10px;
-  background-color: var(--dark-background);
+  background-color: $dark-background;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(194, 194, 194);
+  background-color: $gray-medium-dark;
 }

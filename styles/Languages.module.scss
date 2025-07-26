@@ -1,3 +1,5 @@
+@import "./globals.scss";
+
 .lang {
   padding: 3px;
   border-radius: 1px;
@@ -13,7 +15,7 @@
     &:hover {
       /* background-color: rgb(235, 235, 235); */
       transition: 0.5s;
-      background-color: var(--dark-background);
+      background-color: $dark-background;
       color: white;
 
       svg {
@@ -40,7 +42,7 @@
   }
 
   a:active div {
-    background-color: var(--darker-background);
+    background-color: $darker-background;
   }
 
   a:active,

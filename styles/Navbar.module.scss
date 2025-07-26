@@ -1,3 +1,5 @@
+@import "./globals.scss";
+
 .logo {
   width: 80px;
   height: 43px;
@@ -49,7 +51,7 @@
       height: 1px;
       bottom: 0;
       left: 0;
-      background-color: #000;
+      background-color: $dark-letter;
       visibility: hidden;
       -webkit-transform: scaleX(0);
       transform: scaleX(0);

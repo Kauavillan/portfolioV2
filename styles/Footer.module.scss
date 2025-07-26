@@ -1,10 +1,12 @@
+@import "./globals.scss";
+
 .footer {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 70px;
-  background-color: var(--dark-background);
-  color: var(--white-letter);
+  background-color: $dark-background;
+  color: $white-letter;
 
   p {
     text-align: center;

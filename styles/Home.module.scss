@@ -1,3 +1,5 @@
+@import "./globals.scss";
+
 @keyframes colors {
   0% {
     background-position: 0% 50%;
@@ -61,38 +63,19 @@
   margin-left: 10px;
   background-size: 200% 200%;
   animation: colors 4s ease-in-out infinite;
-  background-image: linear-gradient(
-    90deg,
-    #f1ab5f 0,
-    #f7a25f 6.25%,
-    #fc9861 12.5%,
-    #ff8d63 18.75%,
-    #ff8065 25%,
-    #ff7269 31.25%,
-    #fe626d 37.5%,
-    #f95172 43.75%,
-    #f23c78 50%,
-    #e9247f 56.25%,
-    #de0388 62.5%,
-    #d10093 68.75%,
-    #c1009f 75%,
-    #ae00ab 81.25%,
-    #9715b8 87.5%,
-    #7b28c4 93.75%,
-    #5335cf 100%
-  );
+  @include rainbow-gradient(90deg);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: var(--white-letter);
+  color: $white-letter;
 }
 
 .welcome {
   display: flex;
   flex-direction: column;
   text-align: center;
-  color: var(--white-letter);
-  background-color: var(--dark-background);
+  color: $white-letter;
+  background-color: $dark-background;
   background-size: 200% 200%;
   animation: colors 10s ease-in-out infinite;
 

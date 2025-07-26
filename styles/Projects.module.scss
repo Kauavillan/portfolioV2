@@ -1,15 +1,17 @@
+@import "./globals.scss";
+
 .projects {
   padding: 25px 0 !important;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  color: var(--white-letter);
+  color: $white-letter;
   background-image: url("../public/images/layered-waves-haikei.svg");
   aspect-ratio: 960/300;
   width: 100%;
   background-repeat: no-repeat;
   background-size: 100%;
-  background-color: var(--dark-background);
+  background-color: $dark-background;
 
   @media screen and (max-width: 750px) {
     flex-direction: column;

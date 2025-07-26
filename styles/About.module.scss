@@ -1,8 +1,10 @@
+@import "./globals.scss";
+
 .about {
   display: flex;
   letter-spacing: 1.5px;
   line-height: 1.5;
-  color: rgb(66, 66, 66);
+  color: $gray-darker;
 
   p {
     margin: 30px 0 0 40px;
@@ -10,13 +12,13 @@
   }
 
   a {
-    color: rgb(78, 78, 78);
+    color: $gray-dark;
     padding: 3px;
     transition: 0.5s;
 
     &:hover {
-      background-color: rgb(78, 78, 78);
-      color: rgb(243, 243, 243);
+      background-color: $gray-dark;
+      color: $gray-light;
       text-decoration: none;
     }
   }
@@ -40,7 +42,7 @@
 .list {
   letter-spacing: 1.5px;
   line-height: 1.5;
-  color: rgb(66, 66, 66);
+  color: $gray-darker;
   padding-top: 0 !important;
 
   li {
@@ -76,7 +78,7 @@
       transform: translate(-5%, 2%);
       width: 100%;
       height: 100%;
-      border: 5px solid rgb(76, 111, 158);
+      border: 5px solid $blue-accent;
     }
 
     @media screen and (max-width: 700px) {
