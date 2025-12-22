@@ -1,0 +1,63 @@
+@import "./variables.scss";
+// Function to generate gradient stops
+@function generate-gradient-stops($colors, $direction: 90deg) {
+  $stops: ();
+  $total: length($colors);
+
+  @for $i from 1 through $total {
+    $color: nth($colors, $i);
+    $percentage: percentage(($i - 1) / ($total - 1));
+
+    @if $i == 1 {
+      $stops: append($stops, #{$color} 0, comma);
+    } @else if $i == $total {
+      $stops: append($stops, #{$color} 100%, comma);
+    } @else {
+      $stops: append($stops, #{$color} #{$percentage}, comma);
+    }
+  }
+
+  @return $stops;
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 1px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  scroll-behavior: smooth;
+}
+
+section {
+  padding: 25px 10%;
+}
+
+body {
+  background-color: $background;
+  color: $letter;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  p,
+  a,
+  span {
+    color: $letter;
+  }
+  a {
+    text-decoration: none;
+  }
+}
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #222;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c2c2c2;
+}
+
+main > section {
+  height: 80vh;
+}

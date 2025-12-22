@@ -1,0 +1,22 @@
+@import "./variables.scss";
+$span-gradient: (#007bff, #ff0080);
+.hero {
+  margin-top: 25vh;
+  text-align: center;
+  h1,
+  h1 strong,
+  h1 span {
+    font-size: 6.5rem;
+    font-weight: 700;
+  }
+  h1,
+  h1 span {
+    color: white;
+  }
+  h1 strong {
+    @include gradient-text(90deg, $span-gradient);
+  }
+  h3 {
+    font-size: 1.3rem;
+  }
+}

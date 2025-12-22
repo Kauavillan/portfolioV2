@@ -1,0 +1,64 @@
+@import "./variables.scss";
+
+.languageSelector {
+  position: relative;
+  border: none !important;
+  gap: 1rem;
+  border-radius: $border-radius-full;
+  background-color: generate-opacity($background, 0.8);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  display: flex;
+  overflow: hidden;
+  // Estado hover - expande para mostrar todos os botões
+  &:hover {
+    width: auto;
+  }
+
+  .locale,
+  .activeLocale {
+    background: none;
+    border: none;
+    border-radius: $border-radius-full;
+    padding: 8px;
+    color: $letter;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:not(:first-child) {
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: all 0.3s ease;
+    }
+
+    &:hover {
+      background-color: generate-opacity($white-letter, 0.1);
+    }
+  }
+
+  .activeLocale {
+    background-color: $white-letter;
+    color: $dark-letter;
+
+    &:hover {
+      background-color: $white-letter;
+      opacity: 0.9;
+    }
+  }
+
+  // No hover, mostra todos os botões
+  &:hover,
+  &.open {
+    .locale:not(:first-child),
+    .activeLocale:not(:first-child) {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}

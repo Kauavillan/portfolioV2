@@ -1,8 +1,13 @@
-// Color Variables
+$letter: #cccc;
 $white-letter: #fff;
-$dark-letter: #000;
-$dark-background: #222;
-$darker-background: #141414;
+$dark-letter: #0a0a0a;
+$background: #0a0a0a;
+
+// Border radius utilities
+$border-radius-full: 9999px; // Para bordas totalmente arredondadas
+$border-radius-lg: 1rem; // Para bordas grandes
+$border-radius-md: 0.5rem; // Para bordas médias
+$border-radius-sm: 0.25rem; // Para bordas pequenas
 
 // Gray Shades
 $gray-light: rgb(243, 243, 243);
@@ -58,6 +63,10 @@ $gradient-colors: (
   @return $stops;
 }
 
+@function generate-opacity($color, $opacity) {
+  @return rgba(red($color), green($color), blue($color), $opacity);
+}
+
 // Mixin for the rainbow gradient
 @mixin rainbow-gradient($direction: 90deg) {
   background-image: linear-gradient(
@@ -66,28 +75,13 @@ $gradient-colors: (
   );
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap");
-
-* {
-  padding: 0px;
-  margin: 0px;
-  font-family: "Libre Franklin", "Arial", sans-serif;
-}
-
-section {
-  padding: 25px 10%;
-}
-
-html,
-body {
-  overflow-x: hidden;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  background-color: $dark-background;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: $gray-medium-dark;
+@mixin gradient-text($direction: 90deg, $gradient-colors: $gradient-colors) {
+  background: linear-gradient(
+    $direction,
+    generate-gradient-stops($gradient-colors, $direction)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
 }
