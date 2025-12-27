@@ -17,7 +17,21 @@
     "developer": "Developer",
     "textOrder": "typing-first"
   },
-
+  "Projects": {
+    "buttons": {
+      "website": "Website",
+      "view-github": "GitHub",
+      "app-store": "App Store",
+      "play-store": "Play Store"
+    },
+    "descriptions": {
+      "neonnest": "NeonNest is an e-commerce that predicts a cyberpunk reality and allows you to be prepared for it when it happens. It has unique styles and products, as well as allowing the user to do most of the actions that would be done in a real e-commerce. I recommend you take a look at its GitHub page to get a better understanding of the project.",
+      "wegia": "I've been involved in the full-stack development of the project during my internship and work period. I was responsible for part of the PET module development and changes in other modules and general website interfaces.",
+      "space-tourism": "Space-themed page, which presents curiosities about astronomy. Most of the pages in this project are powered by a JSON file.",
+      "ip-tracker": "The project uses two APIs, one to take the data about the IPs or domains filled and the other to form a map, which automatically receives the latitude and longitude informed and approaches the location.",
+      "interactive-card": "During the filling of the card data, the text is changed automatically. To ensure that the fields are filled in correctly, each has its own verifications and regular expressions where necessary."
+    }
+  },
   "i-am": "I am",
   "this-place": "And this is where you'll get to know a little about me.",
   "i-am-a": "I'm a",
