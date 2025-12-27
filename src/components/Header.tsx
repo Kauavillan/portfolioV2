@@ -1,10 +1,9 @@
 "use client";
 import { useScreenSize } from "@/hooks";
-import { IconsProvider, AcceptedIconNames } from "@/providers";
+import { AcceptedIconNames } from "@/providers";
 import styles from "../styles/Navbar.module.scss";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useState, useEffect } from "react";
-import { routing } from "@/i18n/routing";
 import LanguageSelector from "./LanguageSelector";
 
 // Interface base com propriedades comuns

@@ -24,7 +24,7 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        {displayText}
+        {displayText || "\u00A0"}
       </motion.strong>
     );
   }, [displayText]);
@@ -47,7 +47,6 @@ export default function Hero() {
           {t("textOrder") === "typing-first" ? (
             <>
               {DisplayText}
-
               <br />
               {DisplayDev}
             </>
@@ -66,6 +65,10 @@ export default function Hero() {
         >
           {t("greeting")}
         </motion.h3>
+      </div>
+      <div className={styles.scrollDownIndicator}>
+        <div className={styles.mouseScroll} id="mouse"></div>
+        <span>Scroll</span>
       </div>
     </section>
   );
