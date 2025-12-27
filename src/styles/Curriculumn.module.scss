@@ -1,4 +1,4 @@
-@import "./globals.scss";
+@use "./variables" as *;
 
 .cur {
   position: fixed;

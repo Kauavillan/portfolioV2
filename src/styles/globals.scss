@@ -1,4 +1,4 @@
-@import "./variables.scss";
+@use "./variables" as *;
 // Function to generate gradient stops
 @function generate-gradient-stops($colors, $direction: 90deg) {
   $stops: ();

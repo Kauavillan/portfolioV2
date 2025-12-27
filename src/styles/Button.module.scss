@@ -1,4 +1,4 @@
-@import "./globals.scss";
+@use "./variables" as *;
 
 .button {
   display: flex;
@@ -10,7 +10,6 @@
   padding: 25px 20px;
   text-decoration: none;
   margin-right: 10px;
-  width: 45%;
   max-width: 300px;
   font-size: 1.2em;
   text-transform: uppercase;
@@ -27,7 +26,7 @@
   }
 
   &:hover {
-    color: $gray-darkest;
+    color: $background;
   }
 
   &::before {
@@ -53,8 +52,8 @@
 }
 
 .light {
-  color: $darker-background;
-  outline: 2px solid $darker-background;
+  color: $background;
+  outline: 2px solid $background;
   background-color: $white-letter;
 
   &:hover {
@@ -62,6 +61,6 @@
   }
 
   &::before {
-    background-color: $darker-background;
+    background-color: $background;
   }
 }

@@ -1,19 +1,99 @@
-@import "./globals.scss";
+@use "./variables" as *;
 
-.projects {
-  padding: 25px 0 !important;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  color: $white-letter;
-  background-image: url("../public/images/layered-waves-haikei.svg");
-  aspect-ratio: 960/300;
+.projectCard {
+  img {
+    width: 100%;
+    height: auto;
+    margin: 10px auto 15px auto;
+  }
+  margin: 8dvh 0 0 40px;
+  padding: 15px;
+  width: 45%;
+  border: solid $gray-dark 2px;
+  border-radius: 20px;
+  transition: all 0.5s ease;
+  font-size: 1.1rem;
+
+  p {
+    letter-spacing: 2px;
+    line-height: 1.5;
+  }
+
+  h3 {
+    color: $white-letter;
+    letter-spacing: 3px;
+    font-size: 2rem;
+  }
+
+  @media screen and (max-width: 850px) {
+    width: 85%;
+    margin: 6dvh auto 0 auto;
+  }
+}
+
+.projectsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 48%);
+  justify-content: space-between;
   width: 100%;
-  background-repeat: no-repeat;
-  background-size: 100%;
-  background-color: $dark-background;
+  row-gap: 2rem;
+}
 
-  @media screen and (max-width: 750px) {
-    flex-direction: column;
+.projectCard {
+  width: 100%;
+}
+
+.singleButton {
+  display: flex;
+  flex-direction: row;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 48%);
+  row-gap: 20px;
+  width: 100%;
+
+  justify-content: space-between;
+  bottom: 15px;
+}
+
+.singleButton {
+  justify-content: center;
+}
+
+.languagesIcons {
+  display: flex;
+  margin: 15px 0;
+  gap: 8px;
+  svg {
+    transition: color 0.3s ease;
+    &:hover {
+      color: $white-letter;
+    }
+  }
+}
+
+.lang {
+  display: flex;
+  margin-left: 10px;
+
+  li {
+    list-style: none;
+  }
+
+  svg {
+    width: 30px;
+    height: auto;
+    margin: 20px 20px 10px 0;
+    color: $gray-medium;
+
+    &:hover {
+      color: $white-letter;
+    }
+  }
+
+  @media screen and (max-width: 850px) {
+    justify-content: center;
   }
 }

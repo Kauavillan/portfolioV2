@@ -1,0 +1,29 @@
+@use "./variables" as *;
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 4rem;
+  position: relative;
+  h2 {
+    position: absolute;
+    font-size: 5rem;
+    font-weight: 700;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    color: $white-letter;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  span {
+    font-size: 10rem;
+    opacity: 0.7;
+    @include gradient-text(90deg, ($background, rgba($white-letter, 0.3)));
+    font-weight: 900;
+    user-select: none;
+    pointer-events: none;
+  }
+}

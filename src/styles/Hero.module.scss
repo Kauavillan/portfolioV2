@@ -1,7 +1,32 @@
-@import "./variables.scss";
+@use "./variables" as *;
 $span-gradient: (#007bff, #ff0080);
+
+// Mouse scroll animation variables
+$mouse-width: 30px;
+$mouse-height: 62px;
+$mouse-border: 6px;
+$mouse-pos: 8px;
+$mouse-text-pos: 2px;
+$mouse-track-size: 10px;
+$mouse-track-pos: 20px;
+$mouse-track-shrink: 0.4;
+$mouse-anim-duration: 5s;
+$color-outline: $white-letter;
+$animation-delay: 4s;
+$color-outline-fade: rgba($white-letter, 0.35);
+
+@mixin mouse-bg-gradient {
+  background: $color-outline-fade
+    linear-gradient(
+      transparent 0%,
+      transparent 50%,
+      $color-outline 50%,
+      $color-outline 100%
+    );
+}
 .hero {
   margin-top: 25vh;
+  justify-content: space-between;
   text-align: center;
   h1,
   h1 strong,
@@ -18,5 +43,271 @@ $span-gradient: (#007bff, #ff0080);
   }
   h3 {
     font-size: 1.3rem;
+  }
+
+  .scrollDownIndicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    animation: scrollIndicatorFade 0.8s ease-out forwards;
+    animation-delay: $animation-delay;
+
+    span {
+      color: $color-outline;
+      animation: colorText $mouse-anim-duration ease-out infinite,
+        nudgeText $mouse-anim-duration ease-out infinite;
+    }
+  }
+
+  .mouseScroll {
+    margin: 0 auto;
+    margin-top: 4rem;
+    @include mouse-bg-gradient;
+    position: relative;
+    width: $mouse-width;
+    height: $mouse-height;
+    border-radius: 100px;
+    background-size: 100% 200%;
+    animation: colorSlide $mouse-anim-duration linear infinite,
+      nudgeMouse $mouse-anim-duration ease-out infinite;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+    }
+
+    &::before {
+      width: $mouse-width - $mouse-border;
+      height: $mouse-height - $mouse-border;
+      background-color: $background;
+      border-radius: 100px;
+    }
+
+    &::after {
+      background-color: $color-outline;
+      width: $mouse-track-size;
+      height: $mouse-track-size;
+      border-radius: 100%;
+      animation: trackBallSlide $mouse-anim-duration linear infinite;
+    }
+  }
+
+  @keyframes scrollIndicatorFade {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@keyframes colorSlide {
+  0% {
+    background-position: 0% 100%;
+  }
+  12% {
+    background-position: 0% 0%;
+  }
+  12.6% {
+    background-color: $color-outline-fade;
+  }
+  17.994% {
+    background-color: $color-outline;
+    background-position: 0% 0%;
+  }
+  18% {
+    background-color: $color-outline-fade;
+    background-position: 0% 100%;
+  }
+  30% {
+    background-position: 0% 0%;
+  }
+  30.6% {
+    background-color: $color-outline-fade;
+  }
+  35.4% {
+    background-color: $color-outline;
+    background-position: 0% 0%;
+  }
+  36% {
+    background-color: $color-outline-fade;
+    background-position: 0% 100%;
+  }
+  48% {
+    background-position: 0% 0%;
+  }
+  48.6% {
+    background-color: $color-outline-fade;
+  }
+  54%,
+  60% {
+    background-color: $color-outline;
+  }
+  60%,
+  100% {
+    background-color: $color-outline;
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes trackBallSlide {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(-$mouse-track-pos);
+  }
+  3.6% {
+    opacity: 1;
+    transform: scale(0.9) translateY($mouse-track-pos / 4);
+  }
+  8.4% {
+    opacity: 0;
+    transform: scale($mouse-track-shrink) translateY($mouse-track-pos * 2);
+  }
+  9%,
+  11.4% {
+    opacity: 0;
+    transform: scale($mouse-track-shrink) translateY(-$mouse-track-pos);
+  }
+  16.8%,
+  17.994% {
+    opacity: 1;
+    transform: scale(1) translateY(-$mouse-track-pos);
+  }
+  18% {
+    opacity: 1;
+    transform: scale(1) translateY(-$mouse-track-pos);
+  }
+  21.6% {
+    opacity: 1;
+    transform: scale(0.9) translateY($mouse-track-pos / 4);
+  }
+  26.4% {
+    opacity: 0;
+    transform: scale($mouse-track-shrink) translateY($mouse-track-pos * 2);
+  }
+  27%,
+  29.4% {
+    opacity: 0;
+    transform: scale($mouse-track-shrink) translateY(-$mouse-track-pos);
+  }
+  34.8%,
+  35.994% {
+    opacity: 1;
+    transform: scale(1) translateY(-$mouse-track-pos);
+  }
+  36% {
+    opacity: 1;
+    transform: scale(1) translateY(-$mouse-track-pos);
+  }
+  39.6% {
+    opacity: 1;
+    transform: scale(0.9) translateY($mouse-track-pos / 4);
+  }
+  44.4% {
+    opacity: 0;
+    transform: scale($mouse-track-shrink) translateY($mouse-track-pos * 2);
+  }
+  45%,
+  47.4% {
+    opacity: 0;
+    transform: scale($mouse-track-shrink) translateY(-$mouse-track-pos);
+  }
+  52.8%,
+  60% {
+    opacity: 1;
+    transform: scale(1) translateY(-$mouse-track-pos);
+  }
+  60%,
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(-$mouse-track-pos);
+  }
+}
+
+@keyframes nudgeMouse {
+  0% {
+    transform: translateY(0);
+  }
+  12% {
+    transform: translateY($mouse-pos);
+  }
+  18% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY($mouse-pos);
+  }
+  36% {
+    transform: translateY(0);
+  }
+  48% {
+    transform: translateY($mouse-pos);
+  }
+  54% {
+    transform: translateY(0);
+  }
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes nudgeText {
+  0% {
+    transform: translateY(0);
+  }
+  12% {
+    transform: translateY($mouse-text-pos);
+  }
+  18% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY($mouse-text-pos);
+  }
+  36% {
+    transform: translateY(0);
+  }
+  48% {
+    transform: translateY($mouse-text-pos);
+  }
+  54% {
+    transform: translateY(0);
+  }
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes colorText {
+  12.6% {
+    color: $color-outline-fade;
+  }
+  18% {
+    color: $color-outline;
+  }
+  30.6% {
+    color: $color-outline-fade;
+  }
+  36% {
+    color: $color-outline;
+  }
+  48.6% {
+    color: $color-outline-fade;
+  }
+  54%,
+  100% {
+    color: $color-outline;
   }
 }

@@ -1,3 +1,6 @@
+@use "sass:color";
+@use "sass:list";
+@use "sass:math";
 $letter: #cccc;
 $white-letter: #fff;
 $dark-letter: #0a0a0a;
@@ -45,18 +48,18 @@ $gradient-colors: (
 // Function to generate gradient stops
 @function generate-gradient-stops($colors, $direction: 90deg) {
   $stops: ();
-  $total: length($colors);
+  $total: list.length($colors);
 
   @for $i from 1 through $total {
-    $color: nth($colors, $i);
-    $percentage: percentage(($i - 1) / ($total - 1));
+    $color: list.nth($colors, $i);
+    $percentage: math.percentage(($i - 1) / ($total - 1));
 
     @if $i == 1 {
-      $stops: append($stops, #{$color} 0, comma);
+      $stops: list.append($stops, #{$color} 0, comma);
     } @else if $i == $total {
-      $stops: append($stops, #{$color} 100%, comma);
+      $stops: list.append($stops, #{$color} 100%, comma);
     } @else {
-      $stops: append($stops, #{$color} #{$percentage}, comma);
+      $stops: list.append($stops, #{$color} #{$percentage}, comma);
     }
   }
 
@@ -64,7 +67,12 @@ $gradient-colors: (
 }
 
 @function generate-opacity($color, $opacity) {
-  @return rgba(red($color), green($color), blue($color), $opacity);
+  @return rgba(
+    color.red($color),
+    color.green($color),
+    color.blue($color),
+    $opacity
+  );
 }
 
 // Mixin for the rainbow gradient

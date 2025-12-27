@@ -1,4 +1,4 @@
-@import "./globals.scss";
+@use "./variables" as *;
 
 @keyframes showMenu {
   from {

@@ -1,5 +1,6 @@
-@import "./variables.scss";
+@use "./variables" as *;
 .navbar {
+  z-index: 10;
   position: fixed;
   top: 10px;
   left: 0;
@@ -11,6 +12,7 @@
   nav {
     padding: 10px 15px;
     border: 1px solid generate-opacity($letter, 0.1);
+    backdrop-filter: blur(10px);
     border-radius: $border-radius-full;
     z-index: 10;
     width: fit-content;
