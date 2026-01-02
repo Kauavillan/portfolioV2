@@ -1,0 +1,52 @@
+@use "./variables" as *;
+
+$form-base-shadow: 0px 8px 37px 10px rgba(255, 255, 255, 0.1);
+
+@include shadow-blink-keyframes(
+  error-shadow-blink,
+  $form-base-shadow,
+  0px 8px 37px 10px generate-opacity($error-red, 0.45)
+);
+@include shadow-blink-keyframes(
+  success-shadow-blink,
+  $form-base-shadow,
+  0px 8px 37px 10px generate-opacity($success-green, 0.45)
+);
+
+.emailForm {
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 60%;
+  margin: 0 auto;
+  border: $gray-dark 2px solid;
+  -webkit-box-shadow: $form-base-shadow;
+  box-shadow: $form-base-shadow;
+  padding: 2rem;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.errorBlink {
+  animation: error-shadow-blink 600ms ease-in-out;
+}
+.successBlink {
+  animation: success-shadow-blink 600ms ease-in-out;
+}
+.errorText {
+  color: $error-red;
+  font-size: 1.2rem;
+}
+.successText {
+  color: $success-green;
+  font-size: 1.2rem;
+}

@@ -5,6 +5,9 @@ $letter: #cccc;
 $white-letter: #fff;
 $dark-letter: #0a0a0a;
 $background: #0a0a0a;
+$light-background: #131313;
+$error-red: #ff4d4d;
+$success-green: #4bb543;
 
 // Border radius utilities
 $border-radius-full: 9999px; // Para bordas totalmente arredondadas
@@ -52,7 +55,7 @@ $gradient-colors: (
 
   @for $i from 1 through $total {
     $color: list.nth($colors, $i);
-    $percentage: math.percentage(($i - 1) / ($total - 1));
+    $percentage: math.percentage(math.div(($i - 1), ($total - 1)));
 
     @if $i == 1 {
       $stops: list.append($stops, #{$color} 0, comma);
@@ -68,9 +71,9 @@ $gradient-colors: (
 
 @function generate-opacity($color, $opacity) {
   @return rgba(
-    color.red($color),
-    color.green($color),
-    color.blue($color),
+    color.channel($color, "red"),
+    color.channel($color, "green"),
+    color.channel($color, "blue"),
     $opacity
   );
 }
@@ -92,4 +95,26 @@ $gradient-colors: (
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
+}
+
+// Reusable keyframes generator (keyframes can't accept runtime params, so we generate them via mixin)
+@mixin shadow-blink-keyframes(
+  $name,
+  $base-shadow,
+  $blink-shadow,
+  $midpoint: 20%,
+  $returnpoint: 80%
+) {
+  @keyframes #{$name} {
+    0%,
+    100% {
+      box-shadow: $base-shadow;
+    }
+    #{$midpoint} {
+      box-shadow: $blink-shadow;
+    }
+    #{$returnpoint} {
+      box-shadow: $base-shadow;
+    }
+  }
 }
