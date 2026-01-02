@@ -4,7 +4,7 @@ import { AcceptedIconNames } from "@/providers";
 import styles from "../styles/Navbar.module.scss";
 import { useTranslations } from "next-intl";
 import { useState, useEffect } from "react";
-import LanguageSelector from "./LanguageSelector";
+import LanguageSelector from "./items/LanguageSelector";
 
 // Interface base com propriedades comuns
 interface BaseNavbarContent {
@@ -65,6 +65,10 @@ export default function Header() {
     {
       text: t("projects"),
       link: "projects",
+    },
+    {
+      text: "contact",
+      link: "contact",
     },
   ];
 

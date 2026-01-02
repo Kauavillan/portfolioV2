@@ -3,16 +3,26 @@
 .languageSelector {
   position: relative;
   border: none !important;
-  gap: 1rem;
+  // gap: 1rem;
   border-radius: $border-radius-full;
   background-color: generate-opacity($background, 0.8);
   backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
   display: flex;
   overflow: hidden;
+  align-items: center;
+  width: fit-content;
+  gap: 0;
+
+  // max-width: 3.25rem; // base width fits only the active locale
   // Estado hover - expande para mostrar todos os botões
   &:hover {
-    width: auto;
+    max-width: 18rem; // expands to reveal the remaining locales
+  }
+
+  // Estado aberto via click/teclado
+  &.open {
+    max-width: 18rem;
   }
 
   .locale,
@@ -35,6 +45,9 @@
       opacity: 0;
       transform: translateX(-10px);
       transition: all 0.3s ease;
+      max-width: 0;
+      padding: 0;
+      pointer-events: none;
     }
 
     &:hover {
@@ -55,10 +68,14 @@
   // No hover, mostra todos os botões
   &:hover,
   &.open {
+    gap: 1rem;
     .locale:not(:first-child),
     .activeLocale:not(:first-child) {
       opacity: 1;
       transform: translateX(0);
+      max-width: 4rem;
+      padding: 8px;
+      pointer-events: auto;
     }
   }
 }
