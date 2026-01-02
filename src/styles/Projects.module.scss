@@ -1,11 +1,6 @@
 @use "./variables" as *;
 
 .projectCard {
-  img {
-    width: 100%;
-    height: auto;
-    margin: 10px auto 15px auto;
-  }
   margin: 8dvh 0 0 40px;
   padding: 15px;
   width: 45%;
@@ -13,16 +8,24 @@
   border-radius: 20px;
   transition: all 0.5s ease;
   font-size: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  img {
+    width: 100%;
+    height: auto;
+    margin: 10px auto 15px auto;
+  }
 
   p {
     letter-spacing: 2px;
     line-height: 1.5;
   }
 
-  h3 {
+  h4 {
     color: $white-letter;
-    letter-spacing: 3px;
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   @media screen and (max-width: 850px) {
