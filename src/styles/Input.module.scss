@@ -1,0 +1,30 @@
+@use "./variables" as *;
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  input,
+  textarea {
+    padding: 1rem 1rem;
+    background-color: $light-background;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    color: $white-letter;
+  }
+  textarea {
+    resize: none;
+  }
+  .errorInput {
+    border: 1px solid $error-red;
+  }
+  .errorText {
+    color: $error-red;
+  }
+  label {
+    font-size: 1.3rem;
+    color: $white-letter;
+    text-align: center;
+  }
+}
