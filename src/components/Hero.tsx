@@ -1,11 +1,23 @@
 "use client";
 import styles from "@styles/Hero.module.scss";
-import { motion } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
 import { useMessages, useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useTypingEffect } from "@/hooks";
 
 export default function Hero() {
+  const fadeInOpacity = useMotionValue(0);
+  const smoothFadeIn = useSpring(fadeInOpacity, {
+    stiffness: 50,
+    damping: 20,
+    duration: 0.8,
+  });
   const t = useTranslations("Hero");
   const messages = useMessages();
   const texts: string[] = Object.values(messages.Hero.typingTexts || {});
@@ -16,6 +28,25 @@ export default function Hero() {
     deletingSpeed: 50,
     pauseDuration: 2000,
   });
+
+  const { scrollY } = useScroll();
+  const maxScroll =
+    typeof window !== "undefined" ? window.innerHeight * 0.3 : 400;
+  const scrollOpacity = useTransform(scrollY, [0, maxScroll], [1, 0], {
+    clamp: true,
+  });
+
+  // Combine fade-in and scroll opacity
+  const combinedOpacity = useTransform(
+    [smoothFadeIn, scrollOpacity],
+    ([fadeIn, scroll]) => (fadeIn as number) * (scroll as number)
+  );
+
+  useEffect(() => {
+    setTimeout(() => {
+      fadeInOpacity.set(1);
+    }, 3000);
+  }, [fadeInOpacity]);
 
   const DisplayText = useMemo(() => {
     return (
@@ -66,10 +97,13 @@ export default function Hero() {
           {t("greeting")}
         </motion.h3>
       </div>
-      <div className={styles.scrollDownIndicator}>
+      <motion.div
+        className={styles.scrollDownIndicator}
+        style={{ opacity: combinedOpacity }}
+      >
         <div className={styles.mouseScroll} id="mouse"></div>
         <span>Scroll</span>
-      </div>
+      </motion.div>
     </section>
   );
 }

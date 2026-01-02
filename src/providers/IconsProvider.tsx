@@ -10,7 +10,11 @@ import { BsBoxArrowUpRight } from "react-icons/bs";
 import { FaReact, FaAppStore } from "react-icons/fa6";
 import { GrClose } from "react-icons/gr";
 import { IoMdMail } from "react-icons/io";
-import { IoLogoJavascript, IoLogoGooglePlaystore } from "react-icons/io5";
+import {
+  IoLogoJavascript,
+  IoLogoGooglePlaystore,
+  IoSend,
+} from "react-icons/io5";
 import {
   SiTypescript,
   SiMariadb,
@@ -20,6 +24,7 @@ import {
   SiPhp,
 } from "react-icons/si";
 import Image from "next/image";
+import { TbBrandCSharp } from "react-icons/tb";
 
 /** Icons from /public/icons with suffix Colored */
 const COLORED_ICONS_MAP = {
@@ -63,6 +68,8 @@ export const ICON_MAP = {
   redirect: BsBoxArrowUpRight,
   googlePlay: IoLogoGooglePlaystore,
   appStore: FaAppStore,
+  csharp: TbBrandCSharp,
+  send: IoSend,
   ...COLORED_ICONS_MAP,
 } as const;
 
