@@ -1,6 +1,14 @@
 @use "sass:color";
 @use "sass:list";
 @use "sass:math";
+
+// Screem sizes
+$screen-sm: 640px;
+$screen-md: 768px;
+$screen-lg: 1024px;
+$screen-xl: 1280px;
+
+// Color Palette
 $letter: #cccc;
 $white-letter: #fff;
 $dark-letter: #0a0a0a;
@@ -95,6 +103,32 @@ $gradient-colors: (
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
+}
+
+// Media query helpers
+@mixin media-max($breakpoint) {
+  @media screen and (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin media-min($breakpoint) {
+  @media screen and (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin media-between($min, $max) {
+  @media screen and (min-width: $min) and (max-width: $max) {
+    @content;
+  }
+}
+
+// Shortcut for your default "mobile" breakpoint
+@mixin mobileMediaQuery {
+  @include media-max($screen-md) {
+    @content;
+  }
 }
 
 // Reusable keyframes generator (keyframes can't accept runtime params, so we generate them via mixin)

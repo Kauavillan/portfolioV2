@@ -1,45 +1,46 @@
 "use client";
-import { useScreenSize } from "@/hooks";
-import { AcceptedIconNames } from "@/providers";
 import styles from "../styles/Navbar.module.scss";
 import { useTranslations } from "next-intl";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import LanguageSelector from "./items/LanguageSelector";
+import { useScreenSize } from "@/hooks";
 
-// Interface base com propriedades comuns
-interface BaseNavbarContent {
+export interface NavbarContent {
   link: string;
+  text: string;
 }
 
-// Union type: ou tem text OU tem icon, mas não ambos
-type NavbarContent = BaseNavbarContent &
-  ({ text: string; icon?: never } | { icon: AcceptedIconNames; text?: never });
-
 export default function Header() {
-  const { width, height, isMobile, isTablet, isDesktop, isLargeDesktop } =
-    useScreenSize();
   const t = useTranslations("Header");
-
+  const { isMobile } = useScreenSize();
   const [activeSection, setActiveSection] = useState<string>("hero");
-
-  // Acessar todas as linguagens disponíveis
-
-  // Função para trocar de idioma
+  const navRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const sections = document.querySelectorAll("section[id]");
+    const sectionIds = [
+      "hero",
+      "about",
+      "skills",
+      "projects",
+      "contact",
+    ] as const;
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
+        const intersecting = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (intersecting) {
+          setActiveSection(intersecting.target.id);
+        }
       },
       {
-        threshold: 0.6, // 60% da seção precisa estar visível
-        rootMargin: "-80px 0px -20% 0px",
+        rootMargin: "-50% 0px -50% 0px",
+        threshold: 0,
       }
     );
 
@@ -47,8 +48,37 @@ export default function Header() {
 
     return () => {
       sections.forEach((section) => observer.unobserve(section));
+      observer.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (!isMobile) return;
+    const navEl = navRef.current;
+    if (!navEl) return;
+
+    // Wait a tick for className updates/layout before measuring.
+    const id = window.requestAnimationFrame(() => {
+      const activeClass = typeof CSS !== "undefined" ? CSS.escape(styles.active) : styles.active;
+      const activeLi = navEl.querySelector(`li.${activeClass}`) as HTMLElement | null;
+      if (!activeLi) return;
+
+      const navRect = navEl.getBoundingClientRect();
+      const liRect = activeLi.getBoundingClientRect();
+      const currentScrollLeft = navEl.scrollLeft;
+      const paddingLeft = Number.parseFloat(getComputedStyle(navEl).paddingLeft || "0") || 0;
+
+      // Align the active item to the left edge (inside nav padding).
+      const targetLeft = currentScrollLeft + (liRect.left - navRect.left) - paddingLeft;
+      const maxLeft = Math.max(0, navEl.scrollWidth - navEl.clientWidth);
+      const clampedLeft = Math.min(Math.max(0, targetLeft), maxLeft);
+
+      navEl.scrollTo({ left: clampedLeft, behavior: "smooth" });
+    });
+
+    return () => window.cancelAnimationFrame(id);
+  }, [activeSection, isMobile]);
+
   const navbarContent: NavbarContent[] = [
     {
       text: t("home"),
@@ -74,7 +104,7 @@ export default function Header() {
 
   return (
     <header className={styles.navbar}>
-      <nav>
+      <nav ref={navRef}>
         <ul>
           {navbarContent.map((item, index) => (
             <li

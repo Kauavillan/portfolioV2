@@ -62,7 +62,7 @@
     }
   }
 
-  @media screen and (max-width: 500px) {
+  @include media-max(500px) {
     min-width: 80vw;
   }
 }

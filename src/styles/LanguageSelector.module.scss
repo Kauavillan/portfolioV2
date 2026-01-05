@@ -14,10 +14,8 @@
   width: fit-content;
   gap: 0;
 
-  // max-width: 3.25rem; // base width fits only the active locale
-  // Estado hover - expande para mostrar todos os botões
   &:hover {
-    max-width: 18rem; // expands to reveal the remaining locales
+    max-width: 18rem;
   }
 
   // Estado aberto via click/teclado

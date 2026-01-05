@@ -26,4 +26,13 @@
     user-select: none;
     pointer-events: none;
   }
+  @include mobileMediaQuery {
+    margin-bottom: 2rem;
+    h2 {
+      font-size: 3rem;
+    }
+    span {
+      font-size: 4rem;
+    }
+  }
 }

@@ -98,6 +98,17 @@ $color-outline-fade: rgba($white-letter, 0.35);
       animation: trackBallSlide $mouse-anim-duration linear infinite;
     }
   }
+  @include mobileMediaQuery {
+    margin-top: 15vh;
+    h1,
+    h1 strong,
+    h1 span {
+      font-size: 3.5rem;
+    }
+    h3 {
+      font-size: 1rem;
+    }
+  }
 }
 
 @keyframes colorSlide {

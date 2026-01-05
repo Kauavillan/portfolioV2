@@ -6,15 +6,21 @@
 
   input,
   textarea {
-    padding: 1rem 1rem;
+    padding: 1rem;
     background-color: $light-background;
     border: none;
     outline: none;
     border-radius: 5px;
     color: $white-letter;
+    @include mobileMediaQuery {
+      font-size: 0.8rem;
+    }
   }
   textarea {
     resize: none;
+    @include mobileMediaQuery {
+      height: 40vh;
+    }
   }
   .errorInput {
     border: 1px solid $error-red;

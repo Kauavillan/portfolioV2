@@ -13,6 +13,9 @@
   padding-top: 20px;
   font-size: 1.6em;
 
+  @include mobileMediaQuery {
+    font-size: 1em;
+  }
   &::after {
     content: "";
     width: 95%;

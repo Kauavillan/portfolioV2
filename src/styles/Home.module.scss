@@ -42,13 +42,13 @@
   font-family: "Roboto Mono", monospace !important;
   font-size: 65px;
 
-  @media screen and (max-width: 700px) and (min-width: 401px) {
+  @include media-between(401px, 700px) {
     font-size: 40px;
   }
-  @media screen and (max-width: 400px) and (min-width: 350px) {
+  @include media-between(350px, 400px) {
     font-size: 33px;
   }
-  @media screen and (max-width: 349px) {
+  @include media-max(349px) {
     font-size: 28px;
   }
 }
@@ -85,13 +85,13 @@
     font-size: 50px;
     margin-bottom: 15px;
 
-    @media screen and (max-width: 700px) and (min-width: 401px) {
+    @include media-between(401px, 700px) {
       font-size: 30px;
     }
-    @media screen and (max-width: 400px) and (min-width: 350px) {
+    @include media-between(350px, 400px) {
       font-size: 25px;
     }
-    @media screen and (max-width: 349px) {
+    @include media-max(349px) {
       font-size: 20px;
     }
   }
@@ -100,7 +100,7 @@
     margin-bottom: 12dvh;
     opacity: 0;
     animation: appearFromLeft 0.8s ease-in-out forwards 3s;
-    @media screen and (max-width: 400px) and (min-width: 350px) {
+    @include media-between(350px, 400px) {
       font-size: 20px !important;
     }
   }

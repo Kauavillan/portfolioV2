@@ -28,7 +28,7 @@
     font-size: 1.5rem;
   }
 
-  @media screen and (max-width: 850px) {
+  @include mobileMediaQuery {
     width: 85%;
     margin: 6dvh auto 0 auto;
   }
@@ -40,6 +40,12 @@
   justify-content: space-between;
   width: 100%;
   row-gap: 2rem;
+  @include mobileMediaQuery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
 }
 
 .projectCard {
@@ -59,6 +65,10 @@
 
   justify-content: space-between;
   bottom: 15px;
+  @include mobileMediaQuery {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .singleButton {
@@ -94,9 +104,5 @@
     &:hover {
       color: $white-letter;
     }
-  }
-
-  @media screen and (max-width: 850px) {
-    justify-content: center;
   }
 }

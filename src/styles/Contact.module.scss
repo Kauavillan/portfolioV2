@@ -17,6 +17,13 @@
   a {
     width: 30vw;
   }
+  @include mobileMediaQuery {
+    flex-direction: column;
+    gap: 2rem;
+    a {
+      width: 100%;
+    }
+  }
 }
 
 // @media screen and (max-width: 850px) {

@@ -9,6 +9,10 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
+  width: 80%;
+  ::-webkit-scrollbar {
+    display: none;
+  }
   nav {
     padding: 10px 15px;
     border: 1px solid generate-opacity($letter, 0.1);
@@ -22,6 +26,7 @@
       justify-content: center;
       align-items: center;
       gap: 1.2em;
+      width: max-content;
       li {
         list-style: none;
         a {
@@ -29,6 +34,9 @@
           padding: 5px 10px;
           border-radius: $border-radius-full;
           transition: 0.3s ease-in-out;
+          @include mobileMediaQuery {
+            font-size: 0.7em;
+          }
         }
         &:hover {
           a {
@@ -42,6 +50,19 @@
           }
         }
       }
+      @include mobileMediaQuery {
+        padding: 5px 8px;
+        font-size: 0.7em;
+      }
     }
+    @include mobileMediaQuery {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      // width: 90vw;
+    }
+  }
+  @include mobileMediaQuery {
+    font-size: 0.8rem;
   }
 }

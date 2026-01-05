@@ -24,6 +24,9 @@ $form-base-shadow: 0px 8px 37px 10px rgba(255, 255, 255, 0.1);
   -webkit-box-shadow: $form-base-shadow;
   box-shadow: $form-base-shadow;
   padding: 2rem;
+  @include mobileMediaQuery {
+    width: 100%;
+  }
 }
 
 .inputs {
