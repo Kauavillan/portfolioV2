@@ -53,7 +53,7 @@ export default function SkillsSwiper() {
         releaseOnEdges: true,
       }}
       touchReleaseOnEdges={true}
-      touchStartPreventDefault={false}
+      threshold={0}
       pagination={{
         clickable: true,
         dynamicBullets: true,
