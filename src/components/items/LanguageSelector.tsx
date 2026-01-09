@@ -4,13 +4,21 @@ import styles from "@styles/LanguageSelector.module.scss";
 import { useRouter, usePathname } from "@/i18n/navigation";
 import { useEffect, useState, useRef } from "react";
 
-export default function LanguageSelector() {
+export default function LanguageSelector({
+  onOpenChange,
+}: {
+  onOpenChange?: (isOpen: boolean) => void;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const currentLocale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
   const availableLocales = routing.locales;
+
+  useEffect(() => {
+    onOpenChange?.(isOpen);
+  }, [isOpen, onOpenChange]);
 
   // Detect clicks outside the component
   useEffect(() => {

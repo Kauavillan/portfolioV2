@@ -7,7 +7,7 @@ import {
 } from "react-icons/fa";
 import { BsBoxArrowUpRight } from "react-icons/bs";
 
-import { FaReact, FaAppStore } from "react-icons/fa6";
+import { FaReact, FaAppStore, FaNodeJs } from "react-icons/fa6";
 import { GrClose } from "react-icons/gr";
 import { IoMdMail } from "react-icons/io";
 import {
@@ -25,6 +25,7 @@ import {
 } from "react-icons/si";
 import Image from "next/image";
 import { TbBrandCSharp } from "react-icons/tb";
+import { BiLogoPostgresql } from "react-icons/bi";
 
 /** Icons from /public/icons with suffix Colored */
 const COLORED_ICONS_MAP = {
@@ -70,6 +71,8 @@ export const ICON_MAP = {
   appStore: FaAppStore,
   csharp: TbBrandCSharp,
   send: IoSend,
+  nodejs: FaNodeJs,
+  postgresql: BiLogoPostgresql,
   ...COLORED_ICONS_MAP,
 } as const;
 

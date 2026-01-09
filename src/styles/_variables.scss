@@ -131,6 +131,12 @@ $gradient-colors: (
   }
 }
 
+@mixin biggerThanMobileMediaQuery {
+  @include media-min($screen-md) {
+    @content;
+  }
+}
+
 // Reusable keyframes generator (keyframes can't accept runtime params, so we generate them via mixin)
 @mixin shadow-blink-keyframes(
   $name,

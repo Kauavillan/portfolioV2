@@ -1,7 +1,7 @@
 "use client";
 import styles from "../styles/Navbar.module.scss";
 import { useTranslations } from "next-intl";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import LanguageSelector from "./items/LanguageSelector";
 import { useScreenSize } from "@/hooks";
 
@@ -14,7 +14,12 @@ export default function Header() {
   const t = useTranslations("Header");
   const { isMobile } = useScreenSize();
   const [activeSection, setActiveSection] = useState<string>("hero");
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
+
+  const handleLanguageOpenChange = useCallback((open: boolean) => {
+    setIsLanguageOpen(open);
+  }, []);
 
   useEffect(() => {
     const sectionIds = [
@@ -59,17 +64,22 @@ export default function Header() {
 
     // Wait a tick for className updates/layout before measuring.
     const id = window.requestAnimationFrame(() => {
-      const activeClass = typeof CSS !== "undefined" ? CSS.escape(styles.active) : styles.active;
-      const activeLi = navEl.querySelector(`li.${activeClass}`) as HTMLElement | null;
+      const activeClass =
+        typeof CSS !== "undefined" ? CSS.escape(styles.active) : styles.active;
+      const activeLi = navEl.querySelector(
+        `li.${activeClass}`
+      ) as HTMLElement | null;
       if (!activeLi) return;
 
       const navRect = navEl.getBoundingClientRect();
       const liRect = activeLi.getBoundingClientRect();
       const currentScrollLeft = navEl.scrollLeft;
-      const paddingLeft = Number.parseFloat(getComputedStyle(navEl).paddingLeft || "0") || 0;
+      const paddingLeft =
+        Number.parseFloat(getComputedStyle(navEl).paddingLeft || "0") || 0;
 
       // Align the active item to the left edge (inside nav padding).
-      const targetLeft = currentScrollLeft + (liRect.left - navRect.left) - paddingLeft;
+      const targetLeft =
+        currentScrollLeft + (liRect.left - navRect.left) - paddingLeft;
       const maxLeft = Math.max(0, navEl.scrollWidth - navEl.clientWidth);
       const clampedLeft = Math.min(Math.max(0, targetLeft), maxLeft);
 
@@ -103,7 +113,9 @@ export default function Header() {
   ];
 
   return (
-    <header className={styles.navbar}>
+    <header
+      className={`${styles.navbar} ${isLanguageOpen ? styles.langOpen : ""}`}
+    >
       <nav ref={navRef}>
         <ul>
           {navbarContent.map((item, index) => (
@@ -117,7 +129,7 @@ export default function Header() {
         </ul>
       </nav>
 
-      <LanguageSelector />
+      <LanguageSelector onOpenChange={handleLanguageOpenChange} />
     </header>
   );
 }

@@ -3,7 +3,6 @@
 .languageSelector {
   position: relative;
   border: none !important;
-  // gap: 1rem;
   border-radius: $border-radius-full;
   background-color: generate-opacity($background, 0.8);
   backdrop-filter: blur(10px);
@@ -11,17 +10,8 @@
   display: flex;
   overflow: hidden;
   align-items: center;
-  width: fit-content;
   gap: 0;
-
-  &:hover {
-    max-width: 18rem;
-  }
-
-  // Estado aberto via click/teclado
-  &.open {
-    max-width: 18rem;
-  }
+  flex-shrink: 0;
 
   .locale,
   .activeLocale {
@@ -34,6 +24,7 @@
     font-size: 0.8rem;
     transition: all 0.3s ease;
     white-space: nowrap;
+    flex-shrink: 0;
 
     display: flex;
     align-items: center;
@@ -51,6 +42,7 @@
     &:hover {
       background-color: generate-opacity($white-letter, 0.1);
     }
+    // Mantém o tamanho consistente também no mobile.
   }
 
   .activeLocale {
@@ -63,8 +55,20 @@
     }
   }
 
-  // No hover, mostra todos os botões
-  &:hover,
+  &:hover {
+    @include biggerThanMobileMediaQuery {
+      gap: 1rem;
+      .locale:not(:first-child),
+      .activeLocale:not(:first-child) {
+        opacity: 1;
+        transform: translateX(0);
+        max-width: 4rem;
+        padding: 8px;
+        pointer-events: auto;
+      }
+    }
+  }
+
   &.open {
     gap: 1rem;
     .locale:not(:first-child),
