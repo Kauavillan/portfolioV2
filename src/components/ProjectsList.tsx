@@ -51,7 +51,7 @@ export default function ProjectsList() {
         title: "QRypt",
         description: t("descriptions.neonnest"),
         github: "https://github.com/Kauavillan/signed-qr-code",
-        languagesIcons: ["expo", "typescript"],
+        languagesIcons: ["expo", "typescript", "nodejs", "postgresql"],
       },
       {
         image: "neonnest.png",
