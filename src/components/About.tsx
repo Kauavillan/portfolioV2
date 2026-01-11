@@ -3,6 +3,7 @@ import styles from "@styles/About.module.scss";
 import { IconsProvider } from "@/providers";
 import { useTranslations } from "next-intl";
 import richT from "@/utils/richTextTranslationHandler";
+import Image from "next/image";
 
 export default function About() {
   const t = useTranslations("About");
@@ -11,7 +12,9 @@ export default function About() {
       <SectionTitle title={t("title")} />
       <div className={styles.about}>
         <p>{richT(t, "aboutText")}</p>
-        <img
+        <Image
+          width={250}
+          height={250}
           src="/img/profile-avatar.png"
           alt="Profile picture"
           className={styles.profileAvatar}

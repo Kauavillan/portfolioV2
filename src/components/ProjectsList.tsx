@@ -1,8 +1,6 @@
-import { AcceptedIconNames, IconsProvider } from "@/providers";
+import { AcceptedIconNames } from "@/providers";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import styles from "@styles/Projects.module.scss";
-import Button from "./items/Button";
 import { Project } from "./items/Project";
 import richT from "@/utils/richTextTranslationHandler";
 import { ReactNode } from "react";

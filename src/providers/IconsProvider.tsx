@@ -10,6 +10,7 @@ import { BsBoxArrowUpRight } from "react-icons/bs";
 import { FaReact, FaAppStore, FaNodeJs } from "react-icons/fa6";
 import { GrClose } from "react-icons/gr";
 import { IoMdMail } from "react-icons/io";
+import type { IconType } from "react-icons";
 import {
   IoLogoJavascript,
   IoLogoGooglePlaystore,
@@ -74,7 +75,7 @@ export const ICON_MAP = {
   nodejs: FaNodeJs,
   postgresql: BiLogoPostgresql,
   ...COLORED_ICONS_MAP,
-} as const;
+} as const satisfies Record<string, IconType | string>;
 
 export type AcceptedIconNames = keyof typeof ICON_MAP;
 
@@ -98,7 +99,7 @@ export function IconsProvider({
   }
 
   if (typeof icon === "function") {
-    const IconComponent = icon as React.ComponentType<any>;
+    const IconComponent = icon as IconType;
     return <IconComponent style={{ width, height }} className={className} />;
   }
 

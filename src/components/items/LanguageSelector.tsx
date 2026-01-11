@@ -43,7 +43,11 @@ export default function LanguageSelector({
     router.replace(pathname, { locale: newLocale });
   };
   function handlePress(locale: string) {
-    locale === currentLocale ? setIsOpen(!isOpen) : switchLocale(locale);
+    if (locale === currentLocale) {
+      setIsOpen(!isOpen);
+      return;
+    }
+    switchLocale(locale);
   }
   // Reorganize the locales to set the active one first
   const sortedLocales = [

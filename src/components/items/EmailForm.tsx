@@ -145,7 +145,7 @@ export default function EmailForm() {
           });
         }
       ),
-    [handleSubmit, reset]
+    [handleSubmit, reset, t]
   );
   return (
     <form
