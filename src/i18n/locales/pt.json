@@ -17,66 +17,73 @@
     "developer": "Desenvolvedor",
     "textOrder": "developer-first"
   },
+  "About": {
+    "title": "Sobre mim",
+    "aboutText": "Sou um graduando em <highlight>Sistemas de Informação</highlight> com experiência em desenvolvimento full-stack, focado em criar solucões eficientes e inovadoras. Apaixonado por tecnologia, estou sempre em busca de novos desafios que me permitam crescer profissionalmente e contribuir para projetos impactantes!<break></break>Tenho um carinho especial pelo desenvolvimento <highlight>mobile</highlight> e <highlight>front-end web</highlight>, para criar (do zero, se for necessário) aplicações interativas, user friendly e de alto desempenho."
+  },
+  "Skills": {
+    "title": {
+      "foreground": "Linguagens e ferramentas",
+      "background": "Dev"
+    }
+  },
   "Projects": {
+    "title": "Projetos",
     "buttons": {
       "website": "Website",
-      "view-github": "GitHub",
-      "app-store": "App Store",
-      "play-store": "Play Store"
+      "viewGithub": "GitHub",
+      "appStore": "App Store",
+      "playStore": "Play Store"
     },
     "titles": {
-      "space-tourism": "Turismo Espacial",
-      "multi-step-form": "Formulário de várias etapas",
-      "ip-tracker": "Rastreador de IP's e Domínios",
-      "interactive-card": "Interactive Card Form"
+      "spaceTourism": "Turismo Espacial",
+      "multiStepForm": "Formulário de várias etapas",
+      "ipTracker": "Rastreador de IP's e Domínios",
+      "interactiveCard": "Interactive Card Form"
     },
     "descriptions": {
       "neonnest": "NeonNest é um e-commerce que prevê uma realidade cyberpunk e já permite que você esteja preparado para ela quando chegar. Possui estilos e produtos únicos, além de permitir com que o usuário faça grande parte das ações que seriam feitas em um e-commerce real. Recomendo que veja sua página no GitHub para entender melhor o projeto.",
       "wegia": "Fiz parte do desenvolvimento de forma full-stack do projeto durante meu período de estágio e trabalho. Fui responsável por parte do desenvolvimento do módulo PET e alterações em outros módulos e interfaces gerais do site.",
-      "space-tourism": "Página com temática espacial, que apresenta curiosidades sobre astronomia. A maioria das páginas desse projeto são alimentadas por um arquivo JSON.",
-      "multi-step-form": "Um formulário de 4 etapas, que armazena e processa todos os valores informados. É possível percorrer o formulário livremente e todos os campos serão salvos automaticamente.",
-      "ip-tracker": "O projeto utiliza duas APIs, sendo uma para pegar os dados sobre os IPs ou domínios preenchidos e outra para formar um mapa, que recebe automaticamente a latitude e longitude informadas e se aproxima do local.",
-      "interactive-card": "Durante o preenchimento dos dados do cartão, o texto é alterado automaticamente. Para garantir o preenchimento correto dos campos, cada um possui suas póprias verificações e expressões regulares, quando necessário."
+      "spaceTourism": "Página com temática espacial, que apresenta curiosidades sobre astronomia. A maioria das páginas desse projeto são alimentadas por um arquivo JSON.",
+      "multiStepForm": "Um formulário de 4 etapas, que armazena e processa todos os valores informados. É possível percorrer o formulário livremente e todos os campos serão salvos automaticamente.",
+      "ipTracker": "O projeto utiliza duas APIs, sendo uma para pegar os dados sobre os IPs ou domínios preenchidos e outra para formar um mapa, que recebe automaticamente a latitude e longitude informadas e se aproxima do local.",
+      "interactiveCard": "Durante o preenchimento dos dados do cartão, o texto é alterado automaticamente. Para garantir o preenchimento correto dos campos, cada um possui suas póprias verificações e expressões regulares, quando necessário.",
+      "magipass": "Magipass é um aplicativo mobile que oferece ofertas exclusivas em estabelecimentos parceiros por meio da aquisição de passes. Fui o responsável pela concepção e estruturação da arquitetura do projeto, além do desenvolvimento completo do aplicativo mobile e do backend, implementado como uma API RESTful.<break></break>A aplicação permite a compra e o gerenciamento de passes, a visualização e utilização de ofertas, bem como a autenticação de usuários, que pode ser realizada tanto via provedores externos quanto por e-mail e senha. O sistema atende três perfis distintos de usuários: clientes, donos dos negócios cadastrados e administradores, cada um com fluxos e interfaces dedicadas, garantindo uma experiência adequada para cada tipo de acesso.",
+      "qrypt": "QRypt foi desenvolvido como um projeto acadêmico com foco no aumento da segurança de QR Codes gerados por aplicações digitais. O projeto surgiu como resposta ao crescimento do quishing, uma variação do phishing que utiliza QR Codes como vetor de ataque. Nessa prática, agentes mal-intencionados inserem códigos em locais estratégicos para induzir usuários desatentos a acessarem links maliciosos ou realizarem pagamentos indevidos.<break></break>O QRypt propõe a mitigação desse problema por meio de um ambiente seguro para geração e validação de QR Codes, fundamentado em três pilares principais: (1) autenticação obrigatória dos usuários para a criação dos códigos; (2) criptografia de todos os QR Codes gerados, assegurando a integridade e a validade de seu conteúdo; e (3) um mecanismo de denúncias comunitárias, que desativa automaticamente um código ao atingir um limite pré-definido de denúncias, reduzindo os riscos de abuso por usuários mal-intencionados."
+    },
+    "types": {
+      "professional": "profissional",
+      "personal": "pessoal"
     }
   },
-  "i-am": "Eu sou o ",
-  "this-place": "E este é o lugar que você irá conhecer um pouco sobre mim.",
-  "i-am-a": "Sou um ",
-  "fullstack-developer": "desenvolvedor full-stack",
-  "special-fondness": "mas com um carinho especial pelo front-end",
-  "i-live-in": "Moro em Nova Friburgo, Rio de Janeiro. Sou formado no",
-  "computer-science": "curso técnico de informática integrado ao ensino médio",
-  "and-undergraduate": "e formando em",
-  "information-systems": "Sistemas de Informação",
-  "both-at": " ambos no",
-  "technology-interest": "Tenho muito interesse em assuntos relacionados à área de tecnologia",
-  "willing-to-learn": "Estou sempre disposto a aprender uma nova linguagem de programação ou framework",
-  "find-solutions": "Quero encontrar soluções para problemas e, de brinde, aprender várias coisas novas!",
-  "love-coffee": "Como qualquer bom programador, eu amo café :)",
-  "computer-icon": "Ícone de um computador",
-  "programming-icon": "Ícone que representa uma tag de programação",
-  "lamp-icon": "Ícone de uma lâmpada",
-  "coffee-icon": "Ícone de um copo de café",
-  "interested-in-work": "Se interessou pelo meu trabalho? Não hesite em falar comigo!",
-  "thinking-hiring": "Está pensando em me contratar? Dê uma olhada no meu currículo!",
-  "show-cv": "Ver currículo",
-  "and": "e",
-  "download-cv": "Baixar currículo",
-  "portfolio": "Portfólio",
-  "blinking-emoji": "Emoji piscando",
-  "wegia-description": "Fiz parte do desenvolvimento de forma full-stack do projeto durante meu período de estágio e trabalho. Fui responsável por parte do desenvolvimento do módulo PET e alterações em outros módulos e interfaces gerais do site.",
-  "space-tourism": "Turismo Espacial",
-  "space-tourism-description": "Página com temática espacial, que apresenta curiosidades sobre astronomia. A maioria das páginas desse projeto são alimentadas por um arquivo JSON.",
-  "ip-tracker": "Rastreadora de IP's e domínios",
-  "ip-tracker-description": "O projeto utiliza duas APIs, sendo uma para pegar os dados sobre os IPs ou domínios preenchidos e outra para formar um mapa, que recebe automaticamente a latitude e longitude informadas e se aproxima do local.",
-  "interactive-card": "Formulário de cartão interativo",
-  "interactive-card-description": "Durante o preenchimento dos dados do cartão, o texto é alterado automaticamente. Para garantir o preenchimento correto dos campos, cada um possui suas póprias verificações e expressões regulares, quando necessário.",
-  "news-page": "Página de notícias",
-  "news-page-description": "Página com interface moderna representando a sessão inicial de uma página de notícias.",
-  "clipboard-page": "Página Clipboard",
-  "clipboard-page-description": "O layout completo de uma página sobre o Clipboard. Dê um desconto pela simplicidade, mas esse foi um dos meus primeiros projetos depois de terminar o curso técnico :).",
-  "developed-by": "Desenvolvido totalmente por",
-  "multi-step-form": "Formulário de várias etapas",
-  "multi-step-form-description": "Um formulário de 4 etapas, que armazena e processa todos os valores informados. É possível percorrer o formulário livremente e todos os campos serão salvos automaticamente.",
-  "neonnest-description": "NeonNest é um e-commerce que prevê uma realidade cyberpunk e já permite que você esteja preparado para ela quando chegar. Possui estilos e produtos únicos, além de permitir com que o usuário faça grande parte das ações que seriam feitas em um e-commerce real. Recomendo que veja sua página no GitHub para entender melhor o projeto."
+  "Contact": {
+    "title": "Me contacte",
+    "subtitle": "Se interessou pelo meu trabalho? Não hesite em falar comigo!",
+    "preForm": "Ou me mande uma mensagem diretamente por aqui!"
+  },
+  "EmailForm": {
+    "subject": {
+      "label": "Assunto",
+      "placeholder": "O que deseja falar comigo?"
+    },
+    "message": {
+      "label": "Mensagem",
+      "placeholder": "Escreva sua mensagem aqui"
+    },
+    "returnEmail": {
+      "label": "email para retorno (opcional)",
+      "placeholder": "voce@exemplo.com"
+    },
+    "sendButton": "Enviar",
+    "messages": {
+      "success": "Mensagem enviada com sucesso! Muito obrigado pelo seu contato.",
+      "error": "Houve um erro ao enviar a mensagem. Tente novamente mais tarde.",
+      "validationError": "Verifique os campos do formulário."
+    }
+  },
+  "Validations": {
+    "subjectRequired": "O assunto é obrigatório",
+    "messageRequired": "A mensagem é obrigatória",
+    "returnEmailInvalid": "Email inválido"
+  }
 }

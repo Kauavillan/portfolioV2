@@ -1,5 +1,5 @@
 @use "./variables" as *;
-
+$button-animation-duration: 0.5s;
 .button {
   display: flex;
   justify-content: center;
@@ -18,7 +18,7 @@
   border: none;
   position: relative;
   overflow: hidden;
-  transition: color 1s;
+  transition: color $button-animation-duration;
   z-index: 1;
 
   svg {
@@ -39,7 +39,7 @@
     background-color: $white-letter;
     transform: skewX(35deg);
     z-index: -10;
-    transition: width 0.8s;
+    transition: width $button-animation-duration;
   }
 
   &:hover::before {

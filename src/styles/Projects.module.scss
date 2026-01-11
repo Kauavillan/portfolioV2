@@ -1,7 +1,6 @@
 @use "./variables" as *;
 
 .projectCard {
-  margin: 8dvh 0 0 40px;
   padding: 15px;
   width: 45%;
   border: solid $gray-dark 2px;
@@ -62,7 +61,6 @@
   grid-template-columns: repeat(2, 48%);
   row-gap: 20px;
   width: 100%;
-
   justify-content: space-between;
   bottom: 15px;
   @include mobileMediaQuery {
@@ -85,6 +83,23 @@
       color: $white-letter;
     }
   }
+}
+
+.typeBadge {
+  display: inline-block;
+  padding: 5px 15px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+  margin: 10px 0;
+}
+.typeBadge.professional {
+  background-color: generate-opacity($professional-badge-color, 0.2);
+  color: $professional-badge-color;
+}
+.typeBadge.personal {
+  background-color: generate-opacity($personal-badge-color, 0.2);
+  color: $personal-badge-color;
 }
 
 .lang {

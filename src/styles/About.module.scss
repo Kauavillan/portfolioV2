@@ -6,18 +6,6 @@
     width: 60%;
   }
 
-  a {
-    color: $gray-dark;
-    padding: 3px;
-    transition: 0.5s;
-
-    &:hover {
-      background-color: $gray-dark;
-      color: $gray-light;
-      text-decoration: none;
-    }
-  }
-
   @include mobileMediaQuery {
     flex-direction: column;
 
@@ -37,7 +25,9 @@
 .socialLinks {
   display: flex;
   gap: 30px;
+
   svg {
+    transition: color 0.3s ease-in-out;
     color: rgba(255, 255, 255, 0.7);
     &:hover {
       color: $white-letter;

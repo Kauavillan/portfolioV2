@@ -1,11 +1,8 @@
 import { z } from "zod";
 
-export const emailSubjectSchema = z
-  .string()
-  .trim()
-  .min(1, "Informe um assunto");
+export const emailSubjectSchema = z.string().trim().min(1, "subjectRequired");
 
-export const emailBodySchema = z.string().trim().min(1, "Escreva uma mensagem");
+export const emailBodySchema = z.string().trim().min(1, "messageRequired");
 
 // Campo opcional: permite string vazia e retorna `undefined` após o transform.
 export const contactBackEmailSchema = z
@@ -15,8 +12,8 @@ export const contactBackEmailSchema = z
     const trimmed = value.trim();
     return trimmed.length ? trimmed : undefined;
   })
-  .refine((value) => !value || z.string().email().safeParse(value).success, {
-    message: "Email inválido",
+  .refine((value) => !value || z.email().safeParse(value).success, {
+    message: "returnEmailInvalid",
   });
 
 export const emailFormSchema = z.object({

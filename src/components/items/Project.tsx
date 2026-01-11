@@ -1,14 +1,14 @@
 import { useTranslations } from "next-intl";
-import { PersonalProject, ProfessionalProject } from "../ProjectsList";
 import styles from "@styles/Projects.module.scss";
 import Image from "next/image";
 import { IconsProvider } from "@/providers";
 import Button from "./Button";
+import { IProject } from "../ProjectsList";
 export function Project({
   project,
   imageBasePath,
 }: {
-  project: ProfessionalProject | PersonalProject;
+  project: IProject;
   imageBasePath: string;
 }) {
   const t = useTranslations("Projects");
@@ -23,6 +23,13 @@ export function Project({
         />
         <h4>{project.title}</h4>
         <p>{project.description}</p>
+        <span
+          className={
+            styles.typeBadge + " " + styles[project.type ?? "personal"]
+          }
+        >
+          {t(`types.${project.type}`)}
+        </span>
         <div className={styles.languagesIcons}>
           {project.languagesIcons &&
             project.languagesIcons.map((icon, index) => (
@@ -34,7 +41,7 @@ export function Project({
         {"github" in project && project.github && (
           <Button
             link={project.github}
-            text={t("buttons.view-github")}
+            text={t("buttons.viewGithub")}
             icon="github"
           />
         )}
@@ -48,14 +55,14 @@ export function Project({
         {project.appStore && (
           <Button
             link={project.appStore}
-            text={t("buttons.app-store")}
+            text={t("buttons.appStore")}
             icon="appStore"
           />
         )}
         {project.googlePlay && (
           <Button
             link={project.googlePlay}
-            text={t("buttons.play-store")}
+            text={t("buttons.playStore")}
             icon="googlePlay"
           />
         )}

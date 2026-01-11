@@ -1,17 +1,16 @@
 import SectionTitle from "./SectionTitle";
 import styles from "@styles/About.module.scss";
 import { IconsProvider } from "@/providers";
+import { useTranslations } from "next-intl";
+import richT from "@/utils/richTextTranslationHandler";
 
 export default function About() {
+  const t = useTranslations("About");
   return (
     <section id="about">
-      <SectionTitle title="About me" />
+      <SectionTitle title={t("title")} />
       <div className={styles.about}>
-        <p>
-          I am a passionate software developer with experience in building web
-          and mobile applications. I enjoy learning new technologies and
-          improving my skills to create efficient and user-friendly solutions.
-        </p>
+        <p>{richT(t, "aboutText")}</p>
         <img
           src="/img/profile-avatar.png"
           alt="Profile picture"

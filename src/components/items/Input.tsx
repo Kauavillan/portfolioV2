@@ -3,6 +3,7 @@
 import { useId } from "react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import styles from "@styles/Input.module.scss";
+import { useTranslations } from "next-intl";
 type InputType = React.HTMLInputTypeAttribute;
 
 interface InputProps<TFieldValues extends FieldValues> {
@@ -29,7 +30,7 @@ export default function Input<TFieldValues extends FieldValues>({
   rows = 5,
 }: InputProps<TFieldValues>) {
   const id = useId();
-
+  const t = useTranslations("Validations");
   return (
     <div className={styles.input}>
       {label ? <label htmlFor={id}>{label}</label> : null}
@@ -71,7 +72,7 @@ export default function Input<TFieldValues extends FieldValues>({
               )}
               {fieldState.error?.message ? (
                 <small role="alert" className={styles.errorText}>
-                  {fieldState.error.message}
+                  {t(fieldState.error.message)}
                 </small>
               ) : null}
             </>

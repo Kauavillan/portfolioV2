@@ -8,6 +8,7 @@ import { emailFormSchema, type EmailFormValues } from "@/validations/emailForm";
 import styles from "@styles/EmailForm.module.scss";
 import Button from "./Button";
 import Loading from "./Loading";
+import { useTranslations } from "next-intl";
 
 function zodResolver<TSchema extends z.ZodTypeAny>(schema: TSchema) {
   return async (values: unknown) => {
@@ -29,6 +30,7 @@ function zodResolver<TSchema extends z.ZodTypeAny>(schema: TSchema) {
 }
 
 export default function EmailForm() {
+  const t = useTranslations("EmailForm");
   const [status, setStatus] = useState<
     { type: "idle" } | { type: "success" } | { type: "error"; message: string }
   >({ type: "idle" });
@@ -117,7 +119,7 @@ export default function EmailForm() {
           });
 
           if (!res.ok) {
-            let message = "Falha ao enviar email";
+            let message = t("messages.error");
             try {
               const data = await res.json();
               if (typeof data?.error === "string") message = data.error;
@@ -139,7 +141,7 @@ export default function EmailForm() {
           triggerBlink("error");
           setStatus({
             type: "error",
-            message: "Verifique os campos do formulário",
+            message: t("messages.validationError"),
           });
         }
       ),
@@ -160,16 +162,16 @@ export default function EmailForm() {
         <Input
           control={control}
           name="subject"
-          label="Assunto"
-          placeholder="O que deseja falar comigo"
+          label={t("subject.label")}
+          placeholder={t("subject.placeholder")}
           autoComplete="off"
         />
 
         <Input
           control={control}
           name="body"
-          label="Mensagem"
-          placeholder="Escreva sua mensagem aqui"
+          label={t("message.label")}
+          placeholder={t("message.placeholder")}
           textarea
           rows={6}
         />
@@ -177,24 +179,22 @@ export default function EmailForm() {
         <Input
           control={control}
           name="contactBackEmail"
-          label="Email para retorno (opcional)"
-          placeholder="voce@exemplo.com"
+          label={t("returnEmail.label")}
+          placeholder={t("returnEmail.placeholder")}
           type="email"
           autoComplete="email"
         />
       </div>
       <div className={styles.buttons}>
         {!isSubmitting ? (
-          <Button type="submit" text={"Enviar"} icon={"send"} link="#" />
+          <Button type="submit" text={t("sendButton")} icon={"send"} link="#" />
         ) : (
           <Loading />
         )}
       </div>
 
       {status.type === "success" ? (
-        <p className={styles.successText}>
-          Mensagem enviada com sucesso! Muito obrigado pelo seu contato.
-        </p>
+        <p className={styles.successText}>{t("messages.success")}</p>
       ) : null}
       {status.type === "error" ? (
         <p className={styles.errorText}>{status.message}</p>
