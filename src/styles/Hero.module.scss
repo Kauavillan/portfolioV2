@@ -1,6 +1,5 @@
 @use "sass:math";
 @use "./variables" as *;
-$span-gradient: (#007bff, #ff0080);
 
 // Mouse scroll animation variables
 $mouse-width: 30px;
@@ -40,7 +39,7 @@ $color-outline-fade: rgba($white-letter, 0.35);
     color: white;
   }
   h1 strong {
-    @include gradient-text(90deg, $span-gradient);
+    @include gradient-text(90deg, $rainbow-gradient);
   }
   h3 {
     font-size: 1.3rem;

@@ -1,19 +1,22 @@
 @use "./variables" as *;
+@use "sass:list";
+@use "sass:math";
+
 // Function to generate gradient stops
 @function generate-gradient-stops($colors, $direction: 90deg) {
   $stops: ();
-  $total: length($colors);
+  $total: list.length($colors);
 
   @for $i from 1 through $total {
-    $color: nth($colors, $i);
-    $percentage: percentage(($i - 1) / ($total - 1));
+    $color: list.nth($colors, $i);
+    $percentage: math.percentage(math.div(($i - 1), ($total - 1)));
 
     @if $i == 1 {
-      $stops: append($stops, #{$color} 0, comma);
+      $stops: list.append($stops, #{$color} 0, comma);
     } @else if $i == $total {
-      $stops: append($stops, #{$color} 100%, comma);
+      $stops: list.append($stops, #{$color} 100%, comma);
     } @else {
-      $stops: append($stops, #{$color} #{$percentage}, comma);
+      $stops: list.append($stops, #{$color} #{$percentage}, comma);
     }
   }
 
@@ -59,6 +62,10 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background-color: #c2c2c2;
+}
+.rainbow-text {
+  font-size: 1.1rem;
+  @include gradient-text(90deg, $rainbow-gradient);
 }
 
 main > section {

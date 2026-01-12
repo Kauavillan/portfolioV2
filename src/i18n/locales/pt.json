@@ -19,7 +19,7 @@
   },
   "About": {
     "title": "Sobre mim",
-    "aboutText": "Sou um graduando em <highlight>Sistemas de Informação</highlight> com experiência em desenvolvimento full-stack, focado em criar solucões eficientes e inovadoras. Apaixonado por tecnologia, estou sempre em busca de novos desafios que me permitam crescer profissionalmente e contribuir para projetos impactantes!<break></break>Tenho um carinho especial pelo desenvolvimento <highlight>mobile</highlight> e <highlight>front-end web</highlight>, para criar (do zero, se for necessário) aplicações interativas, user friendly e de alto desempenho."
+    "aboutText": "Olá, meu nome é <rainbow>Kauã Villa Nova</rainbow> e eu sou um graduando em <highlight>Sistemas de Informação</highlight> com experiência em desenvolvimento full-stack, focado em criar solucões eficientes e inovadoras. Apaixonado por tecnologia, estou sempre em busca de novos desafios que me permitam crescer profissionalmente e contribuir para projetos impactantes!<break></break>Tenho um carinho especial pelo desenvolvimento <highlight>mobile</highlight> e <highlight>front-end web</highlight>, para criar (do zero, se for necessário) aplicações interativas, user friendly e de alto desempenho."
   },
   "Skills": {
     "title": {
@@ -48,7 +48,7 @@
       "multiStepForm": "Um formulário de 4 etapas, que armazena e processa todos os valores informados. É possível percorrer o formulário livremente e todos os campos serão salvos automaticamente.",
       "ipTracker": "O projeto utiliza duas APIs, sendo uma para pegar os dados sobre os IPs ou domínios preenchidos e outra para formar um mapa, que recebe automaticamente a latitude e longitude informadas e se aproxima do local.",
       "interactiveCard": "Durante o preenchimento dos dados do cartão, o texto é alterado automaticamente. Para garantir o preenchimento correto dos campos, cada um possui suas póprias verificações e expressões regulares, quando necessário.",
-      "magipass": "Magipass é um aplicativo mobile que oferece ofertas exclusivas em estabelecimentos parceiros por meio da aquisição de passes. Fui o responsável pela concepção e estruturação da arquitetura do projeto, além do desenvolvimento completo do aplicativo mobile e do backend, implementado como uma API RESTful.<break></break>A aplicação permite a compra e o gerenciamento de passes, a visualização e utilização de ofertas, bem como a autenticação de usuários, que pode ser realizada tanto via provedores externos quanto por e-mail e senha. O sistema atende três perfis distintos de usuários: clientes, donos dos negócios cadastrados e administradores, cada um com fluxos e interfaces dedicadas, garantindo uma experiência adequada para cada tipo de acesso.",
+      "magipass": "Magipass é um aplicativo mobile que oferece ofertas exclusivas em estabelecimentos parceiros por meio da aquisição de passes. Fui o responsável pela concepção e estruturação da arquitetura do projeto, além do desenvolvimento completo do aplicativo mobile e do backend, implementado como uma API RESTful.<break></break>As principais funcionalidades do app são permitir a compra e o gerenciamento de passes, a visualização e utilização de ofertas, e a autenticação de usuários, que pode ser realizada tanto via provedores externos quanto por e-mail e senha. O sistema atende três perfis distintos de usuários: clientes, donos dos negócios cadastrados e administradores, cada um com fluxos e interfaces dedicadas, garantindo uma experiência adequada para cada tipo de acesso.",
       "qrypt": "QRypt foi desenvolvido como um projeto acadêmico com foco no aumento da segurança de QR Codes gerados por aplicações digitais. O projeto surgiu como resposta ao crescimento do quishing, uma variação do phishing que utiliza QR Codes como vetor de ataque. Nessa prática, agentes mal-intencionados inserem códigos em locais estratégicos para induzir usuários desatentos a acessarem links maliciosos ou realizarem pagamentos indevidos.<break></break>O QRypt propõe a mitigação desse problema por meio de um ambiente seguro para geração e validação de QR Codes, fundamentado em três pilares principais: (1) autenticação obrigatória dos usuários para a criação dos códigos; (2) criptografia de todos os QR Codes gerados, assegurando a integridade e a validade de seu conteúdo; e (3) um mecanismo de denúncias comunitárias, que desativa automaticamente um código ao atingir um limite pré-definido de denúncias, reduzindo os riscos de abuso por usuários mal-intencionados."
     },
     "types": {
@@ -80,6 +80,9 @@
       "error": "Houve um erro ao enviar a mensagem. Tente novamente mais tarde.",
       "validationError": "Verifique os campos do formulário."
     }
+  },
+  "Footer": {
+    "rightsReserved": "Todos os direitos reservados."
   },
   "Validations": {
     "subjectRequired": "O assunto é obrigatório",

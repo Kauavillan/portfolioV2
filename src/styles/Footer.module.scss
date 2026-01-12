@@ -1,15 +1,10 @@
 @use "./variables" as *;
 
 .footer {
+  margin-top: 30px;
+  border-top: $gray-darkest 1px solid;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 70px;
-  background-color: $dark-background;
-  color: $white-letter;
-
-  p {
-    text-align: center;
-    margin: 0 5vw 0 5vw;
-  }
 }

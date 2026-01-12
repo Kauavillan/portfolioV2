@@ -7,11 +7,14 @@
   input,
   textarea {
     padding: 1rem;
-    background-color: $light-background;
+    background-color: transparent;
     border: none;
-    outline: none;
+    outline: 1px solid $gray-dark;
     border-radius: 5px;
     color: $white-letter;
+    &:focus {
+      outline: 1px solid $gray-light;
+    }
     @include mobileMediaQuery {
       font-size: 0.8rem;
     }
@@ -23,7 +26,7 @@
     }
   }
   .errorInput {
-    border: 1px solid $error-red;
+    outline: 1px solid $error-red;
   }
   .errorText {
     color: $error-red;

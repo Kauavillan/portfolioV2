@@ -19,7 +19,7 @@
   },
   "About": {
     "title": "About me",
-    "aboutText": "I am a graduate student in <highlight>Information Systems</highlight> with experience in full-stack development, focused on creating efficient and innovative solutions. Passionate about technology, I am always looking for new challenges that allow me to grow professionally and contribute to impactful projects!<break></break>I have a special fondness for <highlight>mobile</highlight> and <highlight>front-end web</highlight> development, creating (from scratch, if necessary) interactive, user-friendly, and high-performance applications."
+    "aboutText": "Hello! My name is <rainbow>Kauã Villa Nova</rainbow> and I am a graduate student in <highlight>Information Systems</highlight> with experience in full-stack development, focused on creating efficient and innovative solutions. Passionate about technology, I am always looking for new challenges that allow me to grow professionally and contribute to impactful projects!<break></break>I have a special fondness for <highlight>mobile</highlight> and <highlight>front-end web</highlight> development, creating (from scratch, if necessary) interactive, user-friendly, and high-performance applications."
   },
   "Skills": {
     "title": { "foreground": "Languages and Tools", "background": "Skills" }
@@ -78,6 +78,9 @@
       "error": "There was an error sending the message. Please try again later.",
       "validationError": "Please check the form fields."
     }
+  },
+  "Footer": {
+    "rightsReserved": "All rights reserved."
   },
   "Validations": {
     "subjectRequired": "The subject is required",

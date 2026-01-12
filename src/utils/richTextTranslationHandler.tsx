@@ -16,6 +16,11 @@ export default function richT(
   return t.rich(key, {
     break: () => <br key="break" />,
     highlight: (chunks) => <strong key="strong">{chunks}</strong>,
+    rainbow: (chunks) => (
+      <span className="rainbow-text" key="rainbow">
+        {chunks}
+      </span>
+    ),
     ...customValues,
   });
 }
