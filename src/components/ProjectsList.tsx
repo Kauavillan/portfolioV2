@@ -1,9 +1,11 @@
+"use client";
 import { AcceptedIconNames } from "@/providers";
 import { useTranslations } from "next-intl";
 import styles from "@styles/Projects.module.scss";
 import { Project } from "./items/Project";
 import richT from "@/utils/richTextTranslationHandler";
 import { ReactNode } from "react";
+import Motion from "./items/Motion";
 
 export interface IProject {
   github?: string;
@@ -99,11 +101,19 @@ export default function ProjectsList() {
         {projects.map((project, index) => {
           project.type = project.type ?? "personal";
           return (
-            <Project
+            <Motion.div
+              initial={{ opacity: 0, y: "20%" }}
+              whileInView={{ opacity: 1, y: "0%" }}
+              transition={{ delay: index % 2 == 0 ? 0 : 0.2 }}
+              viewport={{ amount: 0.1 }}
               key={index}
-              project={project}
-              imageBasePath={imageBasePath}
-            />
+            >
+              <Project
+                key={index}
+                project={project}
+                imageBasePath={imageBasePath}
+              />
+            </Motion.div>
           );
         })}
       </div>

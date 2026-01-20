@@ -6,6 +6,7 @@ import "swiper/css/pagination";
 import styles from "@styles/Skills.module.scss";
 import { AcceptedIconNames, IconsProvider } from "@/providers";
 import { useScreenSize } from "@/hooks";
+import Motion from "./items/Motion";
 
 export default function SkillsSwiper() {
   const { breakpoints } = useScreenSize();
@@ -39,51 +40,53 @@ export default function SkillsSwiper() {
     {
       length: Math.ceil(skills.length / perPage),
     },
-    (_, i) => skills.slice(i * perPage, i * perPage + perPage)
+    (_, i) => skills.slice(i * perPage, i * perPage + perPage),
   );
 
   return (
-    <Swiper
-      direction="vertical"
-      slidesPerView={1}
-      spaceBetween={0}
-      mousewheel={{
-        forceToAxis: true,
-        sensitivity: 1,
-        releaseOnEdges: true,
-      }}
-      touchReleaseOnEdges={true}
-      threshold={0}
-      pagination={{
-        clickable: true,
-        dynamicBullets: true,
-      }}
-      modules={[Mousewheel, Pagination]}
-      grabCursor={true}
-      speed={600}
-      className={styles.skillSwiper}
-    >
-      {pages.map((group, pageIndex) => (
-        <SwiperSlide key={pageIndex} className={styles.slide}>
-          <div
-            className={styles.skillsGrid}
-            style={{
-              gridTemplateColumns: `repeat(${colsAmount}, minmax(0, 1fr))`,
-              gridTemplateRows: `repeat(${rowsAmount}, minmax(0, 1fr))`,
-            }}
-          >
-            {group.map((skill, itemIndex) => (
-              <div
-                key={`${pageIndex}-${itemIndex}`}
-                className={styles.skillItem}
-              >
-                <IconsProvider name={skill.icon} width={50} height={50} />
-                <span>{skill.name}</span>
-              </div>
-            ))}
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <Motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
+      <Swiper
+        direction="vertical"
+        slidesPerView={1}
+        spaceBetween={0}
+        mousewheel={{
+          forceToAxis: true,
+          sensitivity: 1,
+          releaseOnEdges: true,
+        }}
+        touchReleaseOnEdges={true}
+        threshold={0}
+        pagination={{
+          clickable: true,
+          dynamicBullets: true,
+        }}
+        modules={[Mousewheel, Pagination]}
+        grabCursor={true}
+        speed={600}
+        className={styles.skillSwiper}
+      >
+        {pages.map((group, pageIndex) => (
+          <SwiperSlide key={pageIndex} className={styles.slide}>
+            <div
+              className={styles.skillsGrid}
+              style={{
+                gridTemplateColumns: `repeat(${colsAmount}, minmax(0, 1fr))`,
+                gridTemplateRows: `repeat(${rowsAmount}, minmax(0, 1fr))`,
+              }}
+            >
+              {group.map((skill, itemIndex) => (
+                <div
+                  key={`${pageIndex}-${itemIndex}`}
+                  className={styles.skillItem}
+                >
+                  <IconsProvider name={skill.icon} width={50} height={50} />
+                  <span>{skill.name}</span>
+                </div>
+              ))}
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </Motion.div>
   );
 }

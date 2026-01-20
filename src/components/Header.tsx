@@ -1,5 +1,5 @@
 "use client";
-import styles from "../styles/Navbar.module.scss";
+import styles from "../styles/Header.module.scss";
 import { useTranslations } from "next-intl";
 import { useState, useEffect, useRef, useCallback } from "react";
 import LanguageSelector from "./items/LanguageSelector";
@@ -46,7 +46,7 @@ export default function Header() {
       {
         rootMargin: "-50% 0px -50% 0px",
         threshold: 0,
-      }
+      },
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -67,7 +67,7 @@ export default function Header() {
       const activeClass =
         typeof CSS !== "undefined" ? CSS.escape(styles.active) : styles.active;
       const activeLi = navEl.querySelector(
-        `li.${activeClass}`
+        `li.${activeClass}`,
       ) as HTMLElement | null;
       if (!activeLi) return;
 

@@ -1,6 +1,7 @@
 "use client";
-import { motion } from "framer-motion";
+import Motion from "@/components/items/Motion";
 import styles from "@styles/SectionTitle.module.scss";
+import { useResponsiveMotion } from "@/hooks";
 
 interface Props {
   title: string;
@@ -9,27 +10,39 @@ interface Props {
 
 export default function SectionTitle({ title, backgroundTitle }: Props) {
   const bgText = (backgroundTitle || title).toUpperCase();
+  const { isMobile, isReady, motionKey } = useResponsiveMotion();
+  const shouldAnimate = isReady;
 
   return (
     <div className={styles.sectionTitle}>
-      <motion.h2
-        initial={{ x: "-20%", opacity: 0 }}
-        whileInView={{ x: "0%", opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        viewport={{ once: true, amount: 0.4 }}
+      <Motion.h2
+        key={`section-title-${motionKey}`}
+        initial={
+          shouldAnimate
+            ? isMobile
+              ? { y: "20%", opacity: 0 }
+              : { x: "-20%", opacity: 0 }
+            : false
+        }
+        whileInView={
+          shouldAnimate
+            ? isMobile
+              ? { y: "0%", opacity: 1 }
+              : { x: "0%", opacity: 1 }
+            : undefined
+        }
       >
         {title}
-      </motion.h2>
+      </Motion.h2>
 
-      <motion.span
+      <Motion.span
         className="background-title"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
-        viewport={{ once: true, amount: 0.4 }}
+        transition={{ delay: 0.6 }}
       >
         {bgText}
-      </motion.span>
+      </Motion.span>
     </div>
   );
 }
