@@ -42,6 +42,14 @@ export default function ProjectsList() {
       languagesIcons: ["expo", "typescript", "nodejs", "postgresql"],
     },
     {
+      image: "deep-quiz.png",
+      title: "DeepQuiz",
+      description: richT(t, "descriptions.deepquiz"),
+      github: "https://github.com/Kauavillan/DeepQuiz",
+      website: "https://deep-quiz-ai.vercel.app",
+      languagesIcons: ["next", "typescript", "nodejs", "tailwind", "gemini"],
+    },
+    {
       image: "wegia.png",
       title: "Wegia",
       description: t("descriptions.wegia"),

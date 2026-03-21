@@ -23,6 +23,8 @@ import {
   SiNextdotjs,
   SiSass,
   SiPhp,
+  SiTailwindcss,
+  SiGooglegemini,
 } from "react-icons/si";
 import Image from "next/image";
 import { TbBrandCSharp } from "react-icons/tb";
@@ -74,6 +76,8 @@ export const ICON_MAP = {
   send: IoSend,
   nodejs: FaNodeJs,
   postgresql: BiLogoPostgresql,
+  tailwind: SiTailwindcss,
+  gemini: SiGooglegemini,
   ...COLORED_ICONS_MAP,
 } as const satisfies Record<string, IconType | string>;
 
