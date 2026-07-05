@@ -42,6 +42,15 @@ export default function ProjectsList() {
       languagesIcons: ["expo", "typescript", "nodejs", "postgresql"],
     },
     {
+      image: "entropyle.png",
+      title: "Entropyle",
+      description: t("descriptions.entropyle"),
+      website: "https://entropyle.vercel.app",
+      github: "https://github.com/Kauavillan/Entropyle",
+      languagesIcons: ["next", "typescript", "nodejs", "tailwind"],
+      type: "personal",
+    },
+    {
       image: "deep-quiz.png",
       title: "DeepQuiz",
       description: richT(t, "descriptions.deepquiz"),
@@ -66,14 +75,6 @@ export default function ProjectsList() {
       languagesIcons: ["next", "typescript", "sass"],
     },
     {
-      image: "multi-step-form.png",
-      title: t("titles.multiStepForm"),
-      description: t("descriptions.multiStepForm"),
-      website: "https://kvn-multi-step-form.vercel.app",
-      github: "https://github.com/Kauavillan/multi-step-form",
-      languagesIcons: ["next", "javascript", "css3"],
-    },
-    {
       image: "space-tourism.png",
       title: t("titles.spaceTourism"),
       description: t("descriptions.spaceTourism"),
@@ -91,16 +92,6 @@ export default function ProjectsList() {
     //     "https://github.com/Kauavillan/Projetos/tree/main/frontendmentor/localizador-ip",
     //   languagesIcons: ["html5", "css3", "javascript"],
     // },
-    {
-      image: "card-form.png",
-      title: t("titles.interactiveCard"),
-      description: t("descriptions.interactiveCard"),
-      website:
-        "https://kauavillan.github.io/Projetos/frontendmentor/cartao-interativo/",
-      github:
-        "https://github.com/Kauavillan/Projetos/tree/main/frontendmentor/cartao-interativo",
-      languagesIcons: ["html5", "css3", "javascript"],
-    },
   ];
 
   return (
