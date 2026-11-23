@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio — Kauã Villa Nova
 
-## Getting Started
+Bilingual (pt/en) personal portfolio built with **Next.js 16**, being migrated to an explorable 3D experience: scrolling flies the camera through a three.js world, with a HUD, intro, procedural audio and per-project *case files*.
 
-First, run the development server:
+> **Status:** migration planned (docs and backlog ready), implementation not started yet. The current code in `src/` is the previous version of the site.
+
+## Running
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install        # or `npm ci` to respect the lockfile
+npm run dev        # http://localhost:3000  (Portuguese at /pt)
+npm run build && npm start
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment variables (contact form)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create `.env.local` (not versioned) with:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+EMAIL_ADDRESS_RECEIVER=
+EMAIL_ADDRESS_SENDER=
+SMTP_HOST=
+SMTP_PORT=
+GMAIL_APP_PASSWORD=
+```
 
-## Learn More
+## Documentation
 
-To learn more about Next.js, take a look at the following resources:
+| | |
+|---|---|
+| [`CLAUDE.md`](CLAUDE.md) | Guide for Claude Code and collaborators: rules, workflow, conventions |
+| [`.claude/docs/TASKS.md`](.claude/docs/TASKS.md) | Backlog: 37 tasks, 5 milestones, dependencies |
+| [`.claude/docs/REFERENCE-ANALYSIS.md`](.claude/docs/REFERENCE-ANALYSIS.md) | Analysis of the reference site (37 features) |
+| [`.claude/docs/ARCHITECTURE.md`](.claude/docs/ARCHITECTURE.md) | Target architecture and decisions |
+| [`.claude/docs/GAP-ANALYSIS.md`](.claude/docs/GAP-ANALYSIS.md) | Current vs. target |
+| [`.claude/docs/CONTENT.md`](.claude/docs/CONTENT.md) | Content and decisions that depend on the owner |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Next.js 16 · React 19 · TypeScript · next-intl · SCSS Modules · zustand · react-hook-form + zod · nodemailer.
+Target: + three.js · GSAP/ScrollTrigger · Lenis · WebAudio.
