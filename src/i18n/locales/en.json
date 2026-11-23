@@ -1,65 +1,281 @@
 {
-  "Header": {
-    "home": "Home",
-    "about": "About me",
-    "skills": "Skills",
-    "projects": "Projects",
-    "contact": "Contact"
+  "Meta": {
+    "siteName": "Kauã Villa Nova",
+    "title": "Kauã Villa Nova — Full Stack Developer",
+    "description": "Portfolio of Kauã Villa Nova, a full stack developer building web and mobile products with Next.js, Expo and TypeScript. Explore selected projects, skills and contact details.",
+    "jobTitle": "Full Stack Developer"
+  },
+  "Hud": {
+    "skip": "Skip to content",
+    "backToTop": "Back to top",
+    "cta": "Get in touch",
+    "menu": {
+      "open": "Menu",
+      "close": "Close"
+    },
+    "nav": {
+      "label": "Sections",
+      "home": "Home",
+      "about": "About",
+      "work": "Work",
+      "skills": "Skills",
+      "journey": "Journey",
+      "contact": "Contact"
+    },
+    "language": {
+      "label": "Language"
+    }
+  },
+  "Sectors": {
+    "home": "Launch pad",
+    "about": "Crew deck",
+    "work": "Cargo bay",
+    "skills": "Star chart",
+    "journey": "Flight log",
+    "contact": "Signal tower"
+  },
+  "Intro": {
+    "line": "Kauã Villa Nova · Portfolio",
+    "status": "Loading the 3D world…",
+    "skip": "Skip intro"
+  },
+  "Sound": {
+    "label": "Sound",
+    "on": "On",
+    "off": "Off",
+    "turnOn": "Turn sound on",
+    "turnOff": "Turn sound off",
+    "settings": "Sound settings",
+    "volume": "Volume",
+    "ambience": "Ambience",
+    "interface": "Interface sounds",
+    "unavailable": "Sound unavailable",
+    "outputStereo": "Stereo, spatialised for headphones",
+    "outputMulti": "Multichannel output detected"
   },
   "Hero": {
-    "greeting": "Hello, I'm Kauã Villa Nova - a passionate software developer",
-    "typingTexts": {
-      "1": "Web & Mobile",
-      "2": "Full Stack",
-      "3": "React Native",
-      "4": "Next.js"
-    },
-    "developer": "Developer",
-    "textOrder": "typing-first"
+    "label": "Full Stack Developer",
+    "nameLabel": "Kauã Villa Nova",
+    "lead": "I build web and mobile products end to end — from the API to the interface.",
+    "ctaWork": "See my work",
+    "ctaContact": "Get in touch",
+    "status": "Open to new projects",
+    "socials": "Social links",
+    "scroll": "Scroll to explore"
   },
   "About": {
-    "title": "About me",
-    "aboutText": "Hello! My name is <rainbow>Kauã Villa Nova</rainbow> and I am a graduate student in <highlight>Information Systems</highlight> with experience in full-stack development, focused on creating efficient and innovative solutions. Passionate about technology, I am always looking for new challenges that allow me to grow professionally and contribute to impactful projects!<break></break>I have a special fondness for <highlight>mobile</highlight> and <highlight>front-end web</highlight> development, creating (from scratch, if necessary) interactive, user-friendly, and high-performance applications."
+    "title": "Hi, I'm Kauã — I build for mobile and the web.",
+    "p1": "I am a graduate student in <highlight>Information Systems</highlight> with experience in full-stack development, focused on creating efficient and innovative solutions. Passionate about technology, I am always looking for new challenges that allow me to grow professionally and contribute to impactful projects!",
+    "p2": "I have a special fondness for <highlight>mobile</highlight> and <highlight>front-end web</highlight> development, creating (from scratch, if necessary) interactive, user-friendly, and high-performance applications.",
+    "p3": "TODO(content): third paragraph — working principle",
+    "servicesLabel": "What I do",
+    "services": {
+      "mobile": {
+        "title": "Mobile",
+        "text": "Cross-platform apps with Expo and React Native, from the backend API to the store listing."
+      },
+      "web": {
+        "title": "Web",
+        "text": "Fast, accessible interfaces and full-stack products with Next.js and TypeScript."
+      }
+    }
+  },
+  "Work": {
+    "title": "{count, plural, one {One thing I built} other {# things I built}}",
+    "lead": "Products I designed and shipped end to end. Open a case file for the full story.",
+    "openCase": "Open case file",
+    "website": "Website",
+    "source": "Source",
+    "appStore": "App Store",
+    "playStore": "Play Store",
+    "links": "Project links",
+    "types": {
+      "professional": "Professional",
+      "personal": "Personal"
+    },
+    "archive": {
+      "title": "Also in the archive",
+      "lead": "Smaller projects and experiments."
+    },
+    "projects": {
+      "magipass": {
+        "kind": "Mobile app · Expo",
+        "lead": "Passes that unlock exclusive offers from partner businesses — a mobile app and a REST API, built end to end."
+      },
+      "qrypt": {
+        "kind": "QR Code security · Expo",
+        "lead": "A secure way to create and validate QR Codes, built to fight quishing with signed codes and community reports."
+      },
+      "entropyle": {
+        "kind": "Word game · Next.js",
+        "lead": "A word-guessing game where every round applies a random modifier that bends the rules."
+      },
+      "deepquiz": {
+        "kind": "AI quiz · Next.js",
+        "lead": "A quiz app that uses Google's Gemini API to generate questions and give instant feedback."
+      },
+      "wegia": {
+        "kind": "NGO web system · PHP",
+        "lead": "Full-stack work on an NGO's web system: part of the PET module plus changes across other modules and interfaces."
+      },
+      "neonnest": {
+        "kind": "E-commerce · Next.js",
+        "lead": "A cyberpunk-themed e-commerce with unique styles and products and the main flows of a real store."
+      },
+      "space-tourism": {
+        "kind": "Multi-page site · React",
+        "lead": "Space-themed pages with astronomy curiosities, powered by a JSON file."
+      }
+    },
+    "stack": "Technologies"
   },
   "Skills": {
-    "title": { "foreground": "Languages and Tools", "background": "Skills" }
+    "title": "Languages and tools",
+    "lead": "What I reach for to ship products.",
+    "legend": {
+      "label": "Legend",
+      "shipped": "Used in the projects above",
+      "stated": "Broader knowledge"
+    },
+    "groups": {
+      "languages": "Languages",
+      "frontend": "Front-end",
+      "mobile": "Mobile",
+      "backend": "Backend & data",
+      "payments": "Payments",
+      "tools": "Tools"
+    }
   },
-  "Projects": {
-    "title": "Projects",
-    "buttons": {
-      "website": "Website",
-      "viewGithub": "GitHub",
-      "appStore": "App Store",
-      "playStore": "Play Store"
-    },
-    "titles": {
-      "spaceTourism": "Space Tourism",
-      "multiStepForm": "Multi Step Form",
-      "ipTracker": "IP and Domain Address Tracker",
-      "interactiveCard": "Interactive Card Form"
-    },
-
-    "descriptions": {
-      "neonnest": "NeonNest is an e-commerce that predicts a cyberpunk reality and allows you to be prepared for it when it happens. It has unique styles and products, as well as allowing the user to do most of the actions that would be done in a real e-commerce.",
-      "wegia": "I've been involved in the full-stack development of the project during my internship and work period. I was responsible for part of the PET module development and changes in other modules and general website interfaces.",
-      "spaceTourism": "Space-themed page, which presents curiosities about astronomy. Most of the pages in this project are powered by a JSON file.",
-      "multiStepForm": "A 4-step form that stores and processes all entered values. It is possible to navigate the form freely and all fields will be saved automatically.",
-      "ipTracker": "The project uses two APIs, one to take the data about the IPs or domains filled and the other to form a map, which automatically receives the latitude and longitude informed and approaches the location.",
-      "interactiveCard": "During the filling of the card data, the text is changed automatically. To ensure that the fields are filled in correctly, each has its own verifications and regular expressions where necessary.",
-      "magipass": "Magipass is a mobile application that provides exclusive offers from partner businesses through the purchase of passes. I was responsible for designing and structuring the project architecture, as well as for the full development of both the mobile application and the backend, implemented as a RESTful API.<break></break>The application enables pass purchase and management, offer browsing and redemption, and user authentication, which can be performed either through external identity providers or via email and password. The system supports three distinct user roles—customers, registered business owners, and administrators—each with dedicated workflows and interfaces, ensuring an appropriate experience for every type of access.",
-      "qrypt": "QRypt was developed as an academic project focused on enhancing the security of QR Codes generated by digital applications. The project emerged in response to the growing threat of quishing, a form of phishing that uses QR Codes as an attack vector. In this practice, malicious actors place QR Codes in strategic locations to trick unsuspecting users into accessing malicious links or completing fraudulent payment actions.<break></break>QRypt aims to mitigate this problem by providing a secure environment for QR Code generation and validation, based on three core pillars: (1) mandatory user authentication for QR Code creation; (2) encryption of all generated QR Codes to ensure the integrity and validity of their content; and (3) a community-driven reporting mechanism that automatically disables a QR Code once it reaches a predefined number of reports, reducing the risk of misuse by malicious users.",
-      "deepquiz": "DeepQuiz is a quiz application that utilizes Google's Gemini API to generate questions and answers dynamically. The application is designed to provide a personalized learning experience, adapting to the user's knowledge level and providing immediate feedback on their performance. With an intuitive and interactive interface, DeepQuiz makes the learning process engaging and effective, allowing users to expand their knowledge in various areas of interest.",
-      "entropyle": "Entropyle is a word-guessing game, where you uncover a hidden word from your guesses and the classic color feedback. Its twist is entropy: every round applies a random modifier that bends the rules, sometimes in your favor, sometimes against you. One round might invert the letters, another might reveal a clue or take away a guess. The familiar loop stays the same, but the ground keeps shifting beneath it, so you have to read each modifier and adapt your strategy on the fly to land the word before your attempts run out."
-    },
-    "types": {
-      "professional": "professional",
-      "personal": "personal"
+  "Journey": {
+    "title": "The path so far",
+    "lead": "A short timeline of what I've shipped and where this portfolio came from.",
+    "milestones": {
+      "portfolio-v1": {
+        "title": "First portfolio",
+        "text": "Started this portfolio with Next.js and SCSS."
+      },
+      "portfolio-v2": {
+        "title": "Second pass",
+        "text": "Added the project showcase, a skills carousel, a contact form and pt/en translations."
+      },
+      "deepquiz": {
+        "title": "DeepQuiz",
+        "text": "A quiz app powered by Google's Gemini API joins the portfolio."
+      },
+      "entropyle": {
+        "title": "Entropyle",
+        "text": "A word game where every round bends the rules joins the portfolio."
+      },
+      "portfolio-v3": {
+        "title": "This portfolio, in 3D",
+        "text": "Rebuilding it as an explorable world you fly through by scrolling."
+      }
     }
   },
   "Contact": {
-    "title": "Contact me",
-    "subtitle": "Interested in my work? Don't hesitate to reach out!",
-    "preForm": "Or send me a message directly here!"
+    "title": "Got a project in mind?",
+    "lead": "I'm open to new projects and conversations. Write to me by email or use the form below.",
+    "email": "Send an email",
+    "mailSubject": "Hello from your portfolio",
+    "listLabel": "Contact details",
+    "preForm": "Or send me a message right here"
+  },
+  "Case": {
+    "ui": {
+      "close": "Close case file",
+      "problem": "The problem",
+      "role": "My role",
+      "features": "Key features",
+      "challenges": "Technical challenges",
+      "outcomes": "Outcomes",
+      "stack": "Stack"
+    },
+    "magipass": {
+      "imageAlt": "Magipass logo: three white sparkles on a blue background",
+      "problem": "Exclusive offers from partner businesses needed one app where customers buy passes and redeem offers, and where businesses and administrators manage them.",
+      "role": "I designed the architecture and built both the mobile app and the backend, implemented as a RESTful API.",
+      "features": [
+        "Pass purchase and management",
+        "Offer browsing and redemption",
+        "Sign-in through external identity providers or email and password",
+        "Three user roles — customers, registered business owners and administrators — each with its own workflows and interfaces"
+      ],
+      "challenges": [
+        "TODO(content): technical challenges of Magipass"
+      ],
+      "outcomes": [
+        "Published on the App Store and Google Play."
+      ]
+    },
+    "qrypt": {
+      "imageAlt": "QRypt logo: a QR Code with a shield in the middle",
+      "problem": "QR Codes are being abused for quishing — phishing that hides a malicious link or a fraudulent payment behind a code placed in a public spot.",
+      "role": "TODO(content): my role in QRypt",
+      "features": [
+        "Mandatory authentication to create a QR Code",
+        "Encryption of every generated code to protect the integrity and validity of its content",
+        "Community reporting that automatically disables a code once it reaches a set number of reports"
+      ],
+      "challenges": [
+        "TODO(content): technical challenges of QRypt"
+      ],
+      "outcomes": [
+        "TODO(content): results of QRypt"
+      ]
+    },
+    "entropyle": {
+      "imageAlt": "Screenshot of the Entropyle word game",
+      "problem": "Word games reward a fixed strategy once you know the loop. Entropyle breaks that by changing the rules every round.",
+      "role": "TODO(content): my role in Entropyle",
+      "features": [
+        "Hidden-word guessing with the classic color feedback",
+        "A random modifier every round — it might invert the letters, reveal a clue or take away a guess",
+        "Strategy that has to adapt on the fly as the rules shift"
+      ],
+      "challenges": [
+        "TODO(content): technical challenges of Entropyle"
+      ],
+      "outcomes": [
+        "Live on the web, with the source code on GitHub."
+      ]
+    },
+    "deepquiz": {
+      "imageAlt": "Screenshot of the DeepQuiz app",
+      "problem": "Static quizzes can't adapt to what a learner already knows. DeepQuiz generates questions on demand and adjusts to the user's level.",
+      "role": "TODO(content): my role in DeepQuiz",
+      "features": [
+        "Questions and answers generated dynamically with Google's Gemini API",
+        "A learning experience that adapts to the user's knowledge level",
+        "Immediate feedback on performance",
+        "An interactive interface for many areas of interest"
+      ],
+      "challenges": [
+        "TODO(content): technical challenges of DeepQuiz"
+      ],
+      "outcomes": [
+        "Live on the web, with the source code on GitHub."
+      ]
+    },
+    "wegia": {
+      "imageAlt": "Screenshot of the Wegia home screen with its module menu",
+      "problem": "TODO(content): the problem Wegia solves for the NGO",
+      "role": "Full-stack developer during my internship and work period: part of the PET module, changes in other modules and general website interfaces.",
+      "features": [
+        "Part of the PET module",
+        "Changes across other modules of the system",
+        "General website interfaces"
+      ],
+      "challenges": [
+        "TODO(content): technical challenges of Wegia"
+      ],
+      "outcomes": [
+        "TODO(content): results of Wegia"
+      ]
+    }
+  },
+  "Footer": {
+    "rightsReserved": "All rights reserved.",
+    "credit": "Designed and built by Kauã Villa Nova."
   },
   "EmailForm": {
     "subject": {
@@ -80,9 +296,6 @@
       "error": "There was an error sending the message. Please try again later.",
       "validationError": "Please check the form fields."
     }
-  },
-  "Footer": {
-    "rightsReserved": "All rights reserved."
   },
   "Validations": {
     "subjectRequired": "The subject is required",

@@ -21,11 +21,11 @@ Restructure `src/app/[locale]/layout.tsx` and `page.tsx` into the new system's *
 HUD (T07), Lenis (T06), intro overlay (T27), three canvas (T15).
 
 ## Acceptance criteria
-- [ ] Tab on load focuses the **skip link** first; Enter takes you to `#main`.
-- [ ] With JS and motion allowed, `<html>` gets `is-intro` before hydration (see in DevTools → Elements); with `prefers-reduced-motion` it does **not**; with `#something` in the URL it does **not**.
-- [ ] Without JS the content stays visible (no class hides content by default).
-- [ ] The fallback background shows up and the text stays legible (scrim).
-- [ ] `en` and `pt` are pre-rendered in `next build` (output shows `● (SSG)` for `/[locale]`).
+- [x] Tab on load focuses the **skip link** first; Enter takes you to `#main`.
+- [x] With JS and motion allowed, `<html>` gets `is-intro` before hydration (see in DevTools → Elements); with `prefers-reduced-motion` it does **not**; with `#something` in the URL it does **not**.
+- [x] Without JS the content stays visible (no class hides content by default).
+- [x] The fallback background shows up and the text stays legible (scrim).
+- [x] `en` and `pt` are pre-rendered in `next build` (output shows `● (SSG)` for `/[locale]`).
 
 ## Technical notes
 - Do not change the IDs of the existing sections yet (`hero`, `about`…); T10–T13 introduce `home/about/work/skills/journey/contact`.
@@ -33,3 +33,10 @@ HUD (T07), Lenis (T06), intro overlay (T27), three canvas (T15).
 
 ## Reading
 `.claude/docs/ARCHITECTURE.md` §3, §4, §12 · `.claude/docs/REFERENCE-ANALYSIS.md` F01, F10, F11.
+
+## Implementation notes (done 2026-11-23)
+- Mount tree: `ScreenSizeProvider` (legacy, T36) → `NextIntlClientProvider` → `ScrollProvider` → `SkipLink`, `WorldSlot`, `{children}`, `AnchorController`, `RevealController`. `SoundProvider` was **not** added as a passthrough (nothing to pass; T28 adds it). HUD/NavRail/Locator/Footer/CaseDialogs are mounted by `page.tsx` (the only page), not by the layout.
+- **Deviation — the pre-hydration script also adds `html.motion`** (T09's text says the controller adds it): that is the only way `[data-reveal]` is hidden from the very first paint. `history.scrollRestoration = "manual"` is set **only** in the intro branch (the reference seems to force it always; forcing it would make every reload jump to the top for reduced-motion users too).
+- Until T27 **nothing removes `html.is-intro` and nothing depends on it** (the overlay does not exist yet). Reloading the page therefore starts at the top (manual restoration) — intended once the intro exists.
+- Static rendering: `generateStaticParams` + `setRequestLocale` → `● /[locale]` with `/en` and `/pt`. `/xx` returns 404.
+- `generateMetadata` reads `Meta.title` / `Meta.description` per locale (OG/JSON-LD in T30).

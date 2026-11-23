@@ -1,312 +1,124 @@
-@use "sass:math";
-@use "./variables" as *;
+@use "./mixins" as *;
 
-// Mouse scroll animation variables
-$mouse-width: 30px;
-$mouse-height: 62px;
-$mouse-border: 6px;
-$mouse-pos: 8px;
-$mouse-text-pos: 2px;
-$mouse-track-size: 10px;
-$mouse-track-pos: 20px;
-$mouse-track-shrink: 0.4;
-$mouse-anim-duration: 5s;
-$color-outline: $white-letter;
-$animation-delay: 4s;
-$color-outline-fade: rgba($white-letter, 0.35);
-
-@mixin mouse-bg-gradient {
-  background: $color-outline-fade
-    linear-gradient(
-      transparent 0%,
-      transparent 50%,
-      $color-outline 50%,
-      $color-outline 100%
-    );
-}
 .hero {
-  margin-top: 25vh;
-  justify-content: space-between;
-  text-align: center;
-  h1,
-  h1 strong,
-  h1 span {
-    font-size: 6.5rem;
-    font-weight: 700;
-  }
-  h1,
-  h1 span {
-    color: white;
-  }
-  h1 strong {
-    @include gradient-text(90deg, $rainbow-gradient);
-  }
-  h3 {
-    font-size: 1.3rem;
-  }
+  // The name block + CTAs sit in the left column; the rest of the width is
+  // left free for the 3D scene.
+}
 
-  .scrollDownIndicator {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    opacity: 0;
+.kicker {
+  display: flex;
+  gap: 0.9rem;
+  margin-bottom: 1.4rem;
 
-    span {
-      color: $color-outline;
-      animation: colorText $mouse-anim-duration ease-out infinite,
-        nudgeText $mouse-anim-duration ease-out infinite;
-    }
-  }
-
-  .mouseScroll {
-    margin: 0 auto;
-    margin-top: 4rem;
-    @include mouse-bg-gradient;
-    position: relative;
-    width: $mouse-width;
-    height: $mouse-height;
-    border-radius: 100px;
-    background-size: 100% 200%;
-    animation: colorSlide $mouse-anim-duration linear infinite,
-      nudgeMouse $mouse-anim-duration ease-out infinite;
-
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      margin: auto;
-    }
-
-    &::before {
-      width: $mouse-width - $mouse-border;
-      height: $mouse-height - $mouse-border;
-      background-color: $background;
-      border-radius: 100px;
-    }
-
-    &::after {
-      background-color: $color-outline;
-      width: $mouse-track-size;
-      height: $mouse-track-size;
-      border-radius: 100%;
-      animation: trackBallSlide $mouse-anim-duration linear infinite;
-    }
-  }
-  @include mobileMediaQuery {
-    margin-top: 15vh;
-    h1,
-    h1 strong,
-    h1 span {
-      font-size: 3rem;
-    }
-    h3 {
-      font-size: 1rem;
-    }
+  span:first-child {
+    color: var(--muted);
   }
 }
 
-@keyframes colorSlide {
+.name {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.28em;
+  margin-bottom: 1.6rem;
+}
+
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+// Target of the intro animation (T27): each letter moves on its own.
+.ch {
+  display: inline-block;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 2rem;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 28px;
+  margin-top: 2.5rem;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+  animation: pulse 2.2s ease-out infinite;
+}
+
+@keyframes pulse {
   0% {
-    background-position: 0% 100%;
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--success) 55%, transparent);
   }
-  12% {
-    background-position: 0% 0%;
-  }
-  12.6% {
-    background-color: $color-outline-fade;
-  }
-  17.994% {
-    background-color: $color-outline;
-    background-position: 0% 0%;
-  }
-  18% {
-    background-color: $color-outline-fade;
-    background-position: 0% 100%;
-  }
-  30% {
-    background-position: 0% 0%;
-  }
-  30.6% {
-    background-color: $color-outline-fade;
-  }
-  35.4% {
-    background-color: $color-outline;
-    background-position: 0% 0%;
-  }
-  36% {
-    background-color: $color-outline-fade;
-    background-position: 0% 100%;
-  }
-  48% {
-    background-position: 0% 0%;
-  }
-  48.6% {
-    background-color: $color-outline-fade;
-  }
-  54%,
-  60% {
-    background-color: $color-outline;
-  }
-  60%,
+  70%,
   100% {
-    background-color: $color-outline;
-    background-position: 0% 0%;
+    box-shadow: 0 0 0 10px transparent;
   }
 }
 
-@keyframes trackBallSlide {
-  0% {
-    opacity: 1;
-    transform: scale(1) translateY(-$mouse-track-pos);
-  }
-  3.6% {
-    opacity: 1;
-    transform: scale(0.9) translateY(math.div($mouse-track-pos, 4));
-  }
-  8.4% {
-    opacity: 0;
-    transform: scale($mouse-track-shrink) translateY($mouse-track-pos * 2);
-  }
-  9%,
-  11.4% {
-    opacity: 0;
-    transform: scale($mouse-track-shrink) translateY(-$mouse-track-pos);
-  }
-  16.8%,
-  17.994% {
-    opacity: 1;
-    transform: scale(1) translateY(-$mouse-track-pos);
-  }
-  18% {
-    opacity: 1;
-    transform: scale(1) translateY(-$mouse-track-pos);
-  }
-  21.6% {
-    opacity: 1;
-    transform: scale(0.9) translateY(math.div($mouse-track-pos, 4));
-  }
-  26.4% {
-    opacity: 0;
-    transform: scale($mouse-track-shrink) translateY($mouse-track-pos * 2);
-  }
-  27%,
-  29.4% {
-    opacity: 0;
-    transform: scale($mouse-track-shrink) translateY(-$mouse-track-pos);
-  }
-  34.8%,
-  35.994% {
-    opacity: 1;
-    transform: scale(1) translateY(-$mouse-track-pos);
-  }
-  36% {
-    opacity: 1;
-    transform: scale(1) translateY(-$mouse-track-pos);
-  }
-  39.6% {
-    opacity: 1;
-    transform: scale(0.9) translateY(math.div($mouse-track-pos, 4));
-  }
-  44.4% {
-    opacity: 0;
-    transform: scale($mouse-track-shrink) translateY($mouse-track-pos * 2);
-  }
-  45%,
-  47.4% {
-    opacity: 0;
-    transform: scale($mouse-track-shrink) translateY(-$mouse-track-pos);
-  }
-  52.8%,
-  60% {
-    opacity: 1;
-    transform: scale(1) translateY(-$mouse-track-pos);
-  }
-  60%,
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(-$mouse-track-pos);
+.socials {
+  display: flex;
+  gap: 8px;
+
+  a {
+    display: grid;
+    place-items: center;
+    width: var(--tap);
+    height: var(--tap);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    color: var(--muted);
+    transition:
+      color 0.25s var(--ease),
+      border-color 0.25s var(--ease);
+
+    &:hover {
+      border-color: var(--line-strong);
+      color: var(--star);
+    }
   }
 }
 
-@keyframes nudgeMouse {
-  0% {
-    transform: translateY(0);
-  }
-  12% {
-    transform: translateY($mouse-pos);
-  }
-  18% {
-    transform: translateY(0);
-  }
-  30% {
-    transform: translateY($mouse-pos);
-  }
-  36% {
-    transform: translateY(0);
-  }
-  48% {
-    transform: translateY($mouse-pos);
-  }
-  54% {
-    transform: translateY(0);
-  }
-  60%,
-  100% {
-    transform: translateY(0);
+.hint {
+  position: absolute;
+  right: var(--gutter);
+  bottom: var(--hud-bottom);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+
+  @include down {
+    display: none;
   }
 }
 
-@keyframes nudgeText {
-  0% {
-    transform: translateY(0);
-  }
-  12% {
-    transform: translateY($mouse-text-pos);
-  }
-  18% {
-    transform: translateY(0);
-  }
-  30% {
-    transform: translateY($mouse-text-pos);
-  }
-  36% {
-    transform: translateY(0);
-  }
-  48% {
-    transform: translateY($mouse-text-pos);
-  }
-  54% {
-    transform: translateY(0);
-  }
-  60%,
-  100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes colorText {
-  12.6% {
-    color: $color-outline-fade;
-  }
-  18% {
-    color: $color-outline;
-  }
-  30.6% {
-    color: $color-outline-fade;
-  }
-  36% {
-    color: $color-outline;
-  }
-  48.6% {
-    color: $color-outline-fade;
-  }
-  54%,
-  100% {
-    color: $color-outline;
-  }
+.hintLine {
+  width: 48px;
+  height: 1px;
+  background: currentColor;
 }

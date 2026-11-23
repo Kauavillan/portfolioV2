@@ -1,39 +1,50 @@
-@use "./variables" as *;
+@use "./mixins" as *;
+
 .input {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 
+  label {
+    font-family: var(--ff-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
   input,
   textarea {
-    padding: 1rem;
-    background-color: transparent;
-    border: none;
-    outline: 1px solid $gray-dark;
-    border-radius: 5px;
-    color: $white-letter;
-    &:focus {
-      outline: 1px solid $gray-light;
+    width: 100%;
+    min-height: var(--tap);
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--line-strong);
+    border-radius: calc(var(--radius) - 6px);
+    background: color-mix(in srgb, var(--ink-2) 80%, transparent);
+    color: var(--star);
+    font-size: 1rem; // 16px: stops iOS Safari from zooming on focus
+    transition: border-color 0.25s var(--ease);
+
+    &::placeholder {
+      color: var(--faint);
     }
-    @include mobileMediaQuery {
-      font-size: 0.8rem;
+
+    &:focus-visible {
+      border-color: transparent;
     }
   }
+
   textarea {
-    resize: none;
-    @include mobileMediaQuery {
-      height: 40vh;
-    }
+    resize: vertical;
+    min-height: 9rem;
   }
+
   .errorInput {
-    outline: 1px solid $error-red;
+    border-color: var(--danger);
   }
+
   .errorText {
-    color: $error-red;
-  }
-  label {
-    font-size: 1.3rem;
-    color: $white-letter;
-    text-align: center;
+    font-size: 0.85rem;
+    color: var(--danger);
   }
 }

@@ -118,3 +118,32 @@ Each artifact is a simple procedural object (primitives + 1 material/shader), li
 - Rich text: reuse `src/utils/richTextTranslationHandler.tsx` (`<highlight>`, `<break>`, `<rainbow>`); avoid HTML outside this set.
 - Short UI text (HUD, buttons): the pt version must not break the layout — test at 390 px.
 - Technical terms (Next.js, WebGL…) are not translated.
+
+## 7. M1 status: decisions taken and content still missing (2026-11-23)
+
+M1 (T01–T14) shipped with **defaults for the pending decisions** so nothing blocked. Each is easy to change; please review them.
+
+| # | What was done | Where to change it |
+|---|---|---|
+| D1 | Own space-station theme (names below); only affects T17–T24 later | `Sectors.*` in `en.json`/`pt.json`, `src/data/world.ts` |
+| D2 | Featured: Magipass · QRypt · Entropyle · DeepQuiz · Wegia. Archive: NeonNest, Space Tourism | `featured` in `src/data/projects.ts` |
+| D3 | Own accent: coral `#ff7a59` + periwinkle `#7da2ff` (contrast checked) | `src/styles/_tokens.scss` only |
+| D4 | Sectors: Launch pad · Crew deck · Cargo bay · Star chart · Flight log · Signal tower (pt: Lançamento · Tripulação · Hangar · Carta estelar · Diário de bordo · Torre de sinal) | `Sectors.*` |
+| D5 | No booking link → "Get in touch" → `#contact`; contact CTA is `mailto:` | `Hud.cta`, `Contact.*` |
+| D6 | Current screenshots/logos reused in the case files (`object-fit: contain`); no new shots | `image` in `projects.ts` (T31 optimizes) |
+| D7 | No analytics | — |
+| D8 | Avatar kept, small (88px) in About | `src/components/sections/About.tsx` |
+
+### Placeholders (`TODO(content)`) — hidden on the production site, visible in `next dev`
+Run `npm run check:i18n` for the live list. Today (same keys in en **and** pt):
+- `About.p3` — third paragraph (your working principle)
+- `Case.<id>.challenges` — **all five** projects
+- `Case.qrypt.role`, `Case.entropyle.role`, `Case.deepquiz.role` — your role in each
+- `Case.qrypt.outcomes`, `Case.wegia.outcomes` — results
+- `Case.wegia.problem` — what problem Wegia solves for the NGO
+
+### Also needed (not placeholders — simply absent)
+- **Journey:** only 5 milestones exist (the ones the git history can date). Add the rest in `src/data/milestones.ts` + `Journey.milestones.<id>` (en/pt): first projects (Frontend Mentor), NeonNest, Wegia internship, Magipass, QRypt, the degree. `MILESTONES.length` also sizes the 3D helix.
+- **Skills:** confirm Stripe / RevenueCat (flip to `shipped` and add to Magipass's stack if they ship there).
+- Reused from you: the two About paragraphs (verbatim) and the facts in your project descriptions. **Written by me as first drafts — please read them in both languages, it is your voice:** the hero lead, About title and services, section titles/leads, the one-line project leads and `kind`s, the case-file *problem / features / outcomes* lines (derived from your old descriptions, no invented facts), the journey milestone texts, and the HUD / intro / sound / contact strings.
+

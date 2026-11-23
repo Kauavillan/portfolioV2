@@ -18,16 +18,18 @@ Basis of comparison: state of the repository on `v3` (commit `a069c51`) vs. `.cl
 | `eslint .` | ❌ **2 errors** (`react-hooks/refs` in `EmailForm.tsx:106` and `:139`) + 1 warning (unused `__dirname` in `eslint.config.mjs`) |
 | Dependencies | `node_modules/next` is at **16.2.10**, but `package.json` and `package-lock.json` say **16.1.1** (install out of sync) |
 
+> **Resolved in T01 (2026-11-23):** lint, typecheck and build are green with 0 errors / 0 warnings, and `node_modules` matches the lockfile. The lockfile itself also turned out to be broken for `npm ci` (see the T01 task notes) and was repaired.
+
 ### Pre-existing problems (not from the reference, but they will be touched)
 
 | # | Problem | Where | Task |
 |---|---|---|---|
-| P1 | `<html>` without a `lang` attribute | `src/app/[locale]/layout.tsx` | T01 |
-| P2 | Hardcoded "contact" text in the menu (not translated) | `Header.tsx` | T07 |
-| P3 | `<footer>` nested inside `<footer>` | `Footer.tsx` | T13 |
+| P1 | `<html>` without a `lang` attribute — ✅ resolved in T01 | `src/app/[locale]/layout.tsx` | T01 |
+| P2 | Hardcoded "contact" text in the menu (not translated) — ✅ resolved in T07 (`Header` deleted; labels from `Hud.nav.*`) | `Header.tsx` | T07 |
+| P3 | `<footer>` nested inside `<footer>` — ✅ resolved in T13 | `Footer.tsx` | T13 |
 | P4 | `message` and `contactBackEmail` interpolated **without escaping** into the email HTML; no server-side validation; no size limit/rate limit | `app/api/email/route.ts` | T32 |
 | P5 | `RESEND_API_KEY` exists in `.env.local` but is not used in the code; there is no `.env.example` (and `.gitignore` ignores `.env*`) | root | T32 |
-| P6 | `framer-motion` as an implicit dependency | `Hero.tsx`, `Motion.tsx` | T02/T36 |
+| P6 | `framer-motion` as an implicit dependency — partly: `Hero.tsx` is gone, only `Motion.tsx` (unused) still imports it | `Motion.tsx` | T36 |
 | P7 | Project PNGs of up to 2.8 MB served without any source-side optimization | `public/img/projects/` | T31 |
 | P8 | `useResponsiveMotion`/`useScreenSize` duplicate what CSS media queries do | `src/hooks`, `src/stores` | T36 |
 

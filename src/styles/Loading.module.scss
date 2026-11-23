@@ -2,7 +2,7 @@
   display: inline-block;
   height: 12px;
   width: 30%;
-  --c: no-repeat linear-gradient(#fff 0 0);
+  --c: no-repeat linear-gradient(var(--star) 0 0);
   background: var(--c), var(--c), var(--c), var(--c);
   background-size: 26% 3px;
   animation: l8 1s infinite;

@@ -1,0 +1,59 @@
+// Design tokens — the ONLY place where colors, radii, timings and z-layers are defined.
+// Everything else uses `var(--token)`. (Contrast of the text tokens over --ink was measured:
+// --star 16.9:1 · --muted 7.9:1 · --faint 5.4:1; all ≥ 4.5:1.)
+
+:root {
+  color-scheme: dark;
+
+  // Surfaces
+  --ink: #06070e;
+  --ink-2: #0b0d18;
+  --ink-3: #131627;
+  --glass: rgb(11 13 24 / 0.62);
+
+  // Text
+  --star: #eceaf3;
+  --muted: rgb(236 234 243 / 0.68);
+  --faint: rgb(236 234 243 / 0.55);
+
+  // Lines
+  --line: rgb(236 234 243 / 0.12);
+  --line-strong: rgb(236 234 243 / 0.24);
+
+  // Accents (own palette: coral + periwinkle)
+  --solar: #ff7a59; // warm — primary CTA, labels, focus
+  --ion: #7da2ff; // cool — secondary accent
+  --on-solar: var(--ink); // text on a --solar surface (7.8:1)
+
+  // Feedback
+  --danger: #ff6b6b;
+  --success: #4ade80;
+
+  // Shape and motion
+  --radius: 18px;
+  --radius-pill: 999px;
+  --radius-case: 24px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  // Layout
+  --gutter: clamp(20px, 5vw, 72px);
+  --hud-top: calc(env(safe-area-inset-top, 0px) + 16px);
+  --hud-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+  --hud-bar: 48px; // height of the top bar row
+  --tap: 48px; // minimum target size
+  --tap-quiet: 40px; // minimum size of secondary buttons
+
+  // Stacking
+  --z-world: 0;
+  --z-content: 10;
+  --z-hud-fade: 40;
+  --z-hud: 50;
+  --z-nav: 60;
+  --z-hud-open: 65; // top bar while the mobile menu is open
+  --z-intro: 90;
+
+  // Typography (the --font-* variables come from next/font on <html>)
+  --ff-display: var(--font-display), "Arial Black", system-ui, sans-serif;
+  --ff-body: var(--font-body), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ff-mono: var(--font-mono), ui-monospace, "SF Mono", Menlo, monospace;
+}

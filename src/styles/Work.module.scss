@@ -1,0 +1,71 @@
+@use "./mixins" as *;
+
+// Each featured project takes at least a full screen (`.region`): one station
+// = one camera "stop".
+.station {
+  // (min-height: 100svh comes from .region)
+}
+
+.kind {
+  margin: 0.9rem 0 1.1rem;
+  font-family: var(--ff-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 1.6rem 0 1.8rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+// Archive: shorter than a screen, closes the Work block.
+.archive {
+  min-height: auto;
+  padding-top: 0;
+}
+
+.archiveList {
+  display: grid;
+  gap: 10px;
+  margin-top: 1.2rem;
+}
+
+.archiveItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--glass);
+
+  h4 {
+    margin-bottom: 0.25rem;
+    font-family: var(--ff-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  @include up(560px) {
+    flex-direction: row;
+    align-items: center;
+  }
+}

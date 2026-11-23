@@ -20,12 +20,12 @@ Projects section in the new format: header + **one `article` per featured projec
 The `<dialog>` itself (T14) — here only the button that triggers it and the `data-open-case`. 3D artifacts (T21).
 
 ## Acceptance criteria
-- [ ] N articles = N `featured` projects; index `NN / N` correct and dynamic.
-- [ ] Each article has a unique `data-station="project:<id>"` and a navigable `id`.
-- [ ] Store buttons only appear for projects that have a URL (Magipass).
-- [ ] Archive lists only `featured:false`.
-- [ ] pt/en complete; external links with consistent `rel="noopener noreferrer"` and `target="_blank"`.
-- [ ] 390 px layout with no horizontal overflow.
+- [x] N articles = N `featured` projects; index `NN / N` correct and dynamic.
+- [x] Each article has a unique `data-station="project:<id>"` and a navigable `id`.
+- [x] Store buttons only appear for projects that have a URL (Magipass).
+- [x] Archive lists only `featured:false`.
+- [x] pt/en complete; external links with consistent `rel="noopener noreferrer"` and `target="_blank"`.
+- [x] 390 px layout with no horizontal overflow.
 
 ## Technical notes
 - If there are < 5 featured, the text "Five things I built" must use the real count (i18n interpolation).
@@ -33,3 +33,9 @@ The `<dialog>` itself (T14) — here only the button that triggers it and the `d
 
 ## Reading
 `.claude/docs/REFERENCE-ANALYSIS.md` F30, F32 · `.claude/docs/CONTENT.md` (Work, Archive).
+
+## Implementation notes (done 2026-11-23)
+- `#work` is the header block (`data-station="work"`); each featured project is a sibling `article#project-<id>` (`data-station="project:<id>"`, ≥ 100svh) and the archive closes the block. Index `NN / N`, title and chips are data-driven; the title uses ICU plural with the real count.
+- Store buttons exist only on Magipass (1 App Store + 1 Play Store) — in the articles **and** in its case file.
+- **Decision D2** applied: Magipass · QRypt · Entropyle · DeepQuiz · Wegia featured; NeonNest and Space Tourism in the archive.
+- Added `Work.stack` (aria-label of the chip list). Old `ProjectsList`, `Project`, `Projects.module.scss` are deleted.

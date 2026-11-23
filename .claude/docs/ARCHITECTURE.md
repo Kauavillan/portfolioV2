@@ -94,8 +94,8 @@ Centralized in `src/lib/contract.ts` (constants) to avoid drift between the mark
 | `data-lenis-prevent` | inner scrollable area | Lenis does not capture the scroll | T06/T14 |
 | `data-no-pick` | any | 3D picking ignores clicks here | T25 |
 
-State classes on `<html>`: `lenis`, `motion`, `is-intro`, `nav-open`, `world-hover`, `no-webgl`. On `.world`: `is-ready`, `is-cut`.
-**Progressive enhancement:** `motion`, `is-intro` and `lenis` are added **by JS**; without JS the content stays visible.
+State classes on `<html>`: `lenis`, `motion`, `is-intro`, `nav-open`, `world-hover`, `no-webgl`, plus (added in M1) `scroll-locked` and `reveal-ready`. On a skill chip: `is-lit`. On `.world`: `is-ready`, `is-cut`.
+**Progressive enhancement:** `motion`, `is-intro` and `lenis` are added **by JS**; without JS the content stays visible. `motion` and `is-intro` come from the pre-hydration inline script (so the first paint is already correct); `lenis` from Lenis; `scroll-locked` and `reveal-ready` from `ScrollProvider` / `RevealController`.
 
 ## 5. Shared state (`zustand`)
 
@@ -254,3 +254,20 @@ For GSAP, use `gsap.context()` (or `useGSAP`) and `ctx.revert()` in the cleanup.
 | Fonts loading late and shifting the layout | `document.fonts.ready` triggers the layout refresh (F08); `next/font` with `display: swap` |
 | Safari/iOS: `100svh`, `AudioContext` and `dialog` | test on real Safari; `webkitAudioContext` fallback |
 | `compileAsync` unavailable | fall back to synchronous `compile` |
+
+## 13. Deviations recorded during M1 (T01–T14)
+
+| Where | Plan | What was built | Why |
+|---|---|---|---|
+| §2 alias | `@world/*` | also bare `@world` | §2 requires `import("@world")` |
+| §4 / T09 | controller adds `html.motion` | the pre-hydration script adds it (the controller keeps it in sync) | only way `[data-reveal]` is hidden from the first paint (no flash) |
+| §4 | listed state classes | + `scroll-locked`, `reveal-ready`, `is-lit` | lock must work without Lenis (reduced motion); the reveal CSS failsafe needs a switch-off; chips need a lit state for T22 |
+| §5 / T06 | `lenis` in the scroll API | `getLenis()` | reading a ref in the context value trips `react-hooks/refs` |
+| §5 | `lockScroll`/`unlockScroll` | counter + actions (`setNavOpen`, `openCase`, `setIntroActive`) that change it once per open/close pair, synchronously | the menu must release its lock *before* the anchor scroll starts |
+| T08 | hook returns `progress` | progress via `subscribeProgress` (no state) | avoids a re-render per scroll pixel |
+| §3 | HUD/locator in the layout | mounted by `page.tsx` | there is a single page; the layout keeps only providers, skip link and the world slot |
+| §3 | `SoundProvider` passthrough | omitted until T28 | nothing to pass through |
+| T07 | locale switch via `router.replace` | + restore the `#hash` from `sessionStorage` afterwards | next-intl navigates to a prefixed URL and the proxy's `/en` → `/` redirect drops the hash |
+| T11 | "article inside the Work section" | `#work` is the header block; the articles and the archive are its siblings | each article must be its own camera station, so `#work`'s centre can't be the middle of all of them |
+| T14 | hash only for deep links | opening also writes `#case-<id>` | shareable URL; `replaceState`, no history entry |
+

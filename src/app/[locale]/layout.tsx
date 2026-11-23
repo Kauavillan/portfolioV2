@@ -1,32 +1,80 @@
-import { Rajdhani } from "next/font/google";
-import { NextIntlClientProvider } from "next-intl";
+import { JetBrains_Mono, Manrope, Unbounded } from "next/font/google";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { routing } from "@/i18n/routing";
+import { PRE_HYDRATION_SCRIPT } from "@lib/pre-hydration";
 import { ScreenSizeProvider } from "@/providers";
+import AnchorController from "@controllers/AnchorController";
+import RevealController from "@controllers/RevealController";
+import ScrollProvider from "@controllers/ScrollProvider";
+import SkipLink from "@components/shell/SkipLink";
+import WorldSlot from "@components/shell/WorldSlot";
 import "@/styles/globals.scss";
-import { Metadata } from "next";
 
-const rajdhani = Rajdhani({
-  subsets: ["latin"],
-  variable: "--font-rajdhani",
-  weight: ["300", "400", "500", "600", "700"],
+const fontDisplay = Unbounded({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-display",
+  display: "swap",
+});
+const fontBody = Manrope({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-body",
+  display: "swap",
+});
+const fontMono = JetBrains_Mono({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-mono",
+  display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Kauã Villa Nova - Portfolio",
-  description:
-    "Welcome to my portfolio! I'm a passionate software developer with experience in web development, mobile apps, and more. Explore my projects and skills to see how I can contribute to your next venture.",
-};
+type LayoutProps = { params: Promise<{ locale: string }> };
 
-export default function RootLayout({
+// Static rendering: `/` (en) and `/pt` are generated at build time.
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({
+  params,
+}: LayoutProps): Promise<Metadata> {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) return {};
+  const t = await getTranslations({ locale, namespace: "Meta" });
+  return { title: t("title"), description: t("description") };
+}
+
+export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  params,
+}: Readonly<{ children: React.ReactNode } & LayoutProps>) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
+
   return (
-    <html className={rajdhani.className}>
+    // `suppressHydrationWarning`: the pre-hydration script adds `motion` /
+    // `is-intro` to <html> before React hydrates.
+    <html
+      lang={locale}
+      className={`${fontDisplay.variable} ${fontBody.variable} ${fontMono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: PRE_HYDRATION_SCRIPT }} />
+      </head>
       <body>
-        {/*className={`${geistSans.variable} ${geistMono.variable}`} />*/}
         <ScreenSizeProvider>
-          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+          <NextIntlClientProvider>
+            <ScrollProvider>
+              <SkipLink />
+              <WorldSlot />
+              {children}
+              <AnchorController />
+              <RevealController />
+            </ScrollProvider>
+          </NextIntlClientProvider>
         </ScreenSizeProvider>
       </body>
     </html>

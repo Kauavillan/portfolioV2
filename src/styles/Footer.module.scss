@@ -1,11 +1,20 @@
-@use "./variables" as *;
+@use "./mixins" as *;
 
 .footer {
-  margin-top: 30px;
-  border-top: $gray-darkest 1px solid;
+  position: relative;
+  z-index: var(--z-content);
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 70px;
-  text-align: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 24px;
+  padding: 1.6rem var(--gutter) calc(var(--hud-bottom) + 24px);
+  border-top: 1px solid var(--line);
+  font-size: 0.82rem;
+  color: var(--muted);
+
+  // The locator lives at the bottom-left corner on desktop: keep clear of it.
+  @include up {
+    justify-content: flex-end;
+    text-align: right;
+  }
 }

@@ -19,13 +19,13 @@ A modal `<dialog>` per featured project with the "full story", opened by the sec
 Clicking the 3D object (T25); sounds (T28).
 
 ## Acceptance criteria
-- [ ] Open/close by button, `Esc` and backdrop; focus trapped inside the modal and returned on close.
-- [ ] Scrolling inside the modal does **not** scroll the page; on close, the page scroll comes back.
-- [ ] `/#case-<id>` (and `/pt#case-<id>`) opens the modal on load.
-- [ ] Screen reader announces the title (`aria-labelledby`).
-- [ ] Works at 390 px (content scrolls, Close button always reachable).
-- [ ] `prefers-reduced-motion`: no entry animation.
-- [ ] A project without an image leaves no hole in the layout.
+- [x] Open/close by button, `Esc` and backdrop; focus trapped inside the modal and returned on close.
+- [x] Scrolling inside the modal does **not** scroll the page; on close, the page scroll comes back.
+- [x] `/#case-<id>` (and `/pt#case-<id>`) opens the modal on load.
+- [x] Screen reader announces the title (`aria-labelledby`).
+- [x] Works at 390 px (content scrolls, Close button always reachable).
+- [x] `prefers-reduced-motion`: no entry animation.
+- [x] A project without an image leaves no hole in the layout.
 
 ## Technical notes
 - `<dialog>` is supported in all current browsers; no polyfill needed.
@@ -33,3 +33,10 @@ Clicking the 3D object (T25); sounds (T28).
 
 ## Reading
 `.claude/docs/REFERENCE-ANALYSIS.md` F31 · `.claude/docs/CONTENT.md` (case file).
+
+## Implementation notes (done 2026-11-23)
+- `CaseDialogs` renders one native `<dialog>` per featured project and owns the delegated opener, `#case-<id>` (load + `hashchange`) and the store action `openCase(id, opener?)` for T25. Opening also writes `#case-<id>` (shareable URL; `replaceState`, no history entry); closing removes it.
+- A direct switch A→B must not let A's async `close` event close B — guarded. Focus returns to the opener. The header with the Close button sits **outside** the scrolling area so it is always reachable (checked after scrolling to the bottom at 390px).
+- **Found in testing:** the browser's default modal cap `max-width: calc(100% - 6px - 2em)` silently shrank the dialog (352px instead of 358px at 390px); fixed with `max-width: none`.
+- Production builds hide every `TODO(content)` line and any section left empty (`src/utils/content.ts`); `next dev` shows them so the owner sees what is missing. Verified in the production DOM (header/main/footer/dialogs).
+- Media is `object-fit: contain` over `--ink-3` (two projects have square logos, not screenshots); a project with no image renders no figure (no hole).

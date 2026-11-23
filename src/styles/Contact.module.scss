@@ -1,36 +1,54 @@
-@use "./variables" as *;
+@use "./mixins" as *;
 
-.contactSession {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-  h5 {
-    font-size: 1.2rem;
-  }
+.contact {
+  // The form makes this section taller than a screen; `.region` already
+  // allows that (min-height, not height).
 }
 
-.buttons {
-  display: flex;
-  justify-content: center;
-  gap: 5vw;
-  a {
-    width: 30vw;
+.actions {
+  margin-top: 2rem;
+}
+
+.list {
+  display: grid;
+  margin-top: 1.6rem;
+  border-top: 1px solid var(--line);
+
+  li {
+    border-bottom: 1px solid var(--line);
   }
-  @include mobileMediaQuery {
-    flex-direction: column;
-    gap: 2rem;
-    a {
-      width: 100%;
+
+  a {
+    display: grid;
+    grid-template-columns: auto 5.5rem minmax(0, 1fr);
+    align-items: center;
+    gap: 14px;
+    min-height: var(--tap);
+    padding: 0.5rem 0;
+    color: var(--muted);
+    transition: color 0.25s var(--ease);
+
+    &:hover {
+      color: var(--star);
     }
   }
 }
 
-// @media screen and (max-width: 850px) {
-//   .buttons {
-//     flex-wrap: wrap;
-//   }
-//   .buttons a {
-//     margin: 20px 0 0 0;
-//   }
-// }
+.name {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.value {
+  overflow: hidden;
+  font-size: 0.95rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.formLabel {
+  margin: 2.6rem 0 1rem;
+}

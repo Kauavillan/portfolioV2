@@ -8,7 +8,7 @@ Personal portfolio of **Kauã Villa Nova**, bilingual (pt/en), built with **Next
 
 The `v3` branch is being migrated from a classic 2D sections site to an **explorable 3D portfolio**: scrolling flies the camera through a three.js world, with a HUD, a cinematic intro, procedural audio and per-project "case files" — the same system as the reference site <https://2k-aakaash.vercel.app>.
 
-> **Status (2026-11-22): migration planned, not started yet.** The code in `src/` is still the old site (hero with typing effect, skills Swiper, projects grid, contact form). The full plan is in `.claude/docs/`.
+> **Status (2026-11-23): Milestone M1 (T01–T14) is implemented — the 2D shell without 3D.** It is a complete, shippable site: HUD, smooth scroll, reveals, the six sections, case files, pt/en, and it is also the `no-webgl` fallback. **Not started:** the 3D world (M2–M3, T15–T26), intro and sound (M4), release work (M5). M1 was built with default content decisions and `TODO(content)` placeholders — see `.claude/docs/CONTENT.md` §7. The plan is in `.claude/docs/`.
 
 ## Documentation (read in whatever order you need)
 
@@ -23,16 +23,16 @@ The `v3` branch is being migrated from a classic 2D sections site to an **explor
 
 ## Stack
 
-| | Today (v3 at the start) | Target |
+| | Today (after M1) | Target |
 |---|---|---|
 | Framework | Next 16.1.1 (lockfile), React 19.2 | same |
 | i18n | `next-intl` 4 (`en` default, `pt`, `as-needed` prefix, `src/proxy.ts`) | same |
-| Styling | SCSS Modules + `_variables.scss`, Rajdhani font | SCSS Modules + CSS custom properties; Unbounded/Manrope/JetBrains Mono via `next/font/google` |
-| Animation | `framer-motion` (via `motion`) | `gsap` + ScrollTrigger |
-| Scroll | `react-scroll` | `lenis` |
-| 3D / audio | — | `three` (imperative, lazy) / plain WebAudio |
-| State | `zustand` (screen size) | `zustand` (UI + scroll locks) |
-| Contact | `react-hook-form` + `zod` → `/api/email` (nodemailer/SMTP) | same, hardened (T32) |
+| Styling | ✅ SCSS Modules + CSS custom properties (`_tokens.scss`); Unbounded/Manrope/JetBrains Mono via `next/font/google` | same |
+| Animation | ✅ `gsap` + ScrollTrigger (reveals). `motion`/`framer-motion` only in the unused `Motion.tsx` (T36) | same |
+| Scroll | ✅ `lenis` driven by the GSAP ticker. `react-scroll` is installed but no longer imported (T36) | same |
+| 3D / audio | `three@0.187.0` installed, **not used yet**; no audio | `three` (imperative, lazy) / plain WebAudio |
+| State | `zustand`: `useUiStore` (menu, case, scroll locks) + legacy screen size (T36) | `zustand` (UI + scroll locks) |
+| Contact | `react-hook-form` + `zod` → `/api/email` (nodemailer/SMTP), restyled | same, hardened (T32) |
 
 ## Commands
 
@@ -40,18 +40,20 @@ The `v3` branch is being migrated from a classic 2D sections site to an **explor
 npm run dev          # next dev --turbopack  → http://localhost:3000 (pt at /pt)
 npm run build        # production build
 npm run lint         # eslint .
-npx tsc --noEmit     # typecheck (a `typecheck` script will be added in T01)
+npm run typecheck    # tsc --noEmit
+npm run check:i18n   # en/pt parity + data↔translations coverage; lists pending TODO(content)
 ```
 
-**Known baseline (T01 fixes it):** `tsc` ✅ · `eslint` ❌ 2 `react-hooks/refs` errors in `EmailForm.tsx` + 1 warning · `node_modules/next` is at 16.2.10 but the lockfile says 16.1.1 (`npm ci` fixes it).
-There are still **no tests** or CI (T35).
+**Baseline (green since T01, kept green through M1, 2026-11-23):** `npm ci`, `lint` (0 errors, 0 warnings), `typecheck`, `check:i18n` and `build` pass; `node_modules/next` matches the lockfile (16.1.1); `/en` and `/pt` are prerendered (`● SSG`).
+There are still **no tests** or CI (T35). M1 was verified in a real browser (headless Chrome over CDP) at 1440px and 390px, with reduced motion, without JS and in `next dev` (StrictMode) — those scripts are scratch tooling, not in the repo yet; T35 turns the useful ones into Playwright smoke tests.
 
 ## Structure
 
-Today: `src/app/[locale]/{layout,page}.tsx`, `src/app/api/email/route.ts`, `src/components/*` (+ `items/`), `src/hooks`, `src/stores`, `src/providers`, `src/i18n`, `src/styles/*.module.scss`, `src/utils`, `src/validations`.
-Target (details in `ARCHITECTURE.md` §2): adds `src/controllers`, `src/world` (three.js engine), `src/audio`, `src/data`, `src/lib/contract.ts`; splits `components/{shell,sections,case,sound,items}`.
+Today: `src/app/[locale]/{layout,page}.tsx`, `src/app/api/email/route.ts`, `src/components/{shell,sections,case,items}` (`sound/` is empty until T29), `src/controllers` (`ScrollProvider`, `AnchorController`, `RevealController`), `src/data` (typed content: projects, skills, milestones, world, profile), `src/lib` (`contract.ts` and pure logic: `active-section`, `section-tracker`, `motion`, `pre-hydration`), `src/stores` (`useUiStore`), `src/hooks`, `src/providers`, `src/i18n`, `src/styles` (`_tokens`, `_mixins`, `_base`, `_world`, `_lenis`, `_reveal` + `*.module.scss`), `src/utils`, `src/validations`, `scripts/check-i18n.mjs`. `src/world` and `src/audio` exist as empty skeletons.
+Target (details in `ARCHITECTURE.md` §2): fills in `src/world` (three.js engine) and `src/audio`, and `components/sound`.
+Deviations from the plan are recorded in `ARCHITECTURE.md` §13.
 
-Aliases (`tsconfig.json`): `@/*`, `@styles/*`, `@components/*`, `@hooks/*`, `@stores/*`, `@providers/*`, `@utils/*`, `@assets/*`, `@public/*`. New in T02: `@world/*`, `@audio/*`, `@data/*`, `@controllers/*`, `@lib/*`.
+Aliases (`tsconfig.json`): `@/*`, `@styles/*`, `@components/*`, `@hooks/*`, `@stores/*`, `@providers/*`, `@utils/*`, `@assets/*`, `@public/*`, `@world` + `@world/*`, `@audio/*`, `@data/*`, `@controllers/*`, `@lib/*`. ESLint forbids importing `three` outside `src/world/**`.
 
 ## Architecture in 30 seconds
 
@@ -105,7 +107,8 @@ Aliases (`tsconfig.json`): `@/*`, `@styles/*`, `@components/*`, `@hooks/*`, `@st
 
 ## Known pitfalls
 
-- `framer-motion` is imported in `Hero.tsx`/`Motion.tsx`, but only `motion` is in `package.json`. It goes away in T36.
-- `Header.tsx` has a hard-coded (untranslated) "contact" label and `Footer.tsx` nests a `<footer>` inside a `<footer>`. Both go away in tasks T07/T13.
+- **Legacy still in the tree (all removed in T36):** `components/items/Motion.tsx` (imports `framer-motion`, which is only an implicit dependency of `motion`), `hooks/{useResponsiveMotion,useScreenSize,useTypingEffect}`, `providers/ScreenSizeProvider` (still mounted, nothing reads it), `stores/useScreenSizeStore`, the `swiper`/`react-scroll`/`motion` packages, `styles/_variables.scss` + the orphaned `Home.module.scss`, `types/global.d.ts` swiper declarations, unused `public/icons` and images.
+- `html.is-intro` is added before hydration but **nothing removes it until T27** (and nothing depends on it). It also makes a reload start at the top (`scrollRestoration = "manual"`).
+- `TODO(content)` strings are **hidden in production and shown in `next dev`** (`src/utils/content.ts`). If something is "missing" on the live site, check `npm run check:i18n` first.
+- Switching language: next-intl navigates to a prefixed URL and the proxy redirects `/en` → `/`, which drops the `#hash`; `LanguageSelector` restores it (see T07 notes). Don't "simplify" that away.
 - `app/api/email/route.ts` interpolates `message`/`contactBackEmail` into the email HTML **without escaping**. Do not replicate this pattern; T32 fixes it.
-- `<html>` has no `lang` (T01).

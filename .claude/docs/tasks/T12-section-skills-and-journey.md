@@ -19,11 +19,11 @@ Replace the icon Swiper with **groups of chips with evidence** and create the mi
 3D hover behavior (T22) and the helix (T23).
 
 ## Acceptance criteria
-- [ ] Every skill in `skills.ts` appears once, in the right group, with a unique `data-skill` and a valid `data-evidence`.
-- [ ] Tab navigation walks through the chips; focus visible.
-- [ ] Timeline legible at 390 px; dates formatted per locale (`Intl.DateTimeFormat`).
-- [ ] pt/en complete.
-- [ ] No Swiper on the page.
+- [x] Every skill in `skills.ts` appears once, in the right group, with a unique `data-skill` and a valid `data-evidence`.
+- [x] Tab navigation walks through the chips; focus visible.
+- [x] Timeline legible at 390 px; dates formatted per locale (`Intl.DateTimeFormat`).
+- [x] pt/en complete.
+- [x] No Swiper on the page.
 
 ## Technical notes
 - `data-skill` uses the **canonical (untranslated) name** to match the world.
@@ -31,3 +31,9 @@ Replace the icon Swiper with **groups of chips with evidence** and create the mi
 
 ## Reading
 `.claude/docs/REFERENCE-ANALYSIS.md` F21, F22, F30 · `.claude/docs/CONTENT.md` (Skills, Journey).
+
+## Implementation notes (done 2026-11-23)
+- 22 skills in 6 groups, each `li.chip[data-skill="<group>:<name>"][data-evidence]` with `tabindex=0`, plus an `sr-only` evidence note so the bright/dim distinction isn't visual-only. `.is-lit` is a *global* class on purpose (the 3D world toggles it in T22).
+- **Honesty of `evidence`:** `shipped` only for what appears in a project's stack (Git counts because every source link is a GitHub repo); Java, C/C++, Stripe and RevenueCat are `stated`. `TODO(content)` in `skills.ts`: confirm Stripe/RevenueCat in Magipass.
+- **Journey has only 5 milestones** — the ones the repository history can date (portfolio v1, v2, DeepQuiz, Entropyle, this v3). The plan suggested 6–9; the rest need dates only the owner knows (see `CONTENT.md` §7). Dates are formatted with `Intl.DateTimeFormat` in UTC (`Jun 2025` / `jun. de 2025`).
+- Old `Skills`, `SkillsSwiper` and `SectionTitle` are deleted; `swiper` is no longer imported (package and `global.d.ts` declarations leave in T36).

@@ -19,12 +19,12 @@ Replace the current `Header` with the HUD: top bar (wordmark, CTA, language, men
 Locator (T08), sound control (T29), new section ids (the sections are built in T10–T13; use the contract ids from `src/lib/contract.ts` even if those sections do not exist yet).
 
 ## Acceptance criteria
-- [ ] Desktop: nav rail visible; clicking scrolls smoothly (≈ 2.2 s) to the section, focuses the title/section and updates the hash.
-- [ ] Mobile (390 px): Menu button opens the overlay; `Esc` closes it; focus returns to the button; page scroll stays locked while open.
-- [ ] 100% keyboard navigation (Tab/Shift+Tab/Enter/Esc); targets ≥ 48 px (overlay links 52 px).
-- [ ] Language switch works without losing the route/hash.
-- [ ] Labels in pt and en; no hard-coded strings.
-- [ ] No `react-scroll` imported in the HUD; no console errors.
+- [x] Desktop: nav rail visible; clicking scrolls smoothly (≈ 2.2 s) to the section, focuses the title/section and updates the hash.
+- [x] Mobile (390 px): Menu button opens the overlay; `Esc` closes it; focus returns to the button; page scroll stays locked while open.
+- [x] 100% keyboard navigation (Tab/Shift+Tab/Enter/Esc); targets ≥ 48 px (overlay links 52 px).
+- [x] Language switch works without losing the route/hash.
+- [x] Labels in pt and en; no hard-coded strings.
+- [x] No `react-scroll` imported in the HUD; no console errors.
 
 ## Technical notes
 - `aria-current` with the string `"true"` only on the active item.
@@ -32,3 +32,10 @@ Locator (T08), sound control (T29), new section ids (the sections are built in T
 
 ## Reading
 `.claude/docs/REFERENCE-ANALYSIS.md` F02, F03, F05, F35 · `.claude/docs/ARCHITECTURE.md` §4.
+
+## Implementation notes (done 2026-11-23)
+- `Hud` is a Server Component; `MenuToggle`, `NavRail` and `LanguageSelector` are client islands. `AnchorController` does the delegated `a[href^="#"]` handling (it ignores `#case-*`, which `CaseDialogs` owns) and closes the menu **synchronously** before scrolling so the lock is already released.
+- Mobile menu: `html.nav-open`, `aria-expanded`, `Esc` + focus return to the button, background `main`/`footer` get `inert`, closes when the viewport grows past 900px. Overlay links 52px, Menu button 48px.
+- **Language switch + hash (found in testing):** next-intl always navigates to a *prefixed* URL when the locale changes; for the default locale the proxy then redirects `/en` → `/`, and the redirect drops `#hash` (pt→en lost it; en→pt did not). `LanguageSelector` stashes the hash in `sessionStorage` before `router.replace(..., { scroll: false })` and restores it after the remount. (Module state was rejected by `react-hooks/globals`.)
+- `onOpenChange` was removed from `LanguageSelector` (nothing needs it now). The old `Header`, `NavbarLink` are deleted; `react-scroll` is no longer imported anywhere (the package leaves in T36).
+- Not covered: Shift+Tab was not exercised explicitly; Tab/Enter/Esc were.

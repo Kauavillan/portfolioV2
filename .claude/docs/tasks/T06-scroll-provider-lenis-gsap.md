@@ -20,12 +20,12 @@ A single scroll provider: Lenis driven by the GSAP ticker, ScrollTrigger in sync
 Anchors/menu (T07), reveals (T09).
 
 ## Acceptance criteria
-- [ ] Wheel/trackpad scrolling is smooth; keyboard (Space/PageDown/arrows) and the scrollbar keep working.
-- [ ] `lockScroll()` ×2 and `unlockScroll()` ×1 stays locked; the second `unlock` releases.
-- [ ] Resizing the window, loading fonts or changing the body height triggers **one** refresh (debounce) — verify with a temporary log.
-- [ ] With `prefers-reduced-motion`, there is no Lenis and `to()` still reaches the target.
-- [ ] Mounting/unmounting 10× (HMR/StrictMode) leaves no orphaned tickers or listeners (`gsap.ticker` with no extra callbacks; `getEventListeners(window)` stable).
-- [ ] Content with `data-lenis-prevent` scrolls natively.
+- [x] Wheel/trackpad scrolling is smooth; keyboard (Space/PageDown/arrows) and the scrollbar keep working.
+- [x] `lockScroll()` ×2 and `unlockScroll()` ×1 stays locked; the second `unlock` releases.
+- [x] Resizing the window, loading fonts or changing the body height triggers **one** refresh (debounce) — verify with a temporary log.
+- [x] With `prefers-reduced-motion`, there is no Lenis and `to()` still reaches the target.
+- [x] Mounting/unmounting 10× (HMR/StrictMode) leaves no orphaned tickers or listeners (`gsap.ticker` with no extra callbacks; `getEventListeners(window)` stable).
+- [x] Content with `data-lenis-prevent` scrolls natively.
 
 ## Technical notes
 - `ScrollTrigger.update` must also run without Lenis (reduced-motion): ScrollTrigger uses native scroll.
@@ -33,3 +33,11 @@ Anchors/menu (T07), reveals (T09).
 
 ## Reading
 `.claude/docs/REFERENCE-ANALYSIS.md` F07–F08 · `.claude/docs/ARCHITECTURE.md` §5, §11.
+
+## Implementation notes (done 2026-11-23)
+- Verified in a real browser: smooth wheel (eases over time), Space/PageDown still scroll, a resize triggers **exactly one** refresh and a burst of 10 resizes coalesces into one, reduced motion has no Lenis and `to()` still lands on the target, `data-lenis-prevent` scrolls natively, and after 11 remounts the ScrollTrigger count, the `window`+`document` listener count and the `gsap.ticker` callbacks are identical (also in `next dev` with StrictMode).
+- **Deviation — `getLenis()` instead of a `lenis` property:** reading a ref while building the context value trips `react-hooks/refs` (the same rule T01 fixed). `stop()`/`start()` are the **counted** locks (`useUiStore`), not direct Lenis calls.
+- ScrollTrigger's own `resize`/`load` auto-refresh is switched off (`autoRefreshEvents: "visibilitychange"`, restored on cleanup); otherwise every resize would refresh twice.
+- The preference is watched live (`withMotionPreference`): flipping `prefers-reduced-motion` rebuilds or destroys Lenis without a reload.
+- Locks live in store *actions* (`setNavOpen`, `openCase`, `setIntroActive`) so each open/close pair changes the counter once, synchronously.
+- Lenis (1.3.x) adds `lenis` but not `lenis-smooth` in this setup, so the `scroll-behavior` reset targets `html.lenis` as well.

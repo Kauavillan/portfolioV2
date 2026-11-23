@@ -19,11 +19,11 @@ New contact section (CTAs + contact list) **keeping the existing form**, and a n
 API hardening (T32). Portal scene (T24).
 
 ## Acceptance criteria
-- [ ] Submitting the form still works end to end (with SMTP configured) and shows the feedback.
-- [ ] `mailto:` opens with a pre-filled (translated) subject.
-- [ ] A single `<footer>`; no `footer > footer`.
-- [ ] 390 px with no overflow; targets ≥ 48 px.
-- [ ] pt/en complete; safe external links.
+- [x] Submitting the form still works end to end (with SMTP configured) and shows the feedback.
+- [x] `mailto:` opens with a pre-filled (translated) subject.
+- [x] A single `<footer>`; no `footer > footer`.
+- [x] 390 px with no overflow; targets ≥ 48 px.
+- [x] pt/en complete; safe external links.
 
 ## Technical notes
 - Do not log or display data from `.env.local`.
@@ -31,3 +31,8 @@ API hardening (T32). Portal scene (T24).
 
 ## Reading
 `.claude/docs/REFERENCE-ANALYSIS.md` F30, F06 · `.claude/docs/CONTENT.md` (Contact) · `.claude/docs/GAP-ANALYSIS.md` P3.
+
+## Implementation notes (done 2026-11-23)
+- **Decision D5:** no booking link → the HUD CTA is "Get in touch" → `#contact`; the contact section's primary action is `mailto:` with a translated, pre-filled subject.
+- The form (`EmailForm`/`Input`/`Loading`) is restyled with tokens; behaviour unchanged — re-verified with `/api/email` mocked (empty → error blink + message, success → success blink + reset, server error → server message, all clearing after 5s). **A real submit (SMTP) was not performed** so as not to send email with the owner's credentials.
+- One `<footer>` (fixes P3). The credit line is only "Designed and built by …"; the "world rendered with three.js" line comes with T15. Inputs are 16px (no iOS zoom) and ≥ 44px tall.

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Input from "./Input";
@@ -40,7 +40,7 @@ export default function EmailForm() {
   const [blink, setBlink] = useState<"error" | "success" | undefined>();
   const blinkTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const triggerBlink = (type: "error" | "success") => {
+  const triggerBlink = useCallback((type: "error" | "success") => {
     if (blinkTimeoutRef.current) {
       clearTimeout(blinkTimeoutRef.current);
     }
@@ -53,7 +53,7 @@ export default function EmailForm() {
         setBlink(undefined);
       }, 650);
     }, 0);
-  };
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -100,8 +100,10 @@ export default function EmailForm() {
     resolver: zodResolver(emailFormSchema),
   });
 
-  const onSubmit = useMemo(
-    () =>
+  // `handleSubmit` is called inside the event handler (not during render), so
+  // the callbacks below may reach `blinkTimeoutRef` through `triggerBlink`.
+  const onSubmit = useCallback(
+    (event?: React.BaseSyntheticEvent) =>
       handleSubmit(
         async (values) => {
           setStatus({ type: "idle" });
@@ -144,8 +146,8 @@ export default function EmailForm() {
             message: t("messages.validationError"),
           });
         }
-      ),
-    [handleSubmit, reset, t]
+      )(event),
+    [handleSubmit, reset, t, triggerBlink]
   );
   return (
     <form
@@ -187,7 +189,7 @@ export default function EmailForm() {
       </div>
       <div className={styles.buttons}>
         {!isSubmitting ? (
-          <Button type="submit" text={t("sendButton")} icon={"send"} link="#" />
+          <Button type="submit" variant="solar" text={t("sendButton")} icon="send" />
         ) : (
           <Loading />
         )}

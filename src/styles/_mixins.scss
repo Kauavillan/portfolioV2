@@ -1,0 +1,31 @@
+// Layout mixins. There is a single layout breakpoint: 900px (keep in sync with
+// BREAKPOINT_DESKTOP in src/lib/contract.ts).
+
+$bp-desktop: 900px;
+
+/// Styles for viewports at least `$bp` wide (desktop by default).
+@mixin up($bp: $bp-desktop) {
+  @media (min-width: $bp) {
+    @content;
+  }
+}
+
+/// Styles for viewports narrower than `$bp` (mobile by default).
+@mixin down($bp: $bp-desktop) {
+  @media (max-width: #{$bp - 0.02px}) {
+    @content;
+  }
+}
+
+/// Only when the user allows motion.
+@mixin motion-ok {
+  @media (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}
+
+/// Visible keyboard focus (2px accent outline, 3px offset).
+@mixin focus-ring {
+  outline: 2px solid var(--solar);
+  outline-offset: 3px;
+}

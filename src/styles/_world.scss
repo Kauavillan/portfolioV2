@@ -1,0 +1,117 @@
+@use "sass:list";
+@use "sass:math";
+@use "./mixins" as *;
+
+// The 3D world container and its CSS fallback. The fallback (two radial glows +
+// star dots) is also the placeholder while the engine boots, and the whole
+// background when WebGL is unavailable (`html.no-webgl`).
+
+// Deterministic star dots (no randomness → stable CSS between builds).
+@function star-field($count) {
+  $layers: ();
+  @for $i from 1 through $count {
+    $x: math.percentage(math.div(($i * 37 + 11) % 97, 97));
+    $y: math.percentage(math.div(($i * 53 + 29) % 89, 89));
+    $size: if($i % 5 == 0, 2px, 1px);
+    $alpha: if($i % 3 == 0, 85%, 55%);
+    $layers: list.append(
+      $layers,
+      radial-gradient(
+        #{$size} #{$size} at #{$x} #{$y},
+        color-mix(in srgb, var(--star) #{$alpha}, transparent),
+        transparent
+      ),
+      comma
+    );
+  }
+  @return $layers;
+}
+
+.world {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-world);
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      60% 50% at 78% 26%,
+      color-mix(in srgb, var(--solar) 22%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      55% 55% at 18% 88%,
+      color-mix(in srgb, var(--ion) 18%, transparent),
+      transparent 70%
+    ),
+    var(--ink);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: star-field(46);
+    opacity: 0.8;
+  }
+
+  canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.4s var(--ease);
+  }
+
+  &.is-ready canvas {
+    opacity: 1;
+  }
+
+  // Reduced motion: the world changes station with a quick fade ("cut").
+  &.is-cut canvas {
+    opacity: 0;
+    transition-duration: 0.35s;
+  }
+}
+
+// Keeps the text legible over the scene: horizontal on desktop (text on the
+// left), vertical on mobile (text over the lower part).
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-world) + 1);
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--ink) 90%, transparent) 0%,
+    color-mix(in srgb, var(--ink) 66%, transparent) 38%,
+    transparent 72%
+  );
+
+  @include down {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--ink) 30%, transparent) 0%,
+      color-mix(in srgb, var(--ink) 72%, transparent) 45%,
+      color-mix(in srgb, var(--ink) 92%, transparent) 100%
+    );
+  }
+}
+
+html.no-webgl .scrim {
+  display: none;
+}
+
+// Intro overlay failsafe (the overlay itself is built in T27): even if the
+// intro script never runs, the overlay hides itself after 7s.
+html.is-intro .intro {
+  display: grid;
+  animation: intro-failsafe 0.6s 7s forwards;
+}
+
+@keyframes intro-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

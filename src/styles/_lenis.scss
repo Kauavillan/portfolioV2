@@ -1,0 +1,32 @@
+// Base styles for the smooth-scroll layer (written for this project; Lenis
+// itself adds the `lenis`, `lenis-smooth`, `lenis-stopped` and `lenis-scrolling`
+// classes on <html>). `scroll-behavior: smooth` must NOT be set anywhere: it
+// fights Lenis.
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+html.lenis,
+html.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+html.lenis-stopped {
+  overflow: hidden;
+}
+
+// Inner scrollable areas (case files) scroll natively and don't chain to the page.
+[data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+html.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+// Scroll lock without Lenis (reduced motion): intro, mobile menu and dialogs.
+html.scroll-locked {
+  overflow: hidden;
+}

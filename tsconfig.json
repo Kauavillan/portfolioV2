@@ -49,6 +49,24 @@
       ],
       "@public/*": [
         "./public/*"
+      ],
+      "@world": [
+        "./src/world"
+      ],
+      "@world/*": [
+        "./src/world/*"
+      ],
+      "@audio/*": [
+        "./src/audio/*"
+      ],
+      "@data/*": [
+        "./src/data/*"
+      ],
+      "@controllers/*": [
+        "./src/controllers/*"
+      ],
+      "@lib/*": [
+        "./src/lib/*"
       ]
     }
   },

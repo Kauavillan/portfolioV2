@@ -1,55 +1,67 @@
-@use "./variables" as *;
+@use "./mixins" as *;
 
-$form-base-shadow: 0px 8px 37px 10px rgba(255, 255, 255, 0.1);
+$form-shadow: 0 8px 37px 10px color-mix(in srgb, var(--star) 6%, transparent);
 
-@include shadow-blink-keyframes(
-  error-shadow-blink,
-  $form-base-shadow,
-  0px 8px 37px 10px generate-opacity($error-red, 0.45)
-);
-@include shadow-blink-keyframes(
-  success-shadow-blink,
-  $form-base-shadow,
-  0px 8px 37px 10px generate-opacity($success-green, 0.45)
-);
+@keyframes error-shadow-blink {
+  0%,
+  100%,
+  80% {
+    box-shadow: $form-shadow;
+  }
+  20% {
+    box-shadow: 0 8px 37px 10px color-mix(in srgb, var(--danger) 45%, transparent);
+  }
+}
+
+@keyframes success-shadow-blink {
+  0%,
+  100%,
+  80% {
+    box-shadow: $form-shadow;
+  }
+  20% {
+    box-shadow: 0 8px 37px 10px color-mix(in srgb, var(--success) 45%, transparent);
+  }
+}
 
 .emailForm {
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  width: 60%;
-  margin: 0 auto;
-  border: $gray-dark 2px solid;
-  -webkit-box-shadow: $form-base-shadow;
-  box-shadow: $form-base-shadow;
-  padding: 2rem;
-  @include mobileMediaQuery {
-    width: 100%;
-  }
+  gap: 1.6rem;
+  width: 100%;
+  padding: clamp(1.1rem, 4vw, 1.8rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--glass);
+  box-shadow: $form-shadow;
 }
 
 .inputs {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.2rem;
 }
+
 .buttons {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  min-height: var(--tap);
 }
 
 .errorBlink {
   animation: error-shadow-blink 600ms ease-in-out;
 }
+
 .successBlink {
   animation: success-shadow-blink 600ms ease-in-out;
 }
+
 .errorText {
-  color: $error-red;
-  font-size: 1.2rem;
+  font-size: 0.95rem;
+  color: var(--danger);
 }
+
 .successText {
-  color: $success-green;
-  font-size: 1.2rem;
+  font-size: 0.95rem;
+  color: var(--success);
 }

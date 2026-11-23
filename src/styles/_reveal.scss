@@ -1,0 +1,21 @@
+// Scroll reveal (see RevealController). `html.motion` is added before hydration,
+// only when motion is allowed, so `[data-reveal]` is hidden from the very first
+// paint (no flash). Without JS the class never exists and everything is visible.
+
+html.motion [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+// Failsafe: if the controller never takes over (script failed), show the content
+// after 6s. The controller adds `reveal-ready`, which switches this rule off.
+html.motion:not(.reveal-ready) [data-reveal] {
+  animation: reveal-failsafe 0.01s 6s forwards;
+}
+
+@keyframes reveal-failsafe {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

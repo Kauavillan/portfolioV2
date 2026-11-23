@@ -19,11 +19,11 @@ Swap the visual base (Rajdhani + `$background`) for a **token system as CSS cust
 Styling the HUD, sections or the world (their own tasks). The old site **remains usable** (just with the new base fonts/colors) until each section is migrated; do not leave any screen broken between tasks.
 
 ## Acceptance criteria
-- [ ] The 3 fonts load without perceptible layout shift (`next/font`), and `--font-*` exist on `<html>`.
-- [ ] All the tokens from §6 exist as CSS custom properties; no new component uses a loose hex.
-- [ ] With `prefers-reduced-motion: reduce` transitions stay at ≤ .2 s.
-- [ ] Keyboard focus is visible on links/buttons; contrast of `--muted` over `--ink` ≥ 4.5:1 (verify and adjust the alpha if needed).
-- [ ] `npm run build` passes; old site still usable.
+- [x] The 3 fonts load without perceptible layout shift (`next/font`), and `--font-*` exist on `<html>`.
+- [x] All the tokens from §6 exist as CSS custom properties; no new component uses a loose hex.
+- [x] With `prefers-reduced-motion: reduce` transitions stay at ≤ .2 s.
+- [x] Keyboard focus is visible on links/buttons; contrast of `--muted` over `--ink` ≥ 4.5:1 (verify and adjust the alpha if needed).
+- [x] `npm run build` passes; old site still usable.
 
 ## Technical notes
 - Token values live in **only one** file (`src/styles/_tokens.scss` imported in `globals.scss`).
@@ -31,3 +31,12 @@ Styling the HUD, sections or the world (their own tasks). The old site **remains
 
 ## Reading
 `.claude/docs/REFERENCE-ANALYSIS.md` §6 · `.claude/docs/CONTENT.md` D3.
+
+## Implementation notes (done 2026-11-23)
+- **Decision D3 taken (own palette):** accent `--solar: #ff7a59` (coral) and `--ion: #7da2ff` (periwinkle) — deliberately different from the reference; neutrals `--ink*` / `--star` are generic dark/light. Easy to change: values live **only** in `src/styles/_tokens.scss`.
+- Contrast measured (WCAG): `--star` 16.9:1, `--muted` (α .68) 7.9:1, `--faint` 5.4:1, `--solar`/`--ion` on `--ink` 7.8/8.1:1. `--faint` is α **.55**, not .45, because .45 only reached 3.9:1.
+- Extra tokens beyond the spec: `--danger`, `--success`, `--on-solar`, `--tap`/`--tap-quiet`, `--hud-bar`, `--z-*` layers, `--ff-*` font stacks.
+- Fonts: Unbounded / Manrope / JetBrains Mono through `next/font/google` (variable, `swap`, `latin` + `latin-ext`), exposed as `--font-display/body/mono` on `<html>`. Rajdhani removed. Layout shift was **not** measured (T34).
+- Global partials: `_tokens`, `_mixins` (`up()` / `down()` at 900px), `_base`, `_world`, `_lenis`, `_reveal`.
+- `Button` was rewritten on the global `.btn` classes (it previously had its own module). `Button.module.scss` is gone.
+- `_variables.scss` is now used only by the orphaned `Home.module.scss` (both can go in T36).

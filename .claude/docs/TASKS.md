@@ -26,23 +26,23 @@ Each task has its own file in [`tasks/`](tasks/). Sizes are **relative estimates
 
 ## Phase 0 — Foundation (M1)
 
-- [ ] [T01 — Baseline: lint, `lang` and dependencies in sync](tasks/T01-baseline-lint-and-lang.md) · S · —
-- [ ] [T02 — Dependencies, aliases and folder structure](tasks/T02-dependencies-and-structure.md) · S · T01
-- [ ] [T03 — Design tokens, fonts and global styles](tasks/T03-design-tokens-fonts-global-styles.md) · M · T02
-- [ ] [T04 — Content model and i18n](tasks/T04-content-model-and-i18n.md) ⚑ · M · T02
+- [x] [T01 — Baseline: lint, `lang` and dependencies in sync](tasks/T01-baseline-lint-and-lang.md) · S · —
+- [x] [T02 — Dependencies, aliases and folder structure](tasks/T02-dependencies-and-structure.md) · S · T01
+- [x] [T03 — Design tokens, fonts and global styles](tasks/T03-design-tokens-fonts-global-styles.md) · M · T02
+- [x] [T04 — Content model and i18n](tasks/T04-content-model-and-i18n.md) ⚑ · M · T02
 
 ## Phase 1 — Shell and scroll (M1)
 
-- [ ] [T05 — Root layout and shell slots](tasks/T05-root-layout-and-shell-slots.md) · M · T03
-- [ ] [T06 — ScrollProvider (Lenis + GSAP + ScrollTrigger)](tasks/T06-scroll-provider-lenis-gsap.md) · M · T02, T05
-- [ ] [T07 — HUD: top bar, nav rail and mobile menu](tasks/T07-hud-nav-rail-and-mobile-menu.md) · M · T04, T05, T06
-- [ ] [T08 — Locator and active section](tasks/T08-locator-and-active-section.md) · S · T07
-- [ ] [T09 — Reveal system](tasks/T09-reveal-system.md) · S · T06
-- [ ] [T10 — Home and About sections](tasks/T10-section-home-about.md) ⚑ · M · T03, T04, T09
-- [ ] [T11 — Work section and archive](tasks/T11-section-work-and-archive.md) ⚑ · M · T03, T04, T09
-- [ ] [T12 — Skills and Journey sections](tasks/T12-section-skills-and-journey.md) ⚑ · M · T03, T04, T09
-- [ ] [T13 — Contact section and Footer](tasks/T13-section-contact-and-footer.md) · M · T03, T04, T09
-- [ ] [T14 — Case files (`<dialog>`)](tasks/T14-case-file-dialog.md) ⚑ · M · T06, T11
+- [x] [T05 — Root layout and shell slots](tasks/T05-root-layout-and-shell-slots.md) · M · T03
+- [x] [T06 — ScrollProvider (Lenis + GSAP + ScrollTrigger)](tasks/T06-scroll-provider-lenis-gsap.md) · M · T02, T05
+- [x] [T07 — HUD: top bar, nav rail and mobile menu](tasks/T07-hud-nav-rail-and-mobile-menu.md) · M · T04, T05, T06
+- [x] [T08 — Locator and active section](tasks/T08-locator-and-active-section.md) · S · T07
+- [x] [T09 — Reveal system](tasks/T09-reveal-system.md) · S · T06
+- [x] [T10 — Home and About sections](tasks/T10-section-home-about.md) ⚑ · M · T03, T04, T09
+- [x] [T11 — Work section and archive](tasks/T11-section-work-and-archive.md) ⚑ · M · T03, T04, T09
+- [x] [T12 — Skills and Journey sections](tasks/T12-section-skills-and-journey.md) ⚑ · M · T03, T04, T09
+- [x] [T13 — Contact section and Footer](tasks/T13-section-contact-and-footer.md) · M · T03, T04, T09
+- [x] [T14 — Case files (`<dialog>`)](tasks/T14-case-file-dialog.md) ⚑ · M · T06, T11
 
 ## Phase 2 — 3D world (M2 and M3)
 

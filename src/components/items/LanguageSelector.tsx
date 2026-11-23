@@ -1,75 +1,113 @@
-import { routing } from "@/i18n/routing";
-import { useLocale } from "next-intl";
-import styles from "@styles/LanguageSelector.module.scss";
-import { useRouter, usePathname } from "@/i18n/navigation";
-import { useEffect, useState, useRef } from "react";
+"use client";
 
-export default function LanguageSelector({
-  onOpenChange,
-}: {
-  onOpenChange?: (isOpen: boolean) => void;
-}) {
+import { useEffect, useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { routing } from "@/i18n/routing";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import styles from "@styles/LanguageSelector.module.scss";
+
+/** Each language is named in itself (and announced with its own `lang`). */
+const NATIVE_NAMES: Record<string, string> = { en: "English", pt: "Português" };
+
+/**
+ * next-intl always navigates to a PREFIXED url when the locale changes
+ * (`/en#work`); for the default locale the proxy then redirects `/en` → `/`,
+ * and that redirect drops the `#hash`. We stash it in sessionStorage (it must
+ * survive the remount a locale change causes) and put it back afterwards.
+ * Storage can throw (private mode, blocked): then the hash is simply not kept.
+ */
+const HASH_KEY = "kvn:lang-switch-hash";
+
+function stashHash(hash: string) {
+  try {
+    sessionStorage.setItem(HASH_KEY, hash);
+  } catch {
+    /* storage unavailable: the hash is not restored */
+  }
+}
+
+function takeStashedHash(): string {
+  try {
+    const hash = sessionStorage.getItem(HASH_KEY) ?? "";
+    sessionStorage.removeItem(HASH_KEY);
+    return hash;
+  } catch {
+    return "";
+  }
+}
+
+/**
+ * Pill with the active language first; hovering, focusing or pressing the
+ * active one reveals the others. Switching keeps the route AND the `#hash`,
+ * and does not jump the scroll position.
+ */
+export default function LanguageSelector() {
+  const t = useTranslations("Hud");
   const [isOpen, setIsOpen] = useState(false);
-  const navRef = useRef<HTMLElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const currentLocale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-  const availableLocales = routing.locales;
 
+  // Close when clicking/tapping outside.
   useEffect(() => {
-    onOpenChange?.(isOpen);
-  }, [isOpen, onOpenChange]);
-
-  // Detect clicks outside the component
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+    if (!isOpen) return;
+    const onPointerDown = (event: PointerEvent) => {
+      if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
-
-    // Add event listener only if isOpen is true
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    // Remove event listener when component unmounts or isOpen changes
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [isOpen]);
 
-  const switchLocale = (newLocale: string) => {
-    router.replace(pathname, { locale: newLocale });
-  };
-  function handlePress(locale: string) {
+  useEffect(() => {
+    const hash = takeStashedHash();
+    if (hash && window.location.hash !== hash) {
+      const { pathname: path, search } = window.location;
+      history.replaceState(null, "", `${path}${search}${hash}`);
+    }
+  }, [currentLocale]);
+
+  const handlePress = (locale: string) => {
     if (locale === currentLocale) {
-      setIsOpen(!isOpen);
+      setIsOpen((open) => !open);
       return;
     }
-    switchLocale(locale);
-  }
-  // Reorganize the locales to set the active one first
-  const sortedLocales = [
+    setIsOpen(false);
+    stashHash(window.location.hash);
+    router.replace(`${pathname}${window.location.hash}`, {
+      locale,
+      scroll: false,
+    });
+  };
+
+  // Active locale first.
+  const locales = [
     currentLocale,
-    ...availableLocales.filter((locale) => locale !== currentLocale),
+    ...routing.locales.filter((locale) => locale !== currentLocale),
   ];
+
   return (
-    <nav
-      ref={navRef}
+    <div
+      ref={rootRef}
+      role="group"
+      aria-label={t("language.label")}
       className={`${styles.languageSelector} ${isOpen ? styles.open : ""}`}
     >
-      {sortedLocales.map((locale) => (
+      {locales.map((locale) => (
         <button
           key={locale}
+          type="button"
+          lang={locale}
+          aria-label={NATIVE_NAMES[locale] ?? locale}
+          aria-current={locale === currentLocale ? "true" : undefined}
+          className={locale === currentLocale ? styles.activeLocale : styles.locale}
           onClick={() => handlePress(locale)}
-          className={
-            currentLocale === locale ? styles.activeLocale : styles.locale
-          }
         >
           {locale.toUpperCase()}
         </button>
       ))}
-    </nav>
+    </div>
   );
 }

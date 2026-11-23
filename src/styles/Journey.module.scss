@@ -1,0 +1,72 @@
+@use "./mixins" as *;
+
+$marker: 11px;
+$gutter-line: 28px;
+
+.timeline {
+  position: relative;
+  margin-top: 2.4rem;
+
+  // The vertical line.
+  &::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    left: calc(#{$marker} / 2);
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      var(--solar),
+      color-mix(in srgb, var(--ion) 60%, transparent) 60%,
+      transparent
+    );
+  }
+}
+
+.milestone {
+  position: relative;
+  padding: 0 0 2rem $gutter-line;
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+
+  // One marker per milestone.
+  &::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 0;
+    width: $marker;
+    height: $marker;
+    border: 2px solid var(--solar);
+    border-radius: 50%;
+    background: var(--ink);
+  }
+
+  time {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-family: var(--ff-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--solar);
+  }
+
+  h3 {
+    margin-bottom: 0.3rem;
+    font-family: var(--ff-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    max-width: 52ch;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+}

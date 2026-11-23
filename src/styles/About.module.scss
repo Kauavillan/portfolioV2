@@ -1,55 +1,48 @@
-@use "./variables" as *;
-.about {
-  display: flex;
-  justify-content: space-between;
+@use "./mixins" as *;
+
+.person {
+  margin: 1.6rem 0 1.4rem;
+}
+
+.avatar {
+  width: 88px;
+  height: 88px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.servicesLabel {
+  margin-top: 2.2rem;
+  margin-bottom: 0.9rem;
+}
+
+.services {
+  display: grid;
+  gap: 12px;
+
+  @include up {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.service {
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--glass);
+
+  h4 {
+    margin-bottom: 0.4rem;
+    font-family: var(--ff-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
 
   p {
-    width: 80%;
-  }
-
-  @include mobileMediaQuery {
-    flex-direction: column;
-
-    img {
-      width: 90%;
-      height: auto;
-      margin: 20px auto;
-    }
-
-    p {
-      text-align: justify;
-      margin: 40px auto;
-      width: 100%;
-      line-height: 30px;
-    }
-  }
-}
-.socialLinks {
-  display: flex;
-  gap: 30px;
-
-  svg {
-    transition: color 0.3s ease-in-out;
-    color: rgba(255, 255, 255, 0.7);
-    &:hover {
-      color: $white-letter;
-    }
-  }
-  @include mobileMediaQuery {
-    justify-content: center;
-    margin-top: 20px;
-  }
-}
-
-.profileAvatar {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  img {
-    border-radius: 50%;
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--muted);
   }
 }

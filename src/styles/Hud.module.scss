@@ -1,0 +1,91 @@
+@use "./mixins" as *;
+
+.fade {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 112px;
+  z-index: var(--z-hud-fade);
+  pointer-events: none;
+}
+
+.fadeTop {
+  top: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--ink) 86%, transparent),
+    transparent
+  );
+}
+
+.fadeBottom {
+  bottom: 0;
+  background: linear-gradient(
+    0deg,
+    color-mix(in srgb, var(--ink) 86%, transparent),
+    transparent
+  );
+}
+
+.top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-hud);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: var(--hud-top) var(--gutter) 0;
+  pointer-events: none;
+
+  > * {
+    pointer-events: auto;
+  }
+}
+
+// The top bar must stay above the mobile overlay so Menu/Close remains reachable.
+:global(html.nav-open) .top {
+  z-index: var(--z-hud-open);
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  font-family: var(--ff-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cta {
+  @include down {
+    display: none;
+  }
+}
+
+.menu {
+  min-height: var(--tap);
+  padding: 0 1.15rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+
+  @include up {
+    display: none;
+  }
+}

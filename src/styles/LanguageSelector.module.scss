@@ -1,83 +1,85 @@
-@use "./variables" as *;
+@use "./mixins" as *;
 
 .languageSelector {
-  position: relative;
-  border: none !important;
-  border-radius: $border-radius-full;
-  background-color: generate-opacity($background, 0.8);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
   display: flex;
-  overflow: hidden;
   align-items: center;
-  gap: 0;
   flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--glass);
+  backdrop-filter: blur(10px);
 
   .locale,
   .activeLocale {
-    background: none;
-    border: none;
-    border-radius: $border-radius-full;
-    padding: 8px;
-    color: $letter;
-    cursor: pointer;
-    font-size: 0.8rem;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    flex-shrink: 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: var(--tap-quiet);
+    min-height: var(--tap-quiet);
+    padding: 0 12px;
+    border-radius: var(--radius-pill);
+    color: var(--muted);
+    font-family: var(--ff-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    transition:
+      background-color 0.25s var(--ease),
+      color 0.25s var(--ease),
+      max-width 0.3s var(--ease),
+      padding 0.3s var(--ease),
+      opacity 0.3s var(--ease);
 
+    // The other languages are tucked away until the pill opens.
     &:not(:first-child) {
-      opacity: 0;
-      transform: translateX(-10px);
-      transition: all 0.3s ease;
+      min-width: 0; // otherwise the 40px minimum keeps the slot open
       max-width: 0;
       padding: 0;
+      opacity: 0;
       pointer-events: none;
     }
 
     &:hover {
-      background-color: generate-opacity($white-letter, 0.1);
+      background: color-mix(in srgb, var(--star) 10%, transparent);
+      color: var(--star);
     }
-    // Mantém o tamanho consistente também no mobile.
   }
 
   .activeLocale {
-    background-color: $white-letter;
-    color: $dark-letter;
+    background: var(--star);
+    color: var(--ink);
 
     &:hover {
-      background-color: $white-letter;
+      background: var(--star);
+      color: var(--ink);
       opacity: 0.9;
     }
   }
 
-  &:hover {
-    @include biggerThanMobileMediaQuery {
-      gap: 1rem;
-      .locale:not(:first-child),
-      .activeLocale:not(:first-child) {
-        opacity: 1;
-        transform: translateX(0);
-        max-width: 4rem;
-        padding: 8px;
-        pointer-events: auto;
-      }
+  &.open,
+  &:focus-within {
+    .locale:not(:first-child),
+    .activeLocale:not(:first-child) {
+      min-width: var(--tap-quiet);
+      max-width: 5rem;
+      padding: 0 12px;
+      opacity: 1;
+      pointer-events: auto;
     }
   }
 
-  &.open {
-    gap: 1rem;
-    .locale:not(:first-child),
-    .activeLocale:not(:first-child) {
-      opacity: 1;
-      transform: translateX(0);
-      max-width: 4rem;
-      padding: 8px;
-      pointer-events: auto;
+  @media (hover: hover) {
+    &:hover {
+      .locale:not(:first-child),
+      .activeLocale:not(:first-child) {
+        min-width: var(--tap-quiet);
+        max-width: 5rem;
+        padding: 0 12px;
+        opacity: 1;
+        pointer-events: auto;
+      }
     }
   }
 }
