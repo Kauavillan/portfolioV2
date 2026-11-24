@@ -1,0 +1,206 @@
+@use "./mixins" as *;
+
+// Bottom-right sound control (T29). Fixed, above the scene and the bottom fade;
+// below the intro overlay and the mobile menu.
+.root {
+  position: fixed;
+  right: var(--gutter);
+  bottom: var(--hud-bottom);
+  z-index: var(--z-hud);
+  display: flex;
+  // The panel comes after the buttons in the DOM (keyboard order) and opens above them.
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  gap: 10px;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle,
+.settings {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+}
+
+.toggle {
+  gap: 0.7rem;
+}
+
+.settings {
+  width: var(--tap-quiet);
+  padding: 0;
+}
+
+.label {
+  // Names the control; on a phone only the bars + state remain visible.
+  @include down {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+.state {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+// ── Animated bars ─────────────────────────────────────────────────────────
+.bars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 14px;
+
+  i {
+    display: block;
+    width: 2px;
+    height: 100%;
+    border-radius: 2px;
+    background: currentColor;
+    transform: scaleY(0.25);
+    transform-origin: center;
+  }
+}
+
+.toggle[data-on="true"] {
+  border-color: var(--solar);
+
+  .bars {
+    color: var(--solar);
+  }
+
+  .state {
+    color: var(--star);
+  }
+
+  .bars i {
+    animation: bar 1.1s ease-in-out infinite alternate;
+
+    &:nth-child(2) {
+      animation-duration: 0.8s;
+      animation-delay: -0.3s;
+    }
+    &:nth-child(3) {
+      animation-duration: 1.3s;
+      animation-delay: -0.6s;
+    }
+    &:nth-child(4) {
+      animation-duration: 0.95s;
+      animation-delay: -0.15s;
+    }
+  }
+}
+
+@keyframes bar {
+  from {
+    transform: scaleY(0.3);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+// Reduced motion: no movement. "On" is still told apart by different static heights,
+// the accent color and the state text.
+@media (prefers-reduced-motion: reduce) {
+  .toggle[data-on="true"] .bars i {
+    animation: none;
+
+    &:nth-child(1) {
+      transform: scaleY(0.55);
+    }
+    &:nth-child(2) {
+      transform: scaleY(1);
+    }
+    &:nth-child(3) {
+      transform: scaleY(0.7);
+    }
+    &:nth-child(4) {
+      transform: scaleY(0.4);
+    }
+  }
+}
+
+// ── Panel ─────────────────────────────────────────────────────────────────
+.panel {
+  display: grid;
+  gap: 4px;
+  width: min(280px, calc(100vw - 2 * var(--gutter)));
+  padding: 14px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.volume {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+
+  input {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    min-height: var(--tap-quiet);
+    accent-color: var(--solar);
+    cursor: pointer;
+  }
+
+  output {
+    font-family: var(--ff-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--muted);
+  }
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--tap-quiet);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  input {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--solar);
+    cursor: pointer;
+  }
+}
+
+.note {
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--muted);
+}

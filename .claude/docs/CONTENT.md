@@ -150,6 +150,10 @@ Run `npm run check:i18n` for the live list. Today (same keys in en **and** pt):
 - Only Magipass's object shows its image (512 px). The other screenshots are 1863–2926 px wide, and the engine refuses textures above 1024 px: once T31 ships optimized variants, set `wantsTexture` on that project's artifact kind to use them.
 - Hovering a project object only changes the cursor and scales the object; clicking or tapping it opens the case file. Keyboard users keep the "Open case file" buttons.
 
+### Decisions taken in M4 (intro and sound)
+- **The sound is mine, please listen to it.** Everything is generated live (no files) in a G-major pentatonic: a low drone (G1/D2/G2), one hum per sector (an interval that climbs from home to contact), a chime per station that climbs the scale as you scroll down, and soft ticks for hover / opening / closing a case. It is **off by default**; turn it on with the control at the bottom-right and try it with headphones, between sectors. Pitches and levels are constants at the top of `src/audio/material.ts` and `src/audio/graph.ts` — easy to retune.
+- The intro line is `Kauã Villa Nova · Portfolio` / `Portfólio` (`Intro.line`); skip button, loading status and every sound-panel label are in both languages (`Intro.*`, `Sound.*`) — please read them.
+
 ### Also needed (not placeholders — simply absent)
 - **Journey:** only 5 milestones exist (the ones the git history can date). Add the rest in `src/data/milestones.ts` + `Journey.milestones.<id>` (en/pt): first projects (Frontend Mentor), NeonNest, Wegia internship, Magipass, QRypt, the degree. `MILESTONES.length` also sizes the 3D helix.
 - **Skills:** confirm Stripe / RevenueCat (flip to `shipped` and add to Magipass's stack if they ship there).

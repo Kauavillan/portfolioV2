@@ -1,0 +1,70 @@
+@use "./mixins" as *;
+
+// Opening overlay (T27). Hidden by default; `html.is-intro` (set before first
+// paint by the pre-hydration script) shows it — see `_world.scss`, which also
+// holds the CSS failsafe that hides it after 7s if the script never runs.
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-intro);
+  display: none;
+  place-content: center;
+  justify-items: center;
+  gap: 1.1rem;
+  padding: var(--hud-top) var(--gutter) var(--hud-bottom);
+  background: var(--ink);
+  text-align: center;
+}
+
+// Pure CSS: it plays from the very first paint, before any script runs, so
+// the first thing on screen is text (never the canvas).
+.line {
+  max-width: 100%;
+  font-family: var(--ff-mono);
+  font-size: clamp(0.78rem, 2.4vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--star);
+  animation: intro-line 1.4s var(--ease-out-expo) both;
+}
+
+@keyframes intro-line {
+  from {
+    opacity: 0;
+    letter-spacing: 0.6em;
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 0.14em;
+  }
+}
+
+// Always takes its space (no layout shift when the text appears).
+.status {
+  min-height: 1.2em;
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.skip {
+  position: absolute;
+  bottom: calc(var(--hud-bottom) + 8px);
+  // Centered with auto margins, not a transform: `.btn:active` already moves the button.
+  right: 0;
+  left: 0;
+  width: max-content;
+  margin-inline: auto;
+  background: var(--glass);
+
+  // On a phone the sound control sits bottom-right: keep clear of it.
+  @include down {
+    right: auto;
+    left: var(--gutter);
+    margin-inline: 0;
+  }
+}

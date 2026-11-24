@@ -102,9 +102,9 @@ html.no-webgl .scrim {
   display: none;
 }
 
-// Intro overlay failsafe (the overlay itself is built in T27): even if the
-// intro script never runs, the overlay hides itself after 7s.
-html.is-intro .intro {
+// Intro overlay (Intro.module.scss owns its look): `html.is-intro` shows it, and
+// even if the intro script never runs it hides itself after 7s.
+html.is-intro [data-intro] {
   display: grid;
   animation: intro-failsafe 0.6s 7s forwards;
 }

@@ -22,6 +22,8 @@ export const ATTR = {
 
   // Home / intro
   heroCh: "data-hero-ch",
+  /** Hero element the intro reveals after the name; the value `last` reveals it last (the CTAs). */
+  heroItem: "data-hero-item",
   intro: "data-intro",
   introLine: "data-intro-line",
   introStatus: "data-intro-status",

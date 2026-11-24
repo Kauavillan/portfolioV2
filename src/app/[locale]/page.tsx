@@ -10,6 +10,7 @@ import Footer from "@components/shell/Footer";
 import Hud from "@components/shell/Hud";
 import Locator from "@components/shell/Locator";
 import NavRail from "@components/shell/NavRail";
+import SoundControl from "@components/sound/SoundControl";
 
 export default async function Home({
   params,
@@ -24,6 +25,7 @@ export default async function Home({
       <Hud />
       <NavRail />
       <Locator />
+      <SoundControl />
       <main id="main" tabIndex={-1}>
         <Hero />
         <About />

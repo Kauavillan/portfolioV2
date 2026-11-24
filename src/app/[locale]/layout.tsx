@@ -7,9 +7,11 @@ import { routing } from "@/i18n/routing";
 import { PRE_HYDRATION_SCRIPT } from "@lib/pre-hydration";
 import { ScreenSizeProvider } from "@/providers";
 import AnchorController from "@controllers/AnchorController";
+import Intro from "@controllers/Intro";
 import RevealController from "@controllers/RevealController";
 import WorldCanvas from "@controllers/WorldCanvas";
 import ScrollProvider from "@controllers/ScrollProvider";
+import SoundProvider from "@controllers/SoundProvider";
 import SkipLink from "@components/shell/SkipLink";
 import WorldSlot from "@components/shell/WorldSlot";
 import "@/styles/globals.scss";
@@ -69,12 +71,15 @@ export default async function RootLayout({
         <ScreenSizeProvider>
           <NextIntlClientProvider>
             <ScrollProvider>
-              <SkipLink />
-              <WorldSlot />
-              {children}
-              <AnchorController />
-              <RevealController />
-              <WorldCanvas />
+              <SoundProvider>
+                <SkipLink />
+                <WorldSlot />
+                <Intro />
+                {children}
+                <AnchorController />
+                <RevealController />
+                <WorldCanvas />
+              </SoundProvider>
             </ScrollProvider>
           </NextIntlClientProvider>
         </ScreenSizeProvider>

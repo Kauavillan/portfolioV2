@@ -99,10 +99,15 @@
   }
 }
 
+// Bottom-centre: the bottom-left is the locator and the bottom-right the sound control.
+// Centred with auto margins (not a transform): the intro animates this element's transform.
 .hint {
   position: absolute;
-  right: var(--gutter);
+  right: 0;
   bottom: var(--hud-bottom);
+  left: 0;
+  width: max-content;
+  margin-inline: auto;
   display: flex;
   align-items: center;
   gap: 14px;

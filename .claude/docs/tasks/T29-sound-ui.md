@@ -19,12 +19,12 @@ Sound control in the bottom-right corner: on/off, settings panel and accessible 
 Engine (T28).
 
 ## Acceptance criteria
-- [ ] Keyboard: Tab reaches both buttons and the panel; Enter/Space toggle; Esc closes.
-- [ ] Screen reader announces the state of the toggle and of the panel.
-- [ ] Changing volume/switches updates the audio immediately and persists on reload.
-- [ ] Mobile 390 px: panel fits on screen, targets ≥ 40 px; does not overlap critical content.
-- [ ] Animated bars respect `prefers-reduced-motion` (they stay static).
-- [ ] Without `AudioContext`: button disabled and no console error.
+- [x] Keyboard: Tab reaches both buttons and the panel; Enter/Space toggle; Esc closes. *(Esc returns focus to the settings button)*
+- [ ] Screen reader announces the state of the toggle and of the panel. *(`aria-pressed`, `aria-expanded` + `aria-controls`, `role=group` + label are all in place and checked in the DOM; an actual screen-reader pass is T33)*
+- [x] Changing volume/switches updates the audio immediately and persists on reload.
+- [x] Mobile 390 px: panel fits on screen, targets ≥ 40 px; does not overlap critical content. *(panel 280 px inside the gutters; toggle 87×40, settings 40×40; the label collapses to bars + state on a phone)*
+- [x] Animated bars respect `prefers-reduced-motion` (they stay static).
+- [x] Without `AudioContext`: button disabled and no console error.
 
 ## Technical notes
 - Use `aria-pressed` on the toggle (not `aria-checked`) and labels that do not rely on color alone.

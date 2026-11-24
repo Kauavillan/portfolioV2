@@ -8,7 +8,9 @@ import { useUiStore } from "@stores/useUiStore";
 import type { WorldHandle } from "@world/types";
 import { openCaseFile } from "./case-actions";
 import { useScroll } from "./ScrollProvider";
+import { useSound } from "./SoundProvider";
 import { bindSkillBridge } from "./skill-bridge";
+import { setWorldHandle } from "./world-bridge";
 
 /**
  * Kill switch: build with `NEXT_PUBLIC_DISABLE_WORLD=1` to turn the 3D off in
@@ -56,6 +58,7 @@ function hasWebGL(): boolean {
  */
 export default function WorldCanvas() {
   const { onLayout } = useScroll();
+  const sound = useSound();
   const handleRef = useRef<WorldHandle | null>(null);
 
   // Layout changed (fonts, resize, body height): rebuild the camera anchors.
@@ -102,9 +105,12 @@ export default function WorldCanvas() {
               if (ui.caseOpen || ui.navOpen || ui.introActive) return;
               openCaseFile(id, document.querySelector<HTMLElement>(sel(ATTR.openCase, id)));
             },
-            onHover: () => {}, // sound (T28)
-            onFrame: () => {},
-            onStation: () => {},
+            // Sound (T28): the listener follows the camera, stations chime, hovers tick
+            // from the hovered object's position. All are no-ops while sound is off.
+            onHover: (id) =>
+              sound.hover(handleRef.current?.projectEmitters.find((e) => e.id === id)?.position),
+            onFrame: (camera) => sound.updateListener(camera),
+            onStation: ({ station, index }) => sound.arrive(station.target, index),
           });
           if (disposed) {
             created.dispose(); // unmounted during the await (StrictMode)
@@ -112,6 +118,8 @@ export default function WorldCanvas() {
           }
           handle = created;
           handleRef.current = created;
+          setWorldHandle(created); // before "ready": the intro reads it on that status
+          sound.setEmitters(created.emitters);
           unbindSkills = bindSkillBridge(created.lightSkill);
           html.classList.remove(STATE.noWebgl);
           setWorldStatus("ready");
@@ -131,10 +139,12 @@ export default function WorldCanvas() {
         unbindSkills?.();
         handle?.dispose();
         handleRef.current = null;
+        setWorldHandle(null);
+        sound.setEmitters([]);
         setWorldStatus("idle");
       };
     });
-  }, []);
+  }, [sound]);
 
   return null;
 }

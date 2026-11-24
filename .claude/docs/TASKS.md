@@ -61,9 +61,9 @@ Each task has its own file in [`tasks/`](tasks/). Sizes are **relative estimates
 
 ## Phase 3 — Intro and sound (M4)
 
-- [ ] [T27 — Intro sequence](tasks/T27-intro-sequence.md) · L · T06, T10, T15, T18
-- [ ] [T28 — Procedural audio engine](tasks/T28-sound-engine.md) · L · T06
-- [ ] [T29 — Sound UI](tasks/T29-sound-ui.md) · M · T28, T05
+- [x] [T27 — Intro sequence](tasks/T27-intro-sequence.md) · L · T06, T10, T15, T18
+- [x] [T28 — Procedural audio engine](tasks/T28-sound-engine.md) · L · T06
+- [x] [T29 — Sound UI](tasks/T29-sound-ui.md) · M · T28, T05
 
 ## Phase 4 — Release (M5)
 

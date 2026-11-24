@@ -20,14 +20,14 @@
 Panel UI (T29).
 
 ## Acceptance criteria
-- [ ] Nothing plays or creates an `AudioContext` before the user turns sound on.
-- [ ] Turning on: ambience fades in over ≈ 1.6 s; turning off: it vanishes in < .3 s and the context suspends.
-- [ ] When scrolling between sectors the active sector's emitter sounds closer / left-right consistent with the camera (test with headphones).
-- [ ] Hover/open/close/arrive sound; hover respects the throttle.
-- [ ] Prefs persist; without localStorage (private mode) nothing breaks.
-- [ ] No overload/clipping (compressor) at 100% volume; no audible clicks on the ramps.
-- [ ] Cleanup: context `close()` on unmount, no orphan nodes in StrictMode.
-- [ ] Pure part (note table, throttle, prefs merge) testable without an `AudioContext`.
+- [x] Nothing plays or creates an `AudioContext` before the user turns sound on. *(0 contexts, 0 oscillators after load, scroll and pointer movement; the graph chunk is not even requested)*
+- [x] Turning on: ambience fades in over ≈ 1.6 s; turning off: it vanishes in < .3 s and the context suspends. *(plateau at ≈ 1.7 s; silent at 330 ms, `suspended`)*
+- [ ] When scrolling between sectors the active sector's emitter sounds closer / left-right consistent with the camera (test with headphones). *(verified: the listener follows the camera — z 60 → −398 → −928 across home/work/contact; **the listening test is the owner's**)*
+- [x] Hover/open/close/arrive sound; hover respects the throttle. *(4 hover-enters in 0.3 s → 1 tick; 550 ms later → 1 more; arrive = 3-partial chord, open/close 1 blip each; interface-off silences them)*
+- [x] Prefs persist; without localStorage (private mode) nothing breaks. *(a saved "on" waits for the first gesture; `localStorage` throwing → still plays)*
+- [x] No overload/clipping (compressor) at 100% volume; no audible clicks on the ramps. *(worst peak 0.29 at 100 %; every ramp is pinned to the current value first. "Audible" clicks want a listen)*
+- [x] Cleanup: context `close()` on unmount, no orphan nodes in StrictMode. *(a language switch remounts: the old context reads `closed`; in `next dev` the simulated unmount closes the extra one)*
+- [x] Pure part (note table, throttle, prefs merge) testable without an `AudioContext`. *(`pure.ts`, `material.ts`, `prefs.ts`, `lib/intro.ts` — exercised in plain Node; becomes a Vitest file in T35)*
 
 ## Technical notes
 - Safari requires a gesture for `resume()`; handle the Promise.

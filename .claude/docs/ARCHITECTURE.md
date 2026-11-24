@@ -65,7 +65,7 @@ New aliases in `tsconfig.json` (T02): `@world/*`, `@audio/*`, `@data/*`, `@contr
     <SoundProvider>              audio engine + prefs                             (T28)
      <SkipLink/>                                                                  (T05)
      <WorldCanvas/>              div[data-world] + .scrim; lazy world import()    (T15)
-     <Intro/>                    overlay + timeline                               (T27)
+     <Intro/>                    overlay + timeline (before the page: first in Tab order) (T27)
      <Hud/> <NavRail/> <Locator/> <SoundControl/>                                 (T07,T08,T29)
      <main id="main">  Hero · About · Work · Skills · Journey · Contact  (server) (T10–T13)
      <Footer/>
@@ -85,6 +85,7 @@ Centralized in `src/lib/contract.ts` (constants) to avoid drift between the mark
 | `data-station="home\|about\|work\|project:<id>\|skills\|journey\|contact"` | `<section>`/`<article>` | ties the element to a world station | T18 |
 | `data-reveal` / `data-reveal-scope` | any / container | item revealed on scroll / groups into 1 ScrollTrigger | T09 |
 | `data-hero-ch` | letter `<span>` | letter animated by the intro | T27 |
+| `data-hero-item` (`last` for the CTAs) | hero element | revealed by the intro after the name | T27 |
 | `data-nav` · `data-menu-toggle` | `<a>` · `<button>` | menu links and button | T07 |
 | `data-open-case="<id>"` · `data-case="<id>"` · `data-case-close` | button · `<dialog>` · button | case files | T14 |
 | `data-skill="<group>:<name>"` · `data-evidence="shipped\|stated"` · `data-skill-group="<group>"` | chip · chip · container | hover lights up the 3D star | T12/T22 |
@@ -187,6 +188,7 @@ Every scene implements `dispose()`; `util/dispose.ts` walks `scene.traverse` and
 `engine.ts` exposes the API used by the UI/world: `state`, `subscribe`, `setEnabled`, `setVolume`, `setCategory('ambient'|'interaction', on)`, `setEmitters(list)`, `updateListener(camera)`, `arrive(target, index)`, `open()`, `close()`, `hover()`. Graph and constants in `REFERENCE-ANALYSIS.md` F26–F29. Rules:
 
 - `AudioContext` is only created after a user gesture **and** `enabled`.
+- **Split (M4):** `engine.ts` (state, prefs, gesture/visibility handling, the `AudioContext` + master gain + compressor) is in the initial bundle; `graph.ts` (buses, reverb, drone/air, emitters, UI sounds) is a dynamic `import()` fired when the context is first created. The context is created synchronously inside the gesture; the graph attaches to it when its chunk arrives.
 - Preferences in `localStorage` under the project's own key (e.g. `kvn:sound`), always inside `try/catch`.
 - `suspend()` when turned off; **proposed improvement** (the reference doesn't do this): also suspend on `document.hidden`.
 - No `AudioContext` ⇒ UI disabled, no error.
@@ -318,3 +320,26 @@ For GSAP, use `gsap.context()` (or `useGSAP`) and `ctx.revert()` in the cleanup.
 
 **Measured at the end of M3 (production build, headless Chrome, software GL — frame rates cannot be judged there):** initial route JS **324.4 KB gzip** (10 scripts, unchanged from M2: the engine and bloom are not among them); lazy engine **163 KB gzip** (three 62.6 + engine 100.5, was 146); bloom is a handful of lazy chunks of 0.3–2.8 KB gzip (< 8 KB together; `next dev` also loads a 3.4 KB async-loader stub with the engine) and none of the production ones is requested on the low/medium tiers; boot stages: renderer 30–37 ms, `artifacts` 35–880 ms across runs (CPU-side geometry only, shaders compile in the `compile` stage; noisy on a loaded machine with software GL), longest stage is still the reflection bake (≈ 1.1–1.3 s on software GL); `renderer.info.memory` counts only what has been drawn, so it depends on the stations visited (56 geometries / 5 textures after a tour), but a freshly built world always reports the same numbers (40 / 4 after each of three rebuilds) and the renderer it replaced holds 0 / 0. Picking: 11.2 raycasts/s under continuous pointer movement.
 
+### Added in M4 (T27–T29)
+
+| Where | Plan | What was built | Why |
+|---|---|---|---|
+| T05 script / T27 | `is-intro` if motion allowed, no hash, `scrollY < 40` | + only for a **fresh** navigation (`navigate`/`prerender`), and `Intro` puts `scrollRestoration` back to `auto` when it ends | with the plan's rule a reload mid-page replayed the intro (the script runs in `<head>`, before the browser restores scroll, so `scrollY` is always 0) and, with `manual` persisting in the history entry, threw the visitor back to the top. T27 requires "reloading mid-page: no intro" |
+| T27 skip keys | any key but Tab | any key but Tab and bare modifiers (Shift/Ctrl/Alt/Meta/CapsLock) | a shortcut in progress (Cmd+L, Shift+Tab) is not "I want to skip" |
+| T27 hero items | `#home [data-reveal]` | new contract attribute `data-hero-item` (`last` = CTAs, revealed last); no `data-reveal` in the hero | `data-reveal` has a CSS hidden state from the first paint and `RevealController` excludes `#home`: on a no-intro load (hash, reload) nothing would ever reveal them. `data-hero-item` has no CSS hidden state — only `gsap.set` hides it, behind the opaque overlay |
+| T27 intro line | GSAP `opacity` + `letter-spacing` | pure CSS keyframes (1.4 s, `--ease-out-expo` token) | plays from the first paint with no JS: no flash of the final state and the first paint is text (LCP). The overlay failsafe selector is now `html.is-intro [data-intro]` (the contract attribute) instead of a global `.intro` class |
+| T27 waiting | `Promise.race([worldReady, 4.5 s])` | `waitForWorld()` in `controllers/world-bridge.ts` (store status + a parked handle); `Intro` sets `rig.intro.value = 0` itself when it has the handle | `WorldCanvas` writes the handle before `worldStatus = "ready"`; if the world arrives after the intro gave up it appears without a fly-in instead of being stranded in the start pose |
+| T27 timings | fly 3.4 s / 1.9 s | as planned; letters start at ≈ 45 % of the fly, items 0.6 s later → whole sequence 3.45 s (first) / 2.77 s (return) / 2.4 s (no 3D). A **stalled** engine chunk: 4.5 s wait + 2.2 s reveal ≈ 6.8 s | measured. "Ends in ≤ 4.5 s" was read as the *wait* being capped at 4.5 s; the text reveal still plays after it |
+| T27 safety | CSS failsafe at 7 s | + a 14 s JS watchdog that skips; `finish()` is idempotent (skip, completion, watchdog and unmount can all arrive); StrictMode's double effect is handled with a live-instance counter so `is-intro` survives the simulated unmount | `is-intro` and the scroll lock must never stick |
+| T28 modules | `src/audio/engine.ts` | `engine.ts` (initial) + `graph.ts` (lazy) + `pure.ts` / `material.ts` / `prefs.ts` (pure) + `lib/storage.ts` | rule 6: the node-building code (≈ 2.6 KB gzip) must not be in the initial bundle. Pure parts need no `AudioContext` to be tested |
+| T28 tuning | F26/F27 values as a starting point | own tuning in G: drone G1/D2/G2 (≈ 49/73/98 Hz), a dyad per sector climbing G3+D4 → G4+D5, arrival notes = one per station up a two-octave G-major pentatonic from D4, open/close/hover glides at other pitches | clean-room rule 1 and T28 ("use your own tuning"). Structure (graph, compressor, reverb, HRTF panners, throttle) follows the spec |
+| T28 arrivals | one chord per `onStation` | at most 3 chords sound at once (the oldest is released in 80 ms) | a nav jump across the page passes ~10 stations in 2 s |
+| T28 hover | centered tick | spatialised at the hovered object's `projectEmitters` position | uses the per-project emitters T21 left for T28 |
+| T28 lifecycle | resume on the first gesture | + resume at once if `navigator.userActivation.hasBeenActive` (a language switch remounts everything); gesture listeners on `pointerdown`, `pointerup` and `keydown` until the context really runs; clicks inside `[data-sound]` are the control's own business | touch `pointerdown` does not grant activation in Chrome; the toggle's click must start sound, not be pre-empted and then toggle it off |
+| T28 volume | `volume·.9` | as planned (linear) | — |
+| T29 markup | panel above the buttons | panel **after** the buttons in the DOM, drawn above with `column-reverse` | Tab must go from the settings button into the panel; DOM-first made it leave the control |
+| T29 states | on / off / unavailable | + `waiting` ("Click to start"): `aria-pressed` stays true, bars stay still (`data-on="false"`), a click starts it | a saved "on" cannot start before a gesture; the control says so |
+| T29 i18n | `Sound.turnOn/turnOff` | removed; added `Sound.waiting` | `aria-pressed` carries the state, so a changing label would be announced twice |
+| Hero hint | bottom-right | bottom-centre (auto margins, no transform) | the bottom-right is the sound control; the intro animates the hint's transform, so it cannot also centre itself with one |
+
+**Measured at the end of M4 (production build, headless Chrome on the real GPU):** initial route JS **330.7 KB gzip** (10 scripts; was 324.4 at M3, +6.3 KB for the intro, sound control, engine core and strings); the audio graph is a separate **2.6 KB gzip** chunk, requested only after sound is first enabled (verified in the network log). With the engine in the initial bundle it was 332.8 KB — the lazy split is worth 2.1 KB and keeps WebAudio node code out of the first load. Audio at 100 % volume with everything on: peak 0.29, RMS 0.11 (the compressor never has to work hard); fade-in reaches its plateau at ≈ 1.7 s; off is silent at 330 ms and the context suspends. Listener z followed the camera: home 60 → work −398 → contact −928. Not verifiable here: how it *sounds* (the spatial balance wants headphones — see `CONTENT.md`) and a real screen-reader pass (T33).
