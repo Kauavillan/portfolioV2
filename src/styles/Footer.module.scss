@@ -18,3 +18,9 @@
     text-align: right;
   }
 }
+
+// Only true while the 3D world is actually rendered.
+:global(html.no-webgl) .world {
+  display: none;
+}
+

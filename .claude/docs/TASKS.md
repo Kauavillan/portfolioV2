@@ -46,12 +46,12 @@ Each task has its own file in [`tasks/`](tasks/). Sizes are **relative estimates
 
 ## Phase 2 — 3D world (M2 and M3)
 
-- [ ] [T15 — World engine skeleton](tasks/T15-world-engine-skeleton.md) · L · T02, T05, T06
-- [ ] [T16 — Adaptive quality and sliced boot](tasks/T16-quality-manager-and-boot-slices.md) · M · T15
-- [ ] [T17 — Environment: sky, stars, lighting and mood](tasks/T17-environment-sky-lights-mood.md) · M · T15, T16
-- [ ] [T18 — Camera rig and stations](tasks/T18-camera-rig-and-stations.md) · L · T15, T10–T13
-- [ ] [T19 — Home scene: central star and rings](tasks/T19-scene-home-star-and-rings.md) · M · T17, T18
-- [ ] [T20 — About scene: lens](tasks/T20-scene-about-lens.md) · M · T19
+- [x] [T15 — World engine skeleton](tasks/T15-world-engine-skeleton.md) · L · T02, T05, T06
+- [x] [T16 — Adaptive quality and sliced boot](tasks/T16-quality-manager-and-boot-slices.md) · M · T15
+- [x] [T17 — Environment: sky, stars, lighting and mood](tasks/T17-environment-sky-lights-mood.md) · M · T15, T16
+- [x] [T18 — Camera rig and stations](tasks/T18-camera-rig-and-stations.md) · L · T15, T10–T13
+- [x] [T19 — Home scene: central star and rings](tasks/T19-scene-home-star-and-rings.md) · M · T17, T18
+- [x] [T20 — About scene: lens](tasks/T20-scene-about-lens.md) · M · T19
 - [ ] [T21 — Work scene: project artifacts](tasks/T21-scene-work-artifacts.md) ⚑ · XL · T11, T18
 - [ ] [T22 — Skills scene: constellation](tasks/T22-scene-skills-constellation.md) · L · T12, T18
 - [ ] [T23 — Journey scene: helix and comet](tasks/T23-scene-journey-helix.md) · M · T12, T18

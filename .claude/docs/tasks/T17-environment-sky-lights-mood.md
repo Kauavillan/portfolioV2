@@ -21,12 +21,12 @@ The "air" of the world: procedural sky, stars, dust, fog and reflections for the
 Scenes (T19+); definition of the moods per station (they come from the stations in T18/T21).
 
 ## Acceptance criteria
-- [ ] The background becomes a sky with stars and dust; switching tier (force it via debug) changes the amount without recreating buffers.
-- [ ] `setMood` smoothly switches the nebula colors; in reduced-motion it switches at once.
-- [ ] No ugly banding or flicker in the sky at 1440 px and 390 px.
-- [ ] Same `seed` ⇒ same star layout across reloads.
-- [ ] `dispose()` brings `renderer.info.memory` back to the baseline.
-- [ ] Boot cost of this stage measured (`world:environment`) and noted.
+- [x] The background becomes a sky with stars and dust; switching tier (force it via debug) changes the amount without recreating buffers.
+- [x] `setMood` smoothly switches the nebula colors; in reduced-motion it switches at once.
+- [ ] No ugly banding or flicker in the sky at 1440 px and 390 px. — **judged by eye on stills only (no banding seen, dithering in place); flicker over time not assessed, see notes**
+- [x] Same `seed` ⇒ same star layout across reloads.
+- [x] `dispose()` brings `renderer.info.memory` back to the baseline.
+- [x] Boot cost of this stage measured (`world:environment`) and noted.
 
 ## Technical notes
 - Canvas background colors must match `--ink` so there is no "jump" in the fade-in.
@@ -34,3 +34,9 @@ Scenes (T19+); definition of the moods per station (they come from the stations 
 
 ## Reading
 `.claude/docs/REFERENCE-ANALYSIS.md` F17 · `.claude/docs/ARCHITECTURE.md` §6.5.
+
+## Implementation notes (done 2026-11-23)
+- Own GLSL (value noise + fbm with `OCTAVES` as a `define`; hash and shaders written for this project). Sky sphere (radius 3000) follows the camera; stars (8000 allocated, seeded PRNG, size and colour per star, slow twinkle) follow it too; dust (1300, wrapped around the camera on the GPU); exp² fog from the `--ink` token; PMREM reflection bake as its own boot stage. The sky shader dithers its output to hide 8-bit banding.
+- Verified: switching tier changes the drawn counts (8000 ↔ 2600) and sky octaves **without** recreating or re-uploading buffers (same typed array, same version); the same seed gives an identical layout (positions + colours checksummed over 3 independent reloads); the nebula tint eases to the active station's mood, and snaps at once under reduced motion; `dispose()` returns `renderer.info.memory` to 0 geometries / 0 textures.
+- **Not verified:** banding/flicker were judged **by eye on still screenshots** at 1440 and 390 px (none visible, dithering is in place); flicker over time was not assessed.
+- Cost: `environment` ≈ 4–8 ms of JavaScript; the reflection bake is driver-bound (see T16 notes).

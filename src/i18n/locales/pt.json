@@ -275,7 +275,8 @@
   },
   "Footer": {
     "rightsReserved": "Todos os direitos reservados.",
-    "credit": "Projetado e desenvolvido por Kauã Villa Nova."
+    "credit": "Projetado e desenvolvido por Kauã Villa Nova.",
+    "world": "Mundo renderizado ao vivo com three.js."
   },
   "EmailForm": {
     "subject": {

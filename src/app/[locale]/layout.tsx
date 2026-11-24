@@ -8,6 +8,7 @@ import { PRE_HYDRATION_SCRIPT } from "@lib/pre-hydration";
 import { ScreenSizeProvider } from "@/providers";
 import AnchorController from "@controllers/AnchorController";
 import RevealController from "@controllers/RevealController";
+import WorldCanvas from "@controllers/WorldCanvas";
 import ScrollProvider from "@controllers/ScrollProvider";
 import SkipLink from "@components/shell/SkipLink";
 import WorldSlot from "@components/shell/WorldSlot";
@@ -73,6 +74,7 @@ export default async function RootLayout({
               {children}
               <AnchorController />
               <RevealController />
+              <WorldCanvas />
             </ScrollProvider>
           </NextIntlClientProvider>
         </ScreenSizeProvider>

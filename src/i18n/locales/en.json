@@ -275,7 +275,8 @@
   },
   "Footer": {
     "rightsReserved": "All rights reserved.",
-    "credit": "Designed and built by Kauã Villa Nova."
+    "credit": "Designed and built by Kauã Villa Nova.",
+    "world": "World rendered live with three.js."
   },
   "EmailForm": {
     "subject": {

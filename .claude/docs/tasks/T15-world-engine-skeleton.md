@@ -21,13 +21,13 @@
 Adaptive quality (T16), environment (T17), per-station camera (T18), real scenes.
 
 ## Acceptance criteria
-- [ ] With WebGL, the canvas appears with a fade-in and the page stays 100% usable; **without** WebGL (disable via browser flags) → `html.no-webgl`, CSS background visible, no errors.
-- [ ] `three` does **not** appear in the initial bundle (verify with `next build` + bundle analyzer): only in the dynamic chunk.
-- [ ] StrictMode: mount → unmount → mount does not create 2 canvases or leave rAF/listeners behind (check `renderer.info.memory` and `getEventListeners`).
-- [ ] A hidden tab pauses rendering (check CPU/GPU in Activity Monitor or `performance.now` in the loop).
-- [ ] Resizing keeps the aspect ratio and a correct `fov` in portrait.
-- [ ] A forced failure in `createWorld` (throw an error) results in `no-webgl`, not a broken screen.
-- [ ] With `NEXT_PUBLIC_DISABLE_WORLD=1` the engine chunk is **not** requested and the page stays in `no-webgl`.
+- [x] With WebGL, the canvas appears with a fade-in and the page stays 100% usable; **without** WebGL (disable via browser flags) → `html.no-webgl`, CSS background visible, no errors.
+- [x] `three` does **not** appear in the initial bundle (verify with `next build` + bundle analyzer): only in the dynamic chunk.
+- [x] StrictMode: mount → unmount → mount does not create 2 canvases or leave rAF/listeners behind (check `renderer.info.memory` and `getEventListeners`).
+- [x] A hidden tab pauses rendering (check CPU/GPU in Activity Monitor or `performance.now` in the loop).
+- [x] Resizing keeps the aspect ratio and a correct `fov` in portrait.
+- [x] A forced failure in `createWorld` (throw an error) results in `no-webgl`, not a broken screen.
+- [x] With `NEXT_PUBLIC_DISABLE_WORLD=1` the engine chunk is **not** requested and the page stays in `no-webgl`.
 
 ## Technical notes
 - Use `renderer.setPixelRatio(min(devicePixelRatio, tier.dpr))` (tier comes in T16; for now `min(dpr, 1.5)`).
@@ -35,3 +35,11 @@ Adaptive quality (T16), environment (T17), per-station camera (T18), real scenes
 
 ## Reading
 `.claude/docs/REFERENCE-ANALYSIS.md` F11, F12, F16, F34 · `.claude/docs/ARCHITECTURE.md` §6, §11, §12.
+
+## Implementation notes (done 2026-11-23)
+- `WorldCanvas` (client) → after `requestIdleCallback({timeout:1200})` (fallback `setTimeout` on Safari) → throw-away WebGL probe (context released at once) → `import("@world")` → `createWorld`. Flipping `prefers-reduced-motion` while the page is open rebuilds the world. StrictMode-safe: the first mount is cancelled before its idle callback fires, and an `AbortSignal` stops a boot that is already running (verified by unmounting mid-boot under 15×–100× CPU throttling: always one ready canvas, GPU memory back to baseline, no errors).
+- **Bundle:** the HTML never references the engine chunk; it is requested only after the `load` event. Measured: initial route JS 324 KB gzip (M1 baseline, see ARCHITECTURE §13), engine chunk 146 KB gzip loaded lazily. With `NEXT_PUBLIC_DISABLE_WORLD=1` the build contains **no** chunk with three.js at all.
+- Fallbacks verified: engine chunk blocked → one `console.warn`, `html.no-webgl`, CSS background, page usable; `--disable-3d-apis` → same without ever importing the engine; `WEBGL_lose_context` → canvas fades out + `no-webgl`, resumes on restore.
+- Hidden tab: rendering stops (0 frames while hidden) and the clock is reset on return. This was simulated by overriding `document.hidden` and firing `visibilitychange`, not by a real tab switch.
+- 12 locale switches (12 world rebuilds): exactly one canvas each time, `window`+`document` listeners and GPU geometries/textures unchanged, no "too many WebGL contexts" (contexts are released with `forceContextLoss`); JS heap flat after GC over 15 s of rendering.
+- Deviations (reasons in ARCHITECTURE §13): no temporary test cube; failure removes the canvas, not the container; context-loss handling added; first `setSize` lives in the `renderer` stage.

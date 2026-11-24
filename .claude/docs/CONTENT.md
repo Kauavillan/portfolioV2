@@ -142,6 +142,9 @@ Run `npm run check:i18n` for the live list. Today (same keys in en **and** pt):
 - `Case.qrypt.outcomes`, `Case.wegia.outcomes` — results
 - `Case.wegia.problem` — what problem Wegia solves for the NGO
 
+### New copy added in M2
+- `Footer.world` — "World rendered live with three.js." / "Mundo renderizado ao vivo com three.js." (shown only while the 3D world is actually rendered). Please read it in both languages.
+
 ### Also needed (not placeholders — simply absent)
 - **Journey:** only 5 milestones exist (the ones the git history can date). Add the rest in `src/data/milestones.ts` + `Journey.milestones.<id>` (en/pt): first projects (Frontend Mentor), NeonNest, Wegia internship, Magipass, QRypt, the degree. `MILESTONES.length` also sizes the 3D helix.
 - **Skills:** confirm Stripe / RevenueCat (flip to `shipped` and add to Magipass's stack if they ship there).

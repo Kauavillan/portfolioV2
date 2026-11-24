@@ -11,6 +11,7 @@ export default function Footer() {
         © {new Date().getFullYear()} {PROFILE.name}. {t("rightsReserved")}
       </p>
       <p>{t("credit")}</p>
+      <p className={styles.world}>{t("world")}</p>
     </footer>
   );
 }

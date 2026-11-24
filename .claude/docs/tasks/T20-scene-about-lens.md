@@ -22,14 +22,20 @@ Second scene: an "optical" object whose aperture **reacts to being in focus** (t
 Section texts/order (already in T10).
 
 ## Acceptance criteria
-- [ ] On arriving at About the iris opens smoothly; on leaving, it closes; no pops.
-- [ ] Lighting keeps the metals readable (they reflect `scene.environment`) without blowing out with the bloom (T26).
-- [ ] ≥ 55 fps on the medium tier; the 3 lights do not drag the low tier down (if they do, reduce lights on `low`).
-- [ ] Clean `dispose()`; iris geometry shared among the blades (1 geometry, N meshes).
-- [ ] Original objects (do not copy the reference).
+- [x] On arriving at About the iris opens smoothly; on leaving, it closes; no pops.
+- [x] Lighting keeps the metals readable (they reflect `scene.environment`) without blowing out with the bloom (T26).
+- [ ] ≥ 55 fps on the medium tier; the 3 lights do not drag the low tier down (if they do, reduce lights on `low`). — **not verified, see notes**
+- [x] Clean `dispose()`; iris geometry shared among the blades (1 geometry, N meshes).
+- [x] Original objects (do not copy the reference).
 
 ## Technical notes
 - Asynchronous geometry (load/generate later) is optional; if used, handle `dispose` before it finishes (`disposed` flag).
 
 ## Reading
 `.claude/docs/REFERENCE-ANALYSIS.md` F19.
+
+## Implementation notes (done 2026-11-23)
+- File `src/world/scenes/aperture.ts`. Housing + brass trim + thin emissive ring, 72 markers (one instanced call, every 6th larger), **9 iris blades sharing one `ExtrudeGeometry` and one material**, a clear-coated `MeshPhysicalMaterial` lens behind them, three point lights (warm / cool / white). The iris angle eases with `1 − exp(−dt·2.4)` (≈ .04 per frame at 60 fps) between *closed* (1.1 rad) and *open* (.22 rad); under reduced motion it snaps.
+- Verified in the browser by sampling the blade angle: it opens monotonically on arrival and closes monotonically on leaving (no pops), snaps in reduced motion. The white light is switched off on the `low` tier.
+- Found during tuning: blades that were too long poked outside the housing — shortened and tucked behind the housing plane; a lateral `offset` of −10 pushed the object under the nav rail (now −6). The station sits at `(86, 0, −46)` looking at the lens at `(80, −2, −118)`.
+- **Not verified:** ≥ 55 fps at the medium tier (needs a real GPU, T34). **Original objects** — nothing copied from the reference.

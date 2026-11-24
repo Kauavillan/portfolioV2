@@ -271,3 +271,24 @@ For GSAP, use `gsap.context()` (or `useGSAP`) and `ctx.revert()` in the cleanup.
 | T11 | "article inside the Work section" | `#work` is the header block; the articles and the archive are its siblings | each article must be its own camera station, so `#work`'s centre can't be the middle of all of them |
 | T14 | hash only for deep links | opening also writes `#case-<id>` | shareable URL; `replaceState`, no history entry |
 
+### Added in M2 (T15–T20)
+
+| Where | Plan | What was built | Why |
+|---|---|---|---|
+| §6.1 `Region.update` | `update(t, active)` | `update(t, active, dt)` | scenes ease with `1 − exp(−dt·k)`; frame-rate independent |
+| §6.1 `WorldOptions` | callbacks only | + optional `signal: AbortSignal`, `onQuality` | `createWorld` stops between boot stages when the component unmounts mid-boot (StrictMode, locale switch); `onQuality` for debugging |
+| §6.4 sampler | "ignores Δ > 250 ms" | isolated long frames are ignored, but **15 consecutive** long frames start to count (clamped to 250 ms); with the 60-frame average this means ≈ 17 consecutive frames (≈ 4.5 s of continuous < 4 fps) trigger a step down | a device that never beats ~4 fps would leave the sampler blind (every frame "ignored") and it would never downgrade. 15 (not fewer) keeps a one-off GC / shader-compile hitch from causing a permanent downgrade. Unit-tested on both sides (14 ignored, 16 tolerated, 17 steps down) |
+| T15 failure path | "removes the container" | removes the **canvas** and keeps the `[data-world]` container | the container carries the CSS fallback background; removing it would leave a blank page |
+| T15 | temporary test cube | none | the real scenes (T19/T20) validate render and dispose; a throw-away cube would only have been deleted minutes later |
+| T15 | — | `webglcontextlost` / `webglcontextrestored` handled (loop stops + `no-webgl`, then resumes) | verified with `WEBGL_lose_context`; cheap and avoids a frozen canvas |
+| §6.2 boot | `renderer → environment → …` | the first `setSize` is **inside** the `renderer` stage | allocating the drawing buffer is the costly part of context creation; leaving it between stages hid ~2 s of work |
+| T17 | stars fixed in the world | stars and sky follow the camera (skybox); dust wraps around it on the GPU | the world spans hundreds of units of travel; fixed stars would drift past, and CPU-side wrapping would cost per frame |
+| T17 | fog `--ink` | read from the CSS token at runtime (`readCssColor`) | the canvas clear color must equal the page color or the fade-in "jumps" |
+| T19 | glow from a canvas | glow texture generated in JS (`DataTexture`) | no 2D canvas / image asset; deterministic |
+| §6.3 layout | home at origin | home at the origin; about at `(80, −2, −118)` | the straight home→about path must not fly through the star; also keeps the lens out of the home frame on desktop and mobile |
+| T18 offsets | `offset` ≈ −10 | `offset: −6` for both stations (`offsetNarrow: 0`) | −10 pushed the scene under the nav rail; −6 centres it in the free area between the text column and the rail |
+| T15 | `scene.environment` etc. | `src/world/**` imports `SECTOR_MOODS` from `@data/world` | sector moods are static, non-text design data; no need to thread them through `WorldOptions` |
+| Footer | credit after T15 | `Footer.world` ("rendered live with three.js") is hidden when `html.no-webgl` | the credit must only be true while the world is rendered |
+
+**Measured at the end of M2 (production build):** initial route JS **324 KB gzip** (10 scripts; the engine is *not* among them) against the §9 budget of ≈ 230 KB; the lazy engine chunk is **146 KB gzip** (589 KB raw). The overage is the M1 baseline — React/Next runtime, GSAP + ScrollTrigger, Lenis, zod + react-hook-form (contact form), next-intl; the only M2 client code is `WorldCanvas`, inside a 2.7 KB-gzip chunk shared with the case dialogs. It is a T34 item (e.g. load the contact form's zod/react-hook-form on demand), not an M2 regression.
+

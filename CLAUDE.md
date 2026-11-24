@@ -8,7 +8,7 @@ Personal portfolio of **Kauã Villa Nova**, bilingual (pt/en), built with **Next
 
 The `v3` branch is being migrated from a classic 2D sections site to an **explorable 3D portfolio**: scrolling flies the camera through a three.js world, with a HUD, a cinematic intro, procedural audio and per-project "case files" — the same system as the reference site <https://2k-aakaash.vercel.app>.
 
-> **Status (2026-11-23): Milestone M1 (T01–T14) is implemented — the 2D shell without 3D.** It is a complete, shippable site: HUD, smooth scroll, reveals, the six sections, case files, pt/en, and it is also the `no-webgl` fallback. **Not started:** the 3D world (M2–M3, T15–T26), intro and sound (M4), release work (M5). M1 was built with default content decisions and `TODO(content)` placeholders — see `.claude/docs/CONTENT.md` §7. The plan is in `.claude/docs/`.
+> **Status (2026-11-23): Milestones M1 (T01–T14, the 2D shell) and M2 (T15–T20, the 3D vertical slice) are implemented.** The site is complete without 3D (it is also the `no-webgl` fallback); on top of it a lazy three.js world renders a sky, a plasma-star **home** scene and an iris-and-lens **about** scene, with the camera flying between them as you scroll. **Not started:** the other four scenes, picking and bloom (M3, T21–T26), intro and sound (M4), release work (M5). M1 was built with default content decisions and `TODO(content)` placeholders — see `.claude/docs/CONTENT.md` §7. The plan is in `.claude/docs/`.
 
 ## Documentation (read in whatever order you need)
 
@@ -30,7 +30,7 @@ The `v3` branch is being migrated from a classic 2D sections site to an **explor
 | Styling | ✅ SCSS Modules + CSS custom properties (`_tokens.scss`); Unbounded/Manrope/JetBrains Mono via `next/font/google` | same |
 | Animation | ✅ `gsap` + ScrollTrigger (reveals). `motion`/`framer-motion` only in the unused `Motion.tsx` (T36) | same |
 | Scroll | ✅ `lenis` driven by the GSAP ticker. `react-scroll` is installed but no longer imported (T36) | same |
-| 3D / audio | `three@0.187.0` installed, **not used yet**; no audio | `three` (imperative, lazy) / plain WebAudio |
+| 3D / audio | ✅ `three@0.187.0`, imperative, lazy (`src/world`, 146 KB gzip chunk, loaded after idle); no audio yet | `three` (imperative, lazy) / plain WebAudio |
 | State | `zustand`: `useUiStore` (menu, case, scroll locks) + legacy screen size (T36) | `zustand` (UI + scroll locks) |
 | Contact | `react-hook-form` + `zod` → `/api/email` (nodemailer/SMTP), restyled | same, hardened (T32) |
 
@@ -44,13 +44,15 @@ npm run typecheck    # tsc --noEmit
 npm run check:i18n   # en/pt parity + data↔translations coverage; lists pending TODO(content)
 ```
 
+**Kill switch:** build with `NEXT_PUBLIC_DISABLE_WORLD=1` to ship without 3D — the engine is not even emitted (the page behaves as `no-webgl`). Remove the variable to turn it back on.
+
 **Baseline (green since T01, kept green through M1, 2026-11-23):** `npm ci`, `lint` (0 errors, 0 warnings), `typecheck`, `check:i18n` and `build` pass; `node_modules/next` matches the lockfile (16.1.1); `/en` and `/pt` are prerendered (`● SSG`).
 There are still **no tests** or CI (T35). M1 was verified in a real browser (headless Chrome over CDP) at 1440px and 390px, with reduced motion, without JS and in `next dev` (StrictMode) — those scripts are scratch tooling, not in the repo yet; T35 turns the useful ones into Playwright smoke tests.
 
 ## Structure
 
-Today: `src/app/[locale]/{layout,page}.tsx`, `src/app/api/email/route.ts`, `src/components/{shell,sections,case,items}` (`sound/` is empty until T29), `src/controllers` (`ScrollProvider`, `AnchorController`, `RevealController`), `src/data` (typed content: projects, skills, milestones, world, profile), `src/lib` (`contract.ts` and pure logic: `active-section`, `section-tracker`, `motion`, `pre-hydration`), `src/stores` (`useUiStore`), `src/hooks`, `src/providers`, `src/i18n`, `src/styles` (`_tokens`, `_mixins`, `_base`, `_world`, `_lenis`, `_reveal` + `*.module.scss`), `src/utils`, `src/validations`, `scripts/check-i18n.mjs`. `src/world` and `src/audio` exist as empty skeletons.
-Target (details in `ARCHITECTURE.md` §2): fills in `src/world` (three.js engine) and `src/audio`, and `components/sound`.
+Today: `src/app/[locale]/{layout,page}.tsx`, `src/app/api/email/route.ts`, `src/components/{shell,sections,case,items}` (`sound/` is empty until T29), `src/controllers` (`ScrollProvider`, `AnchorController`, `RevealController`), `src/data` (typed content: projects, skills, milestones, world, profile), `src/lib` (`contract.ts` and pure logic: `active-section`, `section-tracker`, `motion`, `pre-hydration`), `src/stores` (`useUiStore`), `src/hooks`, `src/providers`, `src/i18n`, `src/styles` (`_tokens`, `_mixins`, `_base`, `_world`, `_lenis`, `_reveal` + `*.module.scss`), `src/utils`, `src/validations`, `scripts/check-i18n.mjs`. `src/world` is the three.js engine (`index.ts` = `createWorld`, `quality.ts` and `rig-math.ts` are pure, `environment.ts`, `rig.ts`, `scenes/{core,aperture}.ts`, `shaders/`, `util/`); `src/controllers/WorldCanvas.tsx` mounts it. `src/audio` is still an empty skeleton.
+Target (details in `ARCHITECTURE.md` §2): four more scenes, picking and bloom in `src/world`, then `src/audio` and `components/sound`.
 Deviations from the plan are recorded in `ARCHITECTURE.md` §13.
 
 Aliases (`tsconfig.json`): `@/*`, `@styles/*`, `@components/*`, `@hooks/*`, `@stores/*`, `@providers/*`, `@utils/*`, `@assets/*`, `@public/*`, `@world` + `@world/*`, `@audio/*`, `@data/*`, `@controllers/*`, `@lib/*`. ESLint forbids importing `three` outside `src/world/**`.
@@ -108,6 +110,8 @@ Aliases (`tsconfig.json`): `@/*`, `@styles/*`, `@components/*`, `@hooks/*`, `@st
 ## Known pitfalls
 
 - **Legacy still in the tree (all removed in T36):** `components/items/Motion.tsx` (imports `framer-motion`, which is only an implicit dependency of `motion`), `hooks/{useResponsiveMotion,useScreenSize,useTypingEffect}`, `providers/ScreenSizeProvider` (still mounted, nothing reads it), `stores/useScreenSizeStore`, the `swiper`/`react-scroll`/`motion` packages, `styles/_variables.scss` + the orphaned `Home.module.scss`, `types/global.d.ts` swiper declarations, unused `public/icons` and images.
+- **Verifying the 3D here:** headless Chrome needs `--use-angle=swiftshader --enable-unsafe-swiftshader`; software GL renders at ~1–3 fps, so frame-rate claims (60 fps) cannot be checked in it and shader-heavy boot stages (PMREM bake ≈ 2–3 s) look far worse than on a GPU. It also emits a `GPU stall due to ReadPixels` console warning that a clear-only WebGL page reproduces — it is not an app bug. Wait on *rendered frames* / polled state, never fixed sleeps. `world:*` `performance.measure` entries list the boot stages.
+- The camera smoothing caps `dt` at 0.05 s, so at very low fps the camera and the iris take many real seconds to settle: by design.
 - `html.is-intro` is added before hydration but **nothing removes it until T27** (and nothing depends on it). It also makes a reload start at the top (`scrollRestoration = "manual"`).
 - `TODO(content)` strings are **hidden in production and shown in `next dev`** (`src/utils/content.ts`). If something is "missing" on the live site, check `npm run check:i18n` first.
 - Switching language: next-intl navigates to a prefixed URL and the proxy redirects `/en` → `/`, which drops the `#hash`; `LanguageSelector` restores it (see T07 notes). Don't "simplify" that away.
