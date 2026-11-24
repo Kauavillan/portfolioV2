@@ -6,7 +6,9 @@ import { withMotionPreference } from "@lib/motion";
 import { getWorldData } from "@data/index";
 import { useUiStore } from "@stores/useUiStore";
 import type { WorldHandle } from "@world/types";
+import { openCaseFile } from "./case-actions";
 import { useScroll } from "./ScrollProvider";
+import { bindSkillBridge } from "./skill-bridge";
 
 /**
  * Kill switch: build with `NEXT_PUBLIC_DISABLE_WORLD=1` to turn the 3D off in
@@ -78,6 +80,7 @@ export default function WorldCanvas() {
     return withMotionPreference((reduced) => {
       let disposed = false;
       let handle: WorldHandle | null = null;
+      let unbindSkills: (() => void) | null = null;
       const abort = new AbortController();
       setWorldStatus("loading");
 
@@ -92,8 +95,14 @@ export default function WorldCanvas() {
             container,
             reduced,
             signal: abort.signal,
-            onPick: () => {},
-            onHover: () => {},
+            // A click/tap on a project object opens its case file — unless something
+            // modal is already in the way. Focus returns to that article's own button.
+            onPick: (id) => {
+              const ui = useUiStore.getState();
+              if (ui.caseOpen || ui.navOpen || ui.introActive) return;
+              openCaseFile(id, document.querySelector<HTMLElement>(sel(ATTR.openCase, id)));
+            },
+            onHover: () => {}, // sound (T28)
             onFrame: () => {},
             onStation: () => {},
           });
@@ -103,6 +112,7 @@ export default function WorldCanvas() {
           }
           handle = created;
           handleRef.current = created;
+          unbindSkills = bindSkillBridge(created.lightSkill);
           html.classList.remove(STATE.noWebgl);
           setWorldStatus("ready");
         } catch (error) {
@@ -118,6 +128,7 @@ export default function WorldCanvas() {
         disposed = true;
         abort.abort();
         cancelIdle();
+        unbindSkills?.();
         handle?.dispose();
         handleRef.current = null;
         setWorldStatus("idle");

@@ -3,8 +3,39 @@ import {
   LinearFilter,
   RGBAFormat,
   SRGBColorSpace,
+  Texture,
+  TextureLoader,
   UnsignedByteType,
 } from "three";
+
+/** Largest image (px, per side) that may become a texture. */
+export const MAX_TEXTURE_SIZE = 1024;
+
+/**
+ * Loads a project image as a color texture. Resolves `null` — the artifact then
+ * keeps working from geometry and shaders alone — when the image fails to load,
+ * the load is aborted, or the image is larger than `MAX_TEXTURE_SIZE` (the
+ * large screenshots wait for the optimized variants of T31).
+ */
+export async function loadProjectTexture(
+  src: string,
+  anisotropy: number,
+  signal?: AbortSignal,
+): Promise<Texture | null> {
+  try {
+    const texture = await new TextureLoader().loadAsync(src);
+    const image = texture.image as { width: number; height: number };
+    if (signal?.aborted || Math.max(image.width, image.height) > MAX_TEXTURE_SIZE) {
+      texture.dispose();
+      return null;
+    }
+    texture.colorSpace = SRGBColorSpace;
+    texture.anisotropy = anisotropy;
+    return texture;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Soft radial falloff (white → transparent), computed in JS: no image asset and

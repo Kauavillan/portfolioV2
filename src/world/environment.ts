@@ -51,6 +51,8 @@ export interface Environment {
   bakeReflections(): void;
   applyQuality(tier: QualityTier): void;
   setPixelRatio(ratio: number): void;
+  /** The sky dithers its own output only when it is the last thing written to the canvas. */
+  setDither(on: boolean): void;
   /** Eases the nebula tints towards (a, b); `k = 1` switches at once. */
   setMood(a: string, b: string, k: number): void;
   update(t: number, camera: PerspectiveCamera): void;
@@ -81,6 +83,7 @@ export function createEnvironment(
       uTintA: { value: tintA },
       uTintB: { value: tintB },
       uTime: { value: 0 },
+      uDither: { value: 1 },
     },
     defines: { OCTAVES: options.tier.octaves },
     side: BackSide,
@@ -244,6 +247,10 @@ export function createEnvironment(
     setPixelRatio(ratio) {
       starMaterial.uniforms.uPixelRatio.value = ratio;
       dustMaterial.uniforms.uPixelRatio.value = ratio;
+    },
+
+    setDither(on) {
+      skyMaterial.uniforms.uDither.value = on ? 1 : 0;
     },
 
     setMood(a, b, k) {

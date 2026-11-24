@@ -145,6 +145,11 @@ Run `npm run check:i18n` for the live list. Today (same keys in en **and** pt):
 ### New copy added in M2
 - `Footer.world` — "World rendered live with three.js." / "Mundo renderizado ao vivo com three.js." (shown only while the 3D world is actually rendered). Please read it in both languages.
 
+### Decisions taken in M3 (no new copy: the 3D world has no text)
+- The five 3D objects follow the suggested mapping — Magipass: holographic pass card · QRypt: QR lattice with a padlock · Entropyle: flipping tile board · DeepQuiz: neural graph around a "?" · Wegia: module globe — each tinted by its project's `mood`. Swap a project's object by changing `artifact` in `src/data/projects.ts` (the five kinds live in `src/world/scenes/artifacts/`).
+- Only Magipass's object shows its image (512 px). The other screenshots are 1863–2926 px wide, and the engine refuses textures above 1024 px: once T31 ships optimized variants, set `wantsTexture` on that project's artifact kind to use them.
+- Hovering a project object only changes the cursor and scales the object; clicking or tapping it opens the case file. Keyboard users keep the "Open case file" buttons.
+
 ### Also needed (not placeholders — simply absent)
 - **Journey:** only 5 milestones exist (the ones the git history can date). Add the rest in `src/data/milestones.ts` + `Journey.milestones.<id>` (en/pt): first projects (Frontend Mentor), NeonNest, Wegia internship, Magipass, QRypt, the degree. `MILESTONES.length` also sizes the 3D helix.
 - **Skills:** confirm Stripe / RevenueCat (flip to `shipped` and add to Magipass's stack if they ship there).

@@ -16,6 +16,9 @@ uniform vec3 uInk;
 uniform vec3 uTintA;
 uniform vec3 uTintB;
 uniform float uTime;
+// 1 when this shader writes straight to the 8-bit canvas, 0 when a post-processing
+// chain follows (the value is linear there: noise has to be added after the encode).
+uniform float uDither;
 varying vec3 vDir;
 ${NOISE_GLSL}
 
@@ -31,6 +34,6 @@ void main() {
   col += uTintB * pow(1.0 - abs(d.y), 3.0) * 0.05;
   gl_FragColor = vec4(col, 1.0);
   #include <colorspace_fragment>
-  gl_FragColor.rgb += (hash31(vec3(gl_FragCoord.xy, uTime)) - 0.5) / 255.0;
+  gl_FragColor.rgb += (hash31(vec3(gl_FragCoord.xy, uTime)) - 0.5) / 255.0 * uDither;
 }
 `;

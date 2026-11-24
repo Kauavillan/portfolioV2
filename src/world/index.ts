@@ -22,12 +22,19 @@ import {
   type QualityName,
   type QualityTier,
 } from "./quality";
+import { createPicker } from "./picking";
+import { loadComposer, type Post } from "./post";
 import { createRig } from "./rig";
 import { createApertureRegion } from "./scenes/aperture";
+import { createBeaconRegion } from "./scenes/beacon";
 import { createCoreRegion } from "./scenes/core";
+import { createJourneyRegion } from "./scenes/journey";
+import { createSkillsRegion } from "./scenes/skills";
+import { createWorkRegion } from "./scenes/work";
 import type { Region, Station, WorldHandle, WorldOptions } from "./types";
 import { readCssColor } from "./util/css";
 import { WORLD_SEED } from "./util/rng";
+import { FADE_FLOOR, distanceFade } from "./util/ease";
 import { yieldToMain } from "./util/yield";
 
 export type {
@@ -91,6 +98,16 @@ export async function createWorld(o: WorldOptions): Promise<WorldHandle> {
     const pixelRatioFor = (t: QualityTier) =>
       Math.min(window.devicePixelRatio || 1, t.dpr);
 
+    // Declared up front: `resize` (first called inside the renderer stage) reaches them.
+    const regions: Region[] = [];
+    const viewport = { width: 1, height: 1, pixelRatio: 1 };
+    let post: Post | null = null;
+    let invalidate = () => {}; // reduced motion: "something changed outside the loop"
+    // Culling of faded-out scenes starts after the compile stage: `compile` only
+    // prepares what is visible, and anything hidden at that moment would compile
+    // lazily (a hitch) the first time the camera brings it back.
+    let culling = false;
+
     // ── renderer (includes the first sizing: allocating the drawing buffer is
     //    the most expensive part of creating a context on weak/software GPUs) ──
     const { renderer, scene, camera, ink, resize } = await stage("renderer", () => {
@@ -125,11 +142,15 @@ export async function createWorld(o: WorldOptions): Promise<WorldHandle> {
         const rect = container.getBoundingClientRect();
         const width = Math.max(1, Math.round(rect.width));
         const height = Math.max(1, Math.round(rect.height));
-        renderer.setPixelRatio(pixelRatioFor(tier));
+        const pixelRatio = pixelRatioFor(tier);
+        renderer.setPixelRatio(pixelRatio);
         renderer.setSize(width, height, false);
         camera.aspect = width / height;
         camera.fov = camera.aspect < 0.8 ? 58 : 42; // portrait phones need a wider lens
         camera.updateProjectionMatrix();
+        Object.assign(viewport, { width, height, pixelRatio });
+        post?.setSize(width, height, pixelRatio);
+        for (const region of regions) region.setViewport?.(width, height, pixelRatio);
       };
       resize();
       return { renderer, scene, camera, ink, resize };
@@ -149,14 +170,34 @@ export async function createWorld(o: WorldOptions): Promise<WorldHandle> {
     await stage("reflections", () => environment.bakeReflections());
 
     // ── regions (scenes) ─────────────────────────────────────────────────
-    const regions: Region[] = [];
-    const addRegion = (region: Region) => {
+    const addRegion = <R extends Region>(region: R): R => {
       scene.add(region.group);
       cleanups.push(region.dispose);
       regions.push(region);
+      return region;
     };
-    await stage("core", () => addRegion(createCoreRegion({ reduced })));
-    await stage("aperture", () => addRegion(createApertureRegion({ reduced })));
+    const core = await stage("core", () => addRegion(createCoreRegion({ reduced })));
+    const aperture = await stage("aperture", () => addRegion(createApertureRegion({ reduced })));
+    const work = await stage("artifacts", () =>
+      addRegion(
+        createWorkRegion({
+          reduced,
+          camera,
+          projects: o.projects,
+          maxAnisotropy: renderer.capabilities.getMaxAnisotropy(),
+          signal: o.signal,
+          invalidate: () => invalidate(),
+          cull: () => culling,
+        }),
+      ),
+    );
+    const skills = await stage("skills", () =>
+      addRegion(createSkillsRegion({ reduced, skillGroups: o.skillGroups })),
+    );
+    const journey = await stage("journey", () =>
+      addRegion(createJourneyRegion({ reduced, milestoneCount: o.milestoneCount })),
+    );
+    const beacon = await stage("beacon", () => addRegion(createBeaconRegion({ reduced })));
 
     // ── rig ──────────────────────────────────────────────────────────────
     const stationMap: Record<string, Station> = Object.assign(
@@ -176,6 +217,39 @@ export async function createWorld(o: WorldOptions): Promise<WorldHandle> {
 
     // ── quality ──────────────────────────────────────────────────────────
     const sampler = reduced ? null : createSampler(tierName);
+    // Bloom lives on the high tier only: its chunk is fetched when the sampler first
+    // steps up to `high`, and the composer is dropped again if the tier falls.
+    let postLoading = false;
+    const syncPost = () => {
+      if (tier.bloom) {
+        if (post || postLoading || disposed) return;
+        postLoading = true;
+        loadComposer(renderer, scene, camera, viewport)
+          .then((loaded) => {
+            postLoading = false;
+            if (disposed || !tier.bloom) loaded.dispose();
+            else {
+              post = loaded;
+              environment.setDither(false); // the composer's last pass dithers instead
+              invalidate(); // reduced motion has no loop: draw the first composed frame
+            }
+          })
+          .catch((error) => {
+            postLoading = false;
+            console.warn("[world] bloom unavailable, rendering directly:", error);
+          });
+      } else if (post) {
+        post.dispose();
+        post = null;
+        environment.setDither(true);
+        invalidate();
+      }
+    };
+    cleanups.push(() => {
+      post?.dispose();
+      post = null;
+    });
+
     const applyTier = (name: QualityName) => {
       tierName = name;
       tier = TIERS[name];
@@ -183,6 +257,7 @@ export async function createWorld(o: WorldOptions): Promise<WorldHandle> {
       environment.setPixelRatio(pixelRatioFor(tier));
       environment.applyQuality(tier);
       regions.forEach((r) => r.setQuality?.(tier));
+      syncPost();
       o.onQuality?.(name);
     };
     await stage("quality", () => applyTier(tierName));
@@ -211,10 +286,20 @@ export async function createWorld(o: WorldOptions): Promise<WorldHandle> {
       const k = reduced ? 1 : 1 - Math.pow(1 - MOOD_RATE, dt * 60);
       environment.setMood(station.mood[0], station.mood[1], k);
       for (const region of regions) {
-        region.update(time, key !== null && key in region.stations, dt);
+        if (region.fade) {
+          const fade = distanceFade(
+            camera.position.distanceTo(region.emitter),
+            region.fade.near,
+            region.fade.far,
+          );
+          region.group.scale.setScalar(fade);
+          if (culling && region.fade.cull !== false) region.group.visible = fade > FADE_FLOOR;
+        }
+        region.update(time, key !== null && key in region.stations, dt, key);
       }
       environment.update(time, camera);
-      renderer.render(scene, camera);
+      if (post) post.render(dt);
+      else renderer.render(scene, camera);
     };
 
     // Compile the shaders now, off the first visible frame.
@@ -226,6 +311,7 @@ export async function createWorld(o: WorldOptions): Promise<WorldHandle> {
         renderer.compile(scene, camera);
       }
     });
+    culling = true;
 
     // ── loop ─────────────────────────────────────────────────────────────
     let raf = 0;
@@ -237,6 +323,7 @@ export async function createWorld(o: WorldOptions): Promise<WorldHandle> {
       const dt = Math.min(0.05, rawMs / 1000);
       time += dt;
       if (sampler && sampler.sample(rawMs, now) !== 0) applyTier(sampler.tier);
+      picker.update(now);
       renderFrame(dt);
       schedule();
     };
@@ -256,6 +343,30 @@ export async function createWorld(o: WorldOptions): Promise<WorldHandle> {
         if (!disposed) renderFrame(0);
       });
     };
+    invalidate = () => {
+      if (reduced) requestRender();
+    };
+
+    // ── picking: hover + click on the project objects (T25) ──────────────
+    const picker = createPicker({
+      camera,
+      container,
+      pickables: work.pickables,
+      // Only while the camera is in the work corridor: far objects seen through the fog are not clickable.
+      enabled: () => {
+        const key = rig.activeKey;
+        return key !== null && key in work.stations;
+      },
+      hover: window.matchMedia("(pointer: fine)").matches,
+      onDemand: reduced,
+      onHover: (id) => {
+        work.setHover(id);
+        if (id !== null) o.onHover(id);
+        if (reduced) requestRender();
+      },
+      onPick: (id) => o.onPick(id),
+    });
+    cleanups.push(picker.dispose);
 
     let cutSwap = 0;
     let cutEnd = 0;
@@ -345,11 +456,18 @@ export async function createWorld(o: WorldOptions): Promise<WorldHandle> {
         return tierName;
       },
       emitters: [
-        { key: "home", position: regions[0].emitter },
-        { key: "about", position: regions[1].emitter },
+        { key: "home", position: core.emitter },
+        { key: "about", position: aperture.emitter },
+        { key: "work", position: work.emitter },
+        { key: "skills", position: skills.emitter },
+        { key: "journey", position: journey.emitter },
+        { key: "contact", position: beacon.emitter },
       ],
-      lightSkill() {
-        // T22
+      projectEmitters: work.projectEmitters,
+      lightSkill(key, on) {
+        if (disposed) return;
+        skills.light(key, on);
+        if (reduced) requestRender();
       },
       refresh() {
         if (disposed) return;

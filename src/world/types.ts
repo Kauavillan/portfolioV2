@@ -33,10 +33,40 @@ export interface Region {
   stations: Record<string, Station>;
   /** Where its sound comes from (T28). */
   emitter: Vector3;
-  /** `active` = one of this region's stations is the one in focus. */
-  update(t: number, active: boolean, dt: number): void;
+  /**
+   * Seen from far away, fogged objects turn into dark silhouettes that clutter
+   * the scene in front of them. With this, the engine scales the whole region
+   * from 1 (camera within `near` of its emitter) down to nothing (beyond `far`).
+   * Once it is nothing the region is also hidden, so it costs no draw calls —
+   * unless `cull` is `false`: a region that owns a light must stay visible, because
+   * adding or removing a light changes every lit material's shader program.
+   */
+  fade?: { near: number; far: number; cull?: boolean };
+  /**
+   * `active` = one of this region's stations is the one in focus; `stationKey`
+   * is that station's `data-station` value (or the one in focus, from any region).
+   */
+  update(t: number, active: boolean, dt: number, stationKey: string | null): void;
   setQuality?(tier: QualityTier): void;
+  /** Drawing-buffer size in px: for anything sized in screen pixels (point sprites). */
+  setViewport?(width: number, height: number, pixelRatio: number): void;
   dispose(): void;
+}
+
+/** The work region: one object per project, which the picker (T25) can hit. */
+export interface WorkRegion extends Region {
+  /** Groups whose meshes carry `userData.projectId`. */
+  pickables: Object3D[];
+  /** The project under the pointer (or `null`): the object scales up. */
+  setHover(id: string | null): void;
+  /** One sound source per project (T28). */
+  projectEmitters: { id: string; position: Vector3 }[];
+}
+
+/** The skills region: stars that the DOM chips can light up. */
+export interface SkillsRegion extends Region {
+  /** `group:skill` lights one star, `group` the whole group; unknown keys are ignored. */
+  light(key: string, on: boolean): void;
 }
 
 export interface WorldOptions extends WorldData {
@@ -62,6 +92,8 @@ export interface WorldHandle {
   };
   readonly quality: QualityName;
   emitters: { key: SectorKey; position: Vector3 }[];
+  /** Sound sources of the project objects, by project id. */
+  projectEmitters: { id: string; position: Vector3 }[];
   /** Lights a skill star (`group:skill` or `group`) — T22. */
   lightSkill: (key: string, on: boolean) => void;
   /** Re-reads the DOM stations after a layout refresh. */
